@@ -1,0 +1,29 @@
+@(ventes: java.util.List[Vente])
+
+@header(key:String, title:String) = {
+    <th class="@key header">
+        <a href="#">@title</a>
+    </th>
+}
+
+@main {
+<h1>Liste des ventes</h1>
+<table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    @header("name", "Vente")
+                    @header("date", "Date")
+                    @header("action", "Action")
+                </tr>
+            </thead>
+            <tbody>
+            @for(vente <- ventes) {
+                    <tr>
+                    	<td>@vente.name</td>
+                    	<td>@vente.date.format("dd MMM yyyy")</td>
+                    	<td><a class="btn danger" href="/vente/delete/@vente.id">Supprimer</a></td>
+                    </tr>
+            }
+            </tbody>
+</table>
+}
