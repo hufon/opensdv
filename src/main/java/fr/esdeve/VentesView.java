@@ -18,6 +18,8 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -50,6 +52,7 @@ public class VentesView extends Panel implements View {
 		// TODO Auto-generated method stub
 		super.attach();
 		VerticalLayout layout = new VerticalLayout();
+		HorizontalLayout toolbar = new HorizontalLayout();
 		setCaption("Gestion des ventes");
 		button = new Button("Ajouter une nouvelle vente");
 		button.addClickListener(new ClickListener() {
@@ -89,7 +92,10 @@ public class VentesView extends Panel implements View {
 		table.setSelectable(true);
 		table.setImmediate(true);
 		table.setContainerDataSource(container);
-		layout.addComponents(button, button2, table, removeBtn);
+		Label gap = new Label();
+		gap.setHeight("1em");
+		toolbar.addComponents(button, button2);
+		layout.addComponents(toolbar,gap, table, removeBtn);
 		table.addValueChangeListener(tableSelectLister);
 		setContent(layout);
 	}
