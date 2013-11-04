@@ -28,7 +28,7 @@ public class Vente implements Serializable {
 	private Long id;
 	private String name;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	public Long getId() {

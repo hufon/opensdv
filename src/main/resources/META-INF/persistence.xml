@@ -9,11 +9,12 @@
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.jdbc.platform"
-				value="org.eclipse.persistence.platform.database.HSQLlatform" />
-			<property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver" />
-			<property name="eclipselink.jdbc.url" value="jdbc:hsqldb:file:/tmp/testsdvdb" />
-			<property name="eclipselink.jdbc.user" value="sa" />
-			<property name="eclipselink.jdbc.password" value="sa" />
+				value="org.eclipse.persistence.platform.database.PostgreSQLPlatform" />
+		<property name="javax.persistence.target-database" value="PostgreSQL" />
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/opensdv" />
+        <property name="javax.persistence.jdbc.user" value="postgres" />
+        <property name="javax.persistence.jdbc.password" value="postgres" />
 			<property name="eclipselink.logging.level" value="FINE" />
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
 			<property name="eclipselink.ddl-generation.output-mode"
