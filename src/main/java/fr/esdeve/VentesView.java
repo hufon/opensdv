@@ -39,12 +39,10 @@ public class VentesView extends Panel implements View {
 	private Button removeBtn;
 	private Table table;
 	JPAContainer<Vente> container;
-	GenericDao<Vente> venteDao;
 
 	public static final String NAME = "";
 
 	public VentesView() {
-		venteDao = new GenericDao<Vente>();
 	}
 
 	@Override
