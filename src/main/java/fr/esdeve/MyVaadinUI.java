@@ -18,8 +18,6 @@ import com.vaadin.ui.VerticalLayout;
 public class MyVaadinUI extends UI
 {
 
-    private Button button;
-
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "fr.esdeve.AppWidgetSet")
     public static class Servlet extends VaadinServlet {
