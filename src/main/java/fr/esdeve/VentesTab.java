@@ -9,6 +9,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -43,6 +44,7 @@ public class VentesTab extends VerticalLayout {
 	private HorizontalLayout btnLayout;
 	private TextField vaeFormName;
 	private PopupDateField vaeFormDate;
+	private FieldGroup binder;
 
 	public VentesTab()
 	{
@@ -86,15 +88,40 @@ public class VentesTab extends VerticalLayout {
 		venteForm.addStyleName("bordered"); // Custom style
 		venteForm.setWidth("420px");
 		venteForm.setEnabled(false);
-		vaeFormName = new TextField("Nom de la vente");
-		vaeFormDate = new PopupDateField("Date de la vente");
-		vaeFormDate.setResolution(Resolution.MINUTE);
-		btnLayout = new HorizontalLayout();
-		venteForm.addComponents(vaeFormName,vaeFormDate,btnLayout);
 		
+		btnLayout = new HorizontalLayout();
+        removeBtn = new Button("Supprimer...");
+		removeBtn.setEnabled(true);
+		removeBtn.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				container.removeItem(table.getValue());
+				venteForm.setEnabled(false);
+			}
+		});
+		saveBtn = new Button("Enregistrer");
+		saveBtn.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				try {
+					binder.commit();
+				} catch (CommitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				venteForm.setEnabled(false);
+			}
+		});
+		btnLayout.addComponents(removeBtn,saveBtn);
 		this.addComponents(toolbar,gap, table,venteForm,btnLayout);
 		table.addValueChangeListener(tableSelectLister);
 	}
+	
+
 	
 	private ValueChangeListener tableSelectLister = new ValueChangeListener() {
 
@@ -104,41 +131,15 @@ public class VentesTab extends VerticalLayout {
 			if (table.getValue() != null) {
 				button2.setCaption("Accèder à la vente : " + table.getValue());
 				button2.setEnabled(true);
-				final FieldFactory fieldFactory = new FieldFactory();
 				EntityItem<Vente> venteItem =
 			            container.getItem(event.getProperty().getValue());
-				final FieldGroup binder = new FieldGroup(venteItem);
-				binder.bind(vaeFormName, "name");
-				binder.bind(vaeFormDate, "date");
+				binder = new FieldGroup(venteItem);
+				venteForm.removeAllComponents();
+				venteForm.addComponent(binder.buildAndBind("Nom de la vente", "name"));
+				venteForm.addComponent(binder.buildAndBind("Date de la vente", "date"));
+				venteForm.addComponent(btnLayout);
 		        venteForm.setEnabled(true);
-		        removeBtn = new Button("Supprimer...");
-				removeBtn.setEnabled(true);
-				removeBtn.addClickListener(new ClickListener() {
-					
-					@Override
-					public void buttonClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						container.removeItem(table.getValue());
-						venteForm.setEnabled(false);
-					}
-				});
-				saveBtn = new Button("Enregistrer");
-				saveBtn.addClickListener(new ClickListener() {
-					
-					@Override
-					public void buttonClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						try {
-							binder.commit();
-						} catch (CommitException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						venteForm.setEnabled(false);
-					}
-				});
-				btnLayout.removeAllComponents();
-				btnLayout.addComponents(removeBtn,saveBtn);
+
 			}
 		}
 	};
