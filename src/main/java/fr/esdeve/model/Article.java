@@ -31,8 +31,17 @@ public class Article implements Serializable {
 	
 	@ManyToOne
 	private Vente vente;
+	
+	@ManyToOne
+	private Vendor vendor;
 
 	
+	public Vendor getVendor() {
+		return vendor;
+	}
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
 	public Long getId() {
 		return id;
 	}

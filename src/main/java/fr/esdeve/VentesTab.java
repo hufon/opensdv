@@ -26,6 +26,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import fr.esdeve.forms.VaeFieldFactory;
 import fr.esdeve.model.Vente;
 
 public class VentesTab extends VerticalLayout {
@@ -134,6 +135,7 @@ public class VentesTab extends VerticalLayout {
 				EntityItem<Vente> venteItem =
 			            container.getItem(event.getProperty().getValue());
 				binder = new FieldGroup(venteItem);
+				binder.setFieldFactory(new VaeFieldFactory());
 				venteForm.removeAllComponents();
 				venteForm.addComponent(binder.buildAndBind("Nom de la vente", "name"));
 				venteForm.addComponent(binder.buildAndBind("Date de la vente", "date"));
