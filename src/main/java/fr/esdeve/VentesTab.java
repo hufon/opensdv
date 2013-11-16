@@ -14,11 +14,13 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -58,8 +60,6 @@ public class VentesTab extends VerticalLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Vente vae = new Vente();
-				vae.setName("Nouvelle vente");
-				vae.setDate(new Date());
 				container.addEntity(vae);
 				Logger.getLogger("main").info("inserted");
 				// container.refresh();
@@ -84,11 +84,19 @@ public class VentesTab extends VerticalLayout {
 		Label gap = new Label();
 		gap.setHeight("1em");
 		toolbar.addComponents(button, button2);
-		venteForm  = new FormLayout();
-		venteForm.setCaption("Vente Editor");
-		venteForm.addStyleName("bordered"); // Custom style
-		venteForm.setWidth("420px");
-		venteForm.setEnabled(false);
+		venteForm  = buildVaeForm();
+
+		this.addComponents(toolbar,gap, table,venteForm,btnLayout);
+		table.addValueChangeListener(tableSelectLister);
+	}
+	
+	private FormLayout buildVaeForm()
+	{
+		FormLayout form = new FormLayout();
+		form.setCaption("Vente Editor");
+		form.addStyleName("bordered"); // Custom style
+		form.setWidth("420px");
+		form.setEnabled(false);
 		
 		btnLayout = new HorizontalLayout();
         removeBtn = new Button("Supprimer...");
@@ -118,8 +126,7 @@ public class VentesTab extends VerticalLayout {
 			}
 		});
 		btnLayout.addComponents(removeBtn,saveBtn);
-		this.addComponents(toolbar,gap, table,venteForm,btnLayout);
-		table.addValueChangeListener(tableSelectLister);
+		return form;
 	}
 	
 

@@ -1,7 +1,9 @@
 package fr.esdeve.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,6 +24,11 @@ public class Vente implements Serializable {
 
 	public Vente()
 	{
+		this.name = "VAE_";
+		this.date = new Date();
+		
+		this.name += DateFormat.getInstance().getCalendar().get(DateFormat.YEAR_FIELD);
+		//this.name += this.date.getMonth();
 	}
 	
 
