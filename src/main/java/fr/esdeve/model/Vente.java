@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import fr.esdeve.Messages;
+
 @Entity
 public class Vente implements Serializable {
 	
@@ -28,6 +30,7 @@ public class Vente implements Serializable {
 		this.date = new Date();
 		
 		this.name += DateFormat.getInstance().getCalendar().get(DateFormat.YEAR_FIELD);
+		this.location = Messages.getString("Vente.location");
 		//this.name += this.date.getMonth();
 	}
 	
@@ -36,11 +39,12 @@ public class Vente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private String location;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
-	@OneToMany
+	@OneToMany(mappedBy="vente")
 	private List<Article> articles;
 	
 	public List<Article> getArticles() {
@@ -66,5 +70,11 @@ public class Vente implements Serializable {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }
