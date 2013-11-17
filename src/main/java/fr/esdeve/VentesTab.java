@@ -42,7 +42,6 @@ public class VentesTab extends VerticalLayout {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Table table;
 	private Button button;
 	private JPAContainer<Vente> container;
 	private Button removeBtn;
@@ -53,6 +52,7 @@ public class VentesTab extends VerticalLayout {
 	private TextField vaeFormName;
 	private PopupDateField vaeFormDate;
 	private FieldGroup binder;
+	private Table vaeTable;
 
 	public VentesTab()
 	{
@@ -76,29 +76,36 @@ public class VentesTab extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(MainVenteView.NAME+"/"+table.getValue()); //$NON-NLS-1$
+				getUI().getNavigator().navigateTo(MainVenteView.NAME+"/"+vaeTable.getValue()); //$NON-NLS-1$
 			}
 		});
 		
 		container = JPAContainerFactory.make(Vente.class, "ventes"); //$NON-NLS-1$
 		HorizontalSplitPanel hpanel = new HorizontalSplitPanel();
-		table = new Table(Messages.getString("VentesTab.7"));// test //$NON-NLS-1$
-		table.setWidth("100%"); //$NON-NLS-1$
-		table.setSelectable(true);
-		table.setImmediate(true);
-		table.setContainerDataSource(container);
-		table.setVisibleColumns(new String[]{"date","name","location"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		table.setColumnHeader("name", Messages.getString("VentesTab.13")); //$NON-NLS-1$ //$NON-NLS-2$
-		table.setColumnHeader("location", Messages.getString("VentesTab.15")); //$NON-NLS-1$ //$NON-NLS-2$
 		Label gap = new Label();
 		gap.setHeight("1em"); //$NON-NLS-1$
 		toolbar.addComponents(button, button2);
 		venteForm  = buildVaeForm();
+		vaeTable = buildVaeTable();
 		Panel formPanel = new Panel(venteForm);
 		hpanel.setSplitPosition(75, Unit.PERCENTAGE);
-		hpanel.addComponents(table,formPanel);
+		hpanel.addComponents(vaeTable,formPanel);
 		this.addComponents(toolbar,gap, hpanel,btnLayout);
+		
+	}
+	
+	private Table buildVaeTable()
+	{
+		Table table = new Table(Messages.getString("VentesTab.7"));// test //$NON-NLS-1$
+		table.setWidth("100%"); //$NON-NLS-1$
+		table.setSelectable(true);
+		table.setImmediate(true);
+		table.setContainerDataSource(container);
+		table.setVisibleColumns("date","name","location"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		table.setColumnHeader("name", Messages.getString("VentesTab.13")); //$NON-NLS-1$ //$NON-NLS-2$
+		table.setColumnHeader("location", Messages.getString("VentesTab.15")); //$NON-NLS-1$ //$NON-NLS-2$
 		table.addValueChangeListener(tableSelectLister);
+		return table;
 	}
 	
 	private FormLayout buildVaeForm()
@@ -118,7 +125,7 @@ public class VentesTab extends VerticalLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				container.removeItem(table.getValue());
+				container.removeItem(vaeTable.getValue());
 				venteForm.setEnabled(false);
 			}
 		});
@@ -156,8 +163,8 @@ public class VentesTab extends VerticalLayout {
 		@Override
 		public void valueChange(ValueChangeEvent event) {
 			// TODO Auto-generated method stub
-			if (table.getValue() != null) {
-				button2.setCaption(Messages.getString("VentesTab.22") + table.getValue()); //$NON-NLS-1$
+			if (event.getProperty().getValue() != null) {
+				button2.setCaption(Messages.getString("VentesTab.22") + event.getProperty().getValue()); //$NON-NLS-1$
 				button2.setEnabled(true);
 				EntityItem<Vente> venteItem =
 			            container.getItem(event.getProperty().getValue());
