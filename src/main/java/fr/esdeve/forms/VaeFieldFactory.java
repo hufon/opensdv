@@ -3,6 +3,7 @@ package fr.esdeve.forms;
 import java.util.Date;
 
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.PopupDateField;
@@ -22,8 +23,11 @@ public class VaeFieldFactory extends DefaultFieldGroupFieldFactory {
 			PopupDateField field = new PopupDateField();
 			field.setResolution(Resolution.MINUTE);
 			return (T) field;
-		} else
-		return super.createField(type, fieldType);
+		} else {
+			T field = super.createField(type, fieldType); 
+			field.setWidth("100%");
+			return field;
+		}
 	}
 
 }

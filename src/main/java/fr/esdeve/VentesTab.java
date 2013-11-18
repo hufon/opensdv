@@ -28,12 +28,14 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import fr.esdeve.forms.VaeFieldFactory;
+import fr.esdeve.forms.VaeFieldGroup;
 import fr.esdeve.model.Vente;
 
 public class VentesTab extends VerticalLayout {
@@ -51,7 +53,7 @@ public class VentesTab extends VerticalLayout {
 	private HorizontalLayout btnLayout;
 	private TextField vaeFormName;
 	private PopupDateField vaeFormDate;
-	private FieldGroup binder;
+	private VaeFieldGroup binder;
 	private Table vaeTable;
 
 	public VentesTab()
@@ -70,21 +72,12 @@ public class VentesTab extends VerticalLayout {
 				// container.refresh();
 			}
 		});
-		button2 = new Button(Messages.getString("VentesTab.4")); //$NON-NLS-1$
-		button2.setEnabled(false);
-		button2.addClickListener(new ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(MainVenteView.NAME+"/"+vaeTable.getValue()); //$NON-NLS-1$
-			}
-		});
 		
 		container = JPAContainerFactory.make(Vente.class, "ventes"); //$NON-NLS-1$
 		HorizontalSplitPanel hpanel = new HorizontalSplitPanel();
 		Label gap = new Label();
 		gap.setHeight("1em"); //$NON-NLS-1$
-		toolbar.addComponents(button, button2);
+		toolbar.addComponents(button);
 		venteForm  = buildVaeForm();
 		vaeTable = buildVaeTable();
 		Panel formPanel = new Panel(venteForm);
@@ -105,6 +98,34 @@ public class VentesTab extends VerticalLayout {
 		table.setColumnHeader("name", Messages.getString("VentesTab.13")); //$NON-NLS-1$ //$NON-NLS-2$
 		table.setColumnHeader("location", Messages.getString("VentesTab.15")); //$NON-NLS-1$ //$NON-NLS-2$
 		table.addValueChangeListener(tableSelectLister);
+		table.addGeneratedColumn("", new ColumnGenerator() {
+			  @Override public Object generateCell(final Table source, final Object itemId, Object columnId) {
+			 
+			    Button removeButton = new Button("Supprimer");
+			    Button accessButton = new Button("Fiche vente");
+			    
+			    accessButton.addClickListener(new ClickListener() {
+					
+					@Override
+					public void buttonClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						getUI().getNavigator().navigateTo(MainVenteView.NAME+"/"+source.getValue()); //$NON-NLS-1$
+					}
+				});
+			 
+			    removeButton.addClickListener(new ClickListener() {
+			 
+			      @Override public void buttonClick(ClickEvent event) {
+			 
+			        source.getContainerDataSource().removeItem(itemId);
+			        venteForm.setEnabled(false);
+			      }
+			    });
+			    
+			    return new HorizontalLayout(accessButton, removeButton);
+			  }
+			});
+		table.setSizeFull();
 		return table;
 	}
 	
@@ -117,18 +138,8 @@ public class VentesTab extends VerticalLayout {
 		form.setWidth("420px"); //$NON-NLS-1$
 		form.setEnabled(false);
 		
+		
 		btnLayout = new HorizontalLayout();
-        removeBtn = new Button(Messages.getString("VentesTab.20")); //$NON-NLS-1$
-		removeBtn.setEnabled(true);
-		removeBtn.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				container.removeItem(vaeTable.getValue());
-				venteForm.setEnabled(false);
-			}
-		});
 		saveBtn = new Button(Messages.getString("VentesTab.21")); //$NON-NLS-1$
 		saveBtn.addClickListener(new ClickListener() {
 			
@@ -144,14 +155,14 @@ public class VentesTab extends VerticalLayout {
 				venteForm.setEnabled(false);
 			}
 		});
-		binder = new FieldGroup(new BeanItem<Vente>(new Vente()));
+		binder = new VaeFieldGroup(new BeanItem<Vente>(new Vente()));
 		binder.setFieldFactory(new VaeFieldFactory());
 		form.removeAllComponents();
-		form.addComponent(binder.buildAndBind(Messages.getString("VentesTab.23"), "name")); //$NON-NLS-1$ //$NON-NLS-2$
+		form.addComponent(binder.buildAndBindWithValidator(Messages.getString("VentesTab.23"), "name",Vente.class)); //$NON-NLS-1$ //$NON-NLS-2$
 		form.addComponent(binder.buildAndBind(Messages.getString("VentesTab.25"), "date")); //$NON-NLS-1$ //$NON-NLS-2$
 		form.addComponent(binder.buildAndBind(Messages.getString("VentesTab.27"), "location")); //$NON-NLS-1$ //$NON-NLS-2$
 		form.addComponent(btnLayout);
-		form.addComponents(removeBtn,saveBtn);
+		form.addComponents(saveBtn);
 		form.setMargin(true);
 		return form;
 	}
@@ -164,13 +175,10 @@ public class VentesTab extends VerticalLayout {
 		public void valueChange(ValueChangeEvent event) {
 			// TODO Auto-generated method stub
 			if (event.getProperty().getValue() != null) {
-				button2.setCaption(Messages.getString("VentesTab.22") + event.getProperty().getValue()); //$NON-NLS-1$
-				button2.setEnabled(true);
 				EntityItem<Vente> venteItem =
 			            container.getItem(event.getProperty().getValue());
 				binder.setItemDataSource(venteItem);
 		        venteForm.setEnabled(true);
-
 			}
 		}
 	};
