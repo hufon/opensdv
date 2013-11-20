@@ -9,16 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Vendor {
 
-    @Id
+    @Id    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     
     private String name;
     
+
     @Column(name="vendornumber")
     private Number number;
     

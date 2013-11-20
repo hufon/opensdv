@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import fr.esdeve.Messages;
 
@@ -39,6 +40,8 @@ public class Vente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+    
+    @Size(min=1)
     @NotNull
 	private String name;
 	private String location;

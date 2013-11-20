@@ -46,7 +46,10 @@ public class VendorTab extends VerticalLayout {
 				Vendor newVendor = new Vendor();
 				newVendor.setName("Nouveau vendeur");
 				Object id = vendorContainer.addEntity(newVendor);
-				binder.setItemDataSource(vendorContainer.getItem(id));
+				EntityItem<Vendor> vendor = vendorContainer.getItem(id);
+				vendor.getItemProperty("number").setValue(newVendor.getId());
+				vendorContainer.commit();
+				binder.setItemDataSource(vendor);
 				vendorForm.setEnabled(true);
 			}
 		});
