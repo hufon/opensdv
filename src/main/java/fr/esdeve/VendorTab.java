@@ -1,5 +1,7 @@
 package fr.esdeve;
 
+import java.util.logging.Logger;
+
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
@@ -18,6 +20,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
+import fr.esdeve.dao.ArticleDAO;
+import fr.esdeve.dao.VendorDAO;
 import fr.esdeve.forms.VaeFieldFactory;
 import fr.esdeve.forms.VaeFieldGroup;
 import fr.esdeve.model.Vendor;
@@ -29,37 +33,45 @@ public class VendorTab extends VerticalLayout {
 	 */
 	private static final long serialVersionUID = 697109453422018473L;
 	
-	private JPAContainer<Vendor> vendorContainer;
-
+	private VendorDAO vendorDAO = new VendorDAO();
+	private ArticleDAO articleDAO = new ArticleDAO();
 	private VaeFieldGroup binder;
 	private FormLayout vendorForm;
+	private HorizontalSplitPanel harticlepanel;
+	private Logger LOG = Logger.getGlobal();
 
 	public VendorTab() {
+		LOG.info("Building vendorTab");
 		setCaption("Gestion des vendeurs");
-		HorizontalLayout toolbar = new HorizontalLayout();
+		VerticalLayout vlayout = new VerticalLayout();
 		Button addVendorBtn = new Button("Ajouter vendeur");
-		toolbar.addComponent(addVendorBtn);
+		vlayout.addComponent(addVendorBtn);
 		addVendorBtn.addClickListener(new ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Vendor newVendor = new Vendor();
 				newVendor.setName("Nouveau vendeur");
-				Object id = vendorContainer.addEntity(newVendor);
-				EntityItem<Vendor> vendor = vendorContainer.getItem(id);
-				vendor.getItemProperty("number").setValue(newVendor.getId());
-				vendorContainer.commit();
-				binder.setItemDataSource(vendor);
+				binder.setItemDataSource(vendorDAO.add(newVendor));
 				vendorForm.setEnabled(true);
 			}
 		});
-		vendorContainer = JPAContainerFactory.make(Vendor.class, "ventes");
-		HorizontalSplitPanel hpanel = new HorizontalSplitPanel();
-		hpanel.setSplitPosition(50, Unit.PERCENTAGE);
+		HorizontalSplitPanel hvendorpanel = new HorizontalSplitPanel();
+		hvendorpanel.setSplitPosition(50, Unit.PERCENTAGE);
 		Table vendorTable = buildVendorTable();
 		vendorForm = buildVendorForm();
-		hpanel.addComponents(vendorTable,vendorForm);
-		this.addComponents(toolbar,hpanel);
+		vendorForm.setCaption("Fiche vendeur");
+		hvendorpanel.addComponents(vendorTable,vendorForm);
+		vlayout.addComponent(hvendorpanel);
+		Button addArticleBtn = new Button("Ajouter article");
+		vlayout.addComponent(addArticleBtn);
+		harticlepanel = new HorizontalSplitPanel();
+		harticlepanel.setSplitPosition(50, Unit.PERCENTAGE);
+		harticlepanel.setEnabled(false);
+		Table articleTable = buildArticleTable();
+		harticlepanel.addComponents(articleTable);
+		vlayout.addComponent(harticlepanel);
+		this.addComponents(vlayout);
 	}
 	
 	private FormLayout buildVendorForm()
@@ -100,13 +112,26 @@ public class VendorTab extends VerticalLayout {
 		return form;
 	}
 	
+
+	private Table buildArticleTable()
+	{
+		Table table = new Table();// test //$NON-NLS-1$
+		table.setWidth("100%"); //$NON-NLS-1$
+		table.setSelectable(true);
+		table.setImmediate(true);
+		table.setContainerDataSource(articleDAO.getContainer());
+		//table.setVisibleColumns("id","Numéro"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		table.setSizeFull();
+		return table;
+	}
+	
 	private Table buildVendorTable()
 	{
 		Table table = new Table();// test //$NON-NLS-1$
 		table.setWidth("100%"); //$NON-NLS-1$
 		table.setSelectable(true);
 		table.setImmediate(true);
-		table.setContainerDataSource(vendorContainer);
+		table.setContainerDataSource(vendorDAO.getContainer());
 		table.setVisibleColumns("number","name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		table.setColumnHeader("number", "Numéro"); //$NON-NLS-1$ //$NON-NLS-2$
 		table.setColumnHeader("name", "Nom"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -121,9 +146,10 @@ public class VendorTab extends VerticalLayout {
 		public void valueChange(ValueChangeEvent event) {
 			if (event.getProperty().getValue() != null) {
 				EntityItem<Vendor> vendorItem =
-			            vendorContainer.getItem(event.getProperty().getValue());
+			            vendorDAO.getContainer().getItem(event.getProperty().getValue());
 				binder.setItemDataSource(vendorItem);
 		        vendorForm.setEnabled(true);
+		        harticlepanel.setEnabled(true);
 			}
 		}
 	};
