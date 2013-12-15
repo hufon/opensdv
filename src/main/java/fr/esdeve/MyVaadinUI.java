@@ -29,19 +29,6 @@ public class MyVaadinUI extends UI
     	Navigator nav = this.getNavigator();
     	nav.addView(VentesView.NAME, VentesView.class);
     	nav.addView(MainVenteView.NAME, MainVenteView.class);
-        /*final VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(true);
-        setContent(layout);
-        
-        button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking"));
-		button.setCaption("Clicked...");
-            }
-        });
-        layout.addComponent(button);
-        */
     }
 
 }

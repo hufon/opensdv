@@ -6,7 +6,10 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
+
 import fr.esdeve.model.Vente;
+import fr.esdeve.presenters.VentesTabPresenter;
+import fr.esdeve.views.VentesTabView;
 
 public class VentesView extends Panel implements View {
 
@@ -14,7 +17,7 @@ public class VentesView extends Panel implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private VentesTab ventesTab;
+	private VentesTabView ventesTab;
 	private VendorTab vendorTab;
 	private TabSheet tabSheet;
 	JPAContainer<Vente> container;
@@ -29,8 +32,9 @@ public class VentesView extends Panel implements View {
 		// TODO Auto-generated method stub
 		super.attach();
 		tabSheet = new TabSheet();
-		ventesTab = new VentesTab();
+		ventesTab = new VentesTabView();
 		vendorTab = new VendorTab();
+		new VentesTabPresenter(ventesTab);
 		VerticalLayout layout = new VerticalLayout();
 		tabSheet.addTab(ventesTab);
 		tabSheet.addTab(vendorTab);
