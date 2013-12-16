@@ -1,5 +1,10 @@
 package fr.esdeve.views;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -27,6 +32,9 @@ import fr.esdeve.forms.VaeFieldGroup;
 import fr.esdeve.model.Vente;
 import fr.esdeve.presenters.VentesTabPresenter;
 
+
+@Component
+@Scope("prototype")
 public class VentesTabView extends VerticalLayout {
 
 	/**
@@ -41,8 +49,9 @@ public class VentesTabView extends VerticalLayout {
 	private Table vaeTable;
 	VentesTabPresenter listener;
 
-	public VentesTabView()
-	{
+	
+	@PostConstruct
+	public void PostConstruct() {
 		HorizontalLayout toolbar = new HorizontalLayout();
 		setCaption(Messages.getString("VentesTab.0")); //$NON-NLS-1$
 		setMargin(true);
@@ -67,7 +76,6 @@ public class VentesTabView extends VerticalLayout {
 		hpanel.setSplitPosition(75, Unit.PERCENTAGE);
 		hpanel.addComponents(vaeTable,formPanel);
 		this.addComponents(toolbar,gap, hpanel,btnLayout);
-		
 	}
 	
     public void addListener(VentesTabPresenter _listener) {

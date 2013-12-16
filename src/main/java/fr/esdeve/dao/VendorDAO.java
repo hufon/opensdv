@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.eclipse.persistence.expressions.Expression;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -18,6 +20,8 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vendor_;
 
+@Component
+@Scope("prototype")
 public class VendorDAO {
 	private JPAContainer<Vendor> container;
 	private EntityManager manager;

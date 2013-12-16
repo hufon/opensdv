@@ -2,6 +2,13 @@ package fr.esdeve;
 
 import javax.servlet.annotation.WebServlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import ru.xpoft.vaadin.DiscoveryNavigator;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -14,21 +21,18 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("mytheme")
+@Component("OpenSdvUI")
+@Scope("prototype")
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI
+public class OpenSdvUI extends UI
 {
-
-    @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "fr.esdeve.AppWidgetSet")
-    public static class Servlet extends VaadinServlet {
-    }
-
+    @Autowired
+    private transient ApplicationContext applicationContext;
+	
     @Override
     protected void init(VaadinRequest request) {
-    	setNavigator(new Navigator(this, this));
-    	Navigator nav = this.getNavigator();
-    	nav.addView(VentesView.NAME, VentesView.class);
-    	nav.addView(MainVenteView.NAME, MainVenteView.class);
+    	setSizeFull();
+    	DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
     }
 
 }

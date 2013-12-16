@@ -12,6 +12,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.7</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+		<spring.vaadin.version>2.0.1</spring.vaadin.version>
+		<spring.version>3.1.2.RELEASE</spring.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -109,6 +111,16 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>ru.xpoft.vaadin</groupId>
+			<artifactId>spring-vaadin-integration</artifactId>
+			<version>${spring.vaadin.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 	</dependencies>
 

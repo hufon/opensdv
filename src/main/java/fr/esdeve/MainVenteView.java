@@ -8,6 +8,8 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import fr.esdeve.views.VentesView;
+
 public class MainVenteView extends Panel implements View {
 
 	private Button button;

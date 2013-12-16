@@ -1,11 +1,37 @@
-<web-app
- id="WebApp_ID" version="3.0"
- xmlns="http://java.sun.com/xml/ns/j2ee" 
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-   <listener>
-        <listener-class>fr.esdeve.JPAListener</listener-class>
-    </listener>
+	<!-- Spring -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener
+		</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/root-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>fr.esdeve.JPAListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>OpenSDV Application</servlet-name>
+		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
+		<init-param>
+			<param-name>beanName</param-name>
+			<param-value>OpenSdvUI</param-value>
+		</init-param>
+	</servlet>
+
+	<!-- Bind as an ordinary VaadingServlet -->
+	<servlet-mapping>
+		<servlet-name>OpenSDV Application</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
 </web-app>
