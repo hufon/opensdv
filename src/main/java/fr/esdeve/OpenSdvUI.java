@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.xpoft.vaadin.DiscoveryNavigator;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
@@ -24,6 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 @Component("OpenSdvUI")
 @Scope("prototype")
 @SuppressWarnings("serial")
+@Title("OpenSDV")
 public class OpenSdvUI extends UI
 {
     @Autowired
