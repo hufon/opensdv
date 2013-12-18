@@ -35,31 +35,9 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	private JPAContainer<Vente> container;
 	
 	private Logger LOG = Logger.getGlobal();
-/*
-	public VentesTabPresenter(VentesTabView view) {
-		this.view  = view;          
-		view.addListener(this);
-		container = JPAContainerFactory.make(Vente.class, "ventes");
-		view.setContainer(container);
-	}
-
-	public void addVente()
-	{
-		Vente vae = new Vente();
-		container.addEntity(vae);
-		Logger.getLogger("main").info("inserted"); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-	
-
-
-	public void doDeleteVente(Object itemId) {
-		container.removeItem(itemId);
-	}
-	*/
 
 	@Override
 	public View getDisplay() {
-		// TODO Auto-generated method stub
 		return ventesTabView;
 	}
 	

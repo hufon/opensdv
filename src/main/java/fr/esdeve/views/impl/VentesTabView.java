@@ -82,6 +82,7 @@ public class VentesTabView implements IVentesTabView {
 		vaeTable.setSelectable(true);
 		vaeTable.setImmediate(true);
 		vaeTable.setSizeFull();
+		vaeTable.setId("vaeTable");
 		HorizontalSplitPanel hpanel = new HorizontalSplitPanel();
 		Panel formPanel = new Panel(buildVaeForm());
 		hpanel.setSplitPosition(75, Unit.PERCENTAGE);

@@ -1,5 +1,7 @@
 package fr.esdeve;
 
+import java.util.logging.Logger;
+
 import org.springframework.context.ApplicationContext;
 
 import com.vaadin.annotations.Theme;
@@ -15,9 +17,11 @@ import fr.esdeve.presenters.IApplicationPresenter;
 public class OpenSdvUI extends UI
 {
     private transient ApplicationContext uiContext;
+    private Logger LOG = Logger.getGlobal();
 	
     @Override
     protected void init(VaadinRequest request) {
+    	LOG.info("INIT : OpenSdvUI");
     	IApplicationPresenter appPresenter = (IApplicationPresenter) uiContext.getBean("applicationPresenter");    	
     	setContent(appPresenter.getDisplay().getViewRoot());
     }
