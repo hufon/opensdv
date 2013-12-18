@@ -26,6 +26,13 @@ public class OpenSdvUI extends UI
     	setContent(appPresenter.getDisplay().getViewRoot());
     }
     
+    @Override
+    public void attach(){
+    	super.attach();
+    	LOG.info("ATTACH : OpenSdvUI");
+    	
+    }
+    
     public void setUiContext(ApplicationContext uiContext) {
 		this.uiContext = uiContext;
 	}

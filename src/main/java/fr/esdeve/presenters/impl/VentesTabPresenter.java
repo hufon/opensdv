@@ -30,6 +30,10 @@ import fr.esdeve.views.impl.VentesTabView;
 @Component
 public class VentesTabPresenter implements IVentesTabPresenter {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Autowired
 	private IVentesTabView ventesTabView;
 	private JPAContainer<Vente> container;
@@ -112,6 +116,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 		LOG.info("Adding tab : ventesTabView");
 		ventesTabView.getVaeTable().setContainerDataSource(container);
 		ventesTabView.buildVaeTable();
+		((IApplicationPresenter)event.getSource()).getDisplay().getVentesTabContainer().removeAllComponents();
 		((IApplicationPresenter)event.getSource()).getDisplay().getVentesTabContainer().addComponent(
 			ventesTabView.getViewRoot());
 		

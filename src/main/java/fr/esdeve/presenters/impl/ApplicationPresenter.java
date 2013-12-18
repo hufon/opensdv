@@ -1,5 +1,7 @@
 package fr.esdeve.presenters.impl;
 
+import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import fr.esdeve.views.IApplicationView;
 @Component
 public class ApplicationPresenter implements IApplicationPresenter {
 
+	private Logger LOG = Logger.getGlobal();
 	
 	@Autowired
 	private IApplicationView applicationView;
@@ -32,8 +35,10 @@ public class ApplicationPresenter implements IApplicationPresenter {
 		// TODO Auto-generated method stub
 		applicationView.getViewRoot().addAttachListener(new AttachListener() {
 			
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void attach(AttachEvent event) {
+				LOG.info("Attaching applicationView");
 				applicationEventPublisher.publishEvent(
 						new UIEvent(ApplicationPresenter.this, UIEventTypes.APPLICATION_VIEW_ATTACHED));
 			}

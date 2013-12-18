@@ -8,4 +8,11 @@
 
   // Include mytheme theme styles in your theme
   @include mytheme;
+  
+  .title {
+        color: #fff;
+        text-shadow: rgba(0,0,0,.8) 0 2px 2px;
+        padding: .75em 0 .5em 0;
+		font-size: 1.85em;
+    }
 }

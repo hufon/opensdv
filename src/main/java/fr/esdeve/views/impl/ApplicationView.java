@@ -5,6 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -33,19 +35,6 @@ public class ApplicationView implements IApplicationView {
 
 	public ApplicationView() {
 	}
-/*
-	@Override
-	public void attach() {
-		// TODO Auto-generated method stub
-		super.attach();
-		tabSheet = new TabSheet();
-		
-		tabSheet.addTab(ventesTab);
-		tabSheet.addTab(vendorTab);
-		layout.addComponent(tabSheet);
-		setContent(layout);
-	}
-*/
 	
 
 	
@@ -61,13 +50,15 @@ public class ApplicationView implements IApplicationView {
 	public void initView() {
 		// TODO Auto-generated method stub
 		root = new VerticalLayout();
-		root.setSizeFull();
+		//root.setSizeFull();
+        Label title = new Label("OpenSDV");
+        title.addStyleName("title");
 		tabSheet = new TabSheet();
 		ventesTabContainer = new VerticalLayout();
 		ventesTabContainer.setSizeFull();
 		ventesTabContainer.setCaption(Messages.getString("VentesTab.0"));
 		tabSheet.addTab(ventesTabContainer);
-		root.addComponent(tabSheet);
+		root.addComponents(title,tabSheet);
 	}
 
 	public VerticalLayout getVentesTabContainer() {
