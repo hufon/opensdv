@@ -8,6 +8,7 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
+import fr.esdeve.Messages;
 import fr.esdeve.views.IApplicationView;
 
 @Component
@@ -26,6 +27,7 @@ public class ApplicationView implements IApplicationView {
 	private TabSheet tabSheet;
 	
 	private VerticalLayout root;
+	private VerticalLayout ventesTabContainer;
 
 	public static final String NAME = "";
 
@@ -61,8 +63,19 @@ public class ApplicationView implements IApplicationView {
 		root = new VerticalLayout();
 		root.setSizeFull();
 		tabSheet = new TabSheet();
+		ventesTabContainer = new VerticalLayout();
+		ventesTabContainer.setSizeFull();
+		ventesTabContainer.setCaption(Messages.getString("VentesTab.0"));
+		tabSheet.addTab(ventesTabContainer);
 		root.addComponent(tabSheet);
 	}
+
+	public VerticalLayout getVentesTabContainer() {
+		return ventesTabContainer;
+	}
+
+
+
 
 	@Override
 	public TabSheet getApplicationTabContainer() {

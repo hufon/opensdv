@@ -11,8 +11,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
 
-@Component
-@Scope("prototype")
+
 public class ArticleDAO {
 
 	private JPAContainer<Article> container;

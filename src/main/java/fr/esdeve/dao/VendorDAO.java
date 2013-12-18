@@ -20,8 +20,6 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vendor_;
 
-@Component
-@Scope("prototype")
 public class VendorDAO {
 	private JPAContainer<Vendor> container;
 	private EntityManager manager;

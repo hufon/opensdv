@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Button.ClickEvent;
@@ -47,15 +50,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 		Logger.getLogger("main").info("inserted"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	public void selectVente(Object venteId)
-	{
-		if (venteId!=null)
-		{
-			EntityItem<Vente> venteItem =
-		            container.getItem(venteId);
-			view.setFormSource(venteItem);
-		}
-	}
+
 
 	public void doDeleteVente(Object itemId) {
 		container.removeItem(itemId);
@@ -70,6 +65,17 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	
 	private void doDeleteVente(Object itemId) {
 		container.removeItem(itemId);
+	}
+	
+	private void doSelectVente(Object venteId)
+	{
+		if (venteId!=null)
+		{
+			EntityItem<Vente> venteItem =
+		            container.getItem(venteId);
+			ventesTabView.getBinder().setItemDataSource(venteItem);
+			ventesTabView.getVaeEditform().setEnabled(true);
+		}
 	}
 	
 	@PostConstruct
@@ -92,6 +98,26 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 				doDeleteVente(event.getButton().getData());
 			}
 		});
+		ventesTabView.getSaveVenteBtn().addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				try {
+					ventesTabView.getBinder().commit();
+				} catch (CommitException e) {
+					// TODO Auto-generated catch block
+					LOG.warning(e.toString());
+				}
+			}
+		});
+		ventesTabView.getVaeTable().addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				doSelectVente(event.getProperty().getValue());
+			}
+		});
 	}
 	
 	@Override
@@ -108,8 +134,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 		LOG.info("Adding tab : ventesTabView");
 		ventesTabView.getVaeTable().setContainerDataSource(container);
 		ventesTabView.buildVaeTable();
-		((IApplicationPresenter)event.getSource()).getDisplay().getApplicationTabContainer()
-			.addTab(ventesTabView.getViewRoot());
+		((IApplicationPresenter)event.getSource()).getDisplay().getVentesTabContainer().addComponent(
+			ventesTabView.getViewRoot());
 		
 	}
 }
