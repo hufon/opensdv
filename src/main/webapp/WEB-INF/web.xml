@@ -3,29 +3,24 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-	<!-- Spring -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener
-		</listener-class>
-	</listener>
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/root-context.xml</param-value>
-	</context-param>
-
 	<listener>
 		<listener-class>fr.esdeve.JPAListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>OpenSDV Application</servlet-name>
-		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
+		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
 		<init-param>
-			<param-name>beanName</param-name>
-			<param-value>OpenSdvUI</param-value>
+			<param-name>UIProvider</param-name>
+			<param-value>fr.esdeve.OpenSdvUIProvider</param-value>
+		</init-param>
+		<init-param>
+			<param-name>UIContextConfigLocation</param-name>
+			<param-value>/META-INF/spring/ui-applicationContext.xml</param-value>
+		</init-param>
+		<init-param>
+			<description>Application widgetset</description>
+			<param-name>widgetset</param-name>
+			<param-value>fr.esdeve.AppWidgetSet</param-value>
 		</init-param>
 	</servlet>
 

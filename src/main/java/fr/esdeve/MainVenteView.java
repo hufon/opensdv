@@ -8,7 +8,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-import fr.esdeve.views.VentesView;
+import fr.esdeve.views.impl.ApplicationView;
 
 public class MainVenteView extends Panel implements View {
 
@@ -27,7 +27,7 @@ public class MainVenteView extends Panel implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				getUI().getNavigator().navigateTo(VentesView.NAME);
+				getUI().getNavigator().navigateTo(ApplicationView.NAME);
 			}
 		});
 

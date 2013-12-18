@@ -32,8 +32,7 @@ import fr.esdeve.forms.VaeFieldFactory;
 import fr.esdeve.forms.VaeFieldGroup;
 import fr.esdeve.model.Vendor;
 
-@Component
-@Scope("prototype")
+
 public class VendorTab extends VerticalLayout {
 
 	/**
