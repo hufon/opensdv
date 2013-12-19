@@ -5,5 +5,4 @@ import com.vaadin.ui.TabSheet;
 
 public interface IApplicationView extends View {
 	TabSheet getApplicationTabContainer();
-	ComponentContainer getVentesTabContainer();
 }

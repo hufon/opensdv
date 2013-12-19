@@ -14,10 +14,15 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.server.ClientConnector.AttachEvent;
+import com.vaadin.server.ClientConnector.AttachListener;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Table;
 
+import fr.esdeve.common.ConfirmDialog;
+import fr.esdeve.common.ConfirmDialog.ConfirmationDialogCallback;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
 import fr.esdeve.model.Vente;
@@ -75,9 +80,19 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 		});
 		ventesTabView.setRemoveClickListener(new ClickListener() {
 			@Override
-			public void buttonClick(ClickEvent event) {
+			public void buttonClick(final ClickEvent event) {
 				// TODO Auto-generated method stub
-				doDeleteVente(event.getButton().getData());
+				ConfirmDialog confirm = new ConfirmDialog("Supprimer la vente","êtes vous sur?",
+						"Oui", "Non", new ConfirmationDialogCallback() {
+							
+							@Override
+							public void response(boolean ok) {
+								if (ok==true) {
+									doDeleteVente(event.getButton().getData());
+								}
+							}
+						});
+				ventesTabView.getViewRoot().getUI().addWindow(confirm);
 			}
 		});
 		ventesTabView.getSaveVenteBtn().addClickListener(new ClickListener() {
@@ -92,6 +107,15 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 				}
 			}
 		});
+		ventesTabView.getVaeTable().addAttachListener(new AttachListener() {
+			
+			@Override
+			public void attach(AttachEvent event) {
+				((Table)event.getSource()).setContainerDataSource(container);
+				ventesTabView.buildVaeTable();
+			}
+		});
+		
 		ventesTabView.getVaeTable().addValueChangeListener(new ValueChangeListener() {
 			
 			@Override
@@ -114,11 +138,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 
 	private void handleApplicationViewAttached(UIEvent event) {
 		LOG.info("Adding tab : ventesTabView");
-		ventesTabView.getVaeTable().setContainerDataSource(container);
-		ventesTabView.buildVaeTable();
-		((IApplicationPresenter)event.getSource()).getDisplay().getVentesTabContainer().removeAllComponents();
-		((IApplicationPresenter)event.getSource()).getDisplay().getVentesTabContainer().addComponent(
-			ventesTabView.getViewRoot());
+		
+		((IApplicationPresenter)event.getSource()).getDisplay().getApplicationTabContainer().addTab(ventesTabView.getViewRoot());
 		
 	}
 }

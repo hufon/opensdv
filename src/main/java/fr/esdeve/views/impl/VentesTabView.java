@@ -119,10 +119,11 @@ public class VentesTabView implements IVentesTabView {
 
 	public void buildVaeTable()
 	{
+		vaeTable.removeGeneratedColumn("actions");
 		vaeTable.setVisibleColumns("date","name","location"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		vaeTable.setColumnHeader("name", Messages.getString("VentesTab.13")); //$NON-NLS-1$ //$NON-NLS-2$
 		vaeTable.setColumnHeader("location", Messages.getString("VentesTab.15")); //$NON-NLS-1$ //$NON-NLS-2$
-		vaeTable.addGeneratedColumn("", new ColumnGenerator() {
+		vaeTable.addGeneratedColumn("actions", new ColumnGenerator() {
 			@Override
 			public Object generateCell(Table source, Object itemId,
 					Object columnId) {

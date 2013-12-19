@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import com.vaadin.server.ClientConnector.AttachEvent;
 import com.vaadin.server.ClientConnector.AttachListener;
+import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
+import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
@@ -41,6 +43,15 @@ public class ApplicationPresenter implements IApplicationPresenter {
 				LOG.info("Attaching applicationView");
 				applicationEventPublisher.publishEvent(
 						new UIEvent(ApplicationPresenter.this, UIEventTypes.APPLICATION_VIEW_ATTACHED));
+			}
+		});
+		
+		applicationView.getApplicationTabContainer().addSelectedTabChangeListener(new SelectedTabChangeListener() {
+			
+			@Override
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				// TODO Auto-generated method stub
+				LOG.info("Tab changed...");
 			}
 		});
 

@@ -29,8 +29,6 @@ public class ApplicationView implements IApplicationView {
 	private TabSheet tabSheet;
 	
 	private VerticalLayout root;
-	private VerticalLayout ventesTabContainer;
-
 	public static final String NAME = "";
 
 	public ApplicationView() {
@@ -54,18 +52,8 @@ public class ApplicationView implements IApplicationView {
         Label title = new Label("OpenSDV");
         title.addStyleName("title");
 		tabSheet = new TabSheet();
-		ventesTabContainer = new VerticalLayout();
-		ventesTabContainer.setSizeFull();
-		ventesTabContainer.setCaption(Messages.getString("VentesTab.0"));
-		tabSheet.addTab(ventesTabContainer);
 		root.addComponents(title,tabSheet);
 	}
-
-	public VerticalLayout getVentesTabContainer() {
-		return ventesTabContainer;
-	}
-
-
 
 
 	@Override
