@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -49,10 +50,16 @@ public class ApplicationView implements IApplicationView {
 		// TODO Auto-generated method stub
 		root = new VerticalLayout();
 		//root.setSizeFull();
+		HorizontalLayout titleBar = new HorizontalLayout();
         Label title = new Label("OpenSDV");
+        titleBar.setHeight("76px");
         title.addStyleName("title");
+        titleBar.addComponent(title);
+        titleBar.setSpacing(true);
+        titleBar.addStyleName("toolbar");
+        titleBar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 		tabSheet = new TabSheet();
-		root.addComponents(title,tabSheet);
+		root.addComponents(titleBar,tabSheet);
 	}
 
 

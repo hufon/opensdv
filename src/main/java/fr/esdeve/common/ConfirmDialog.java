@@ -16,7 +16,6 @@ import com.vaadin.ui.Window;
 public final class ConfirmDialog extends Window implements Button.ClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private static final int ONE_HUNDRED_PERCENT = 100;
 	private static final int CONFIRMATION_DIALOG_WIDTH = 400;
 
 	private final ConfirmationDialogCallback callback;

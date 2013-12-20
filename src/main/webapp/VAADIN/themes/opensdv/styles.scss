@@ -1,18 +1,15 @@
 @import "addons.scss";
-@import "mytheme.scss";
+@import "opensdv.scss";
 
+
+@include font-open-sans;
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in mytheme.scss */
-.mytheme {
+.opensdv {
   @include addons;
 
   // Include mytheme theme styles in your theme
-  @include mytheme;
+  @include opensdv;
   
-  .title {
-        color: #fff;
-        text-shadow: rgba(0,0,0,.8) 0 2px 2px;
-        padding: .75em 0 .5em 0;
-		font-size: 1.85em;
-    }
+        
 }

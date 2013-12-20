@@ -11,7 +11,7 @@ import com.vaadin.ui.UI;
 
 import fr.esdeve.presenters.IApplicationPresenter;
 
-@Theme("mytheme")
+@Theme("opensdv")
 @SuppressWarnings("serial")
 @Title("OpenSDV")
 public class OpenSdvUI extends UI
