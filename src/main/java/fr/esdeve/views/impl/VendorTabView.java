@@ -151,6 +151,7 @@ public class VendorTabView implements IVendorTabView {
 		vendorForm.addStyleName("bordered"); // Custom style //$NON-NLS-1$
 		vendorForm.setWidth("420px"); //$NON-NLS-1$
 		vendorForm.setEnabled(false);
+		vendorForm.setMargin(true);
 
 		HorizontalLayout btnLayout = new HorizontalLayout();
 	    saveVendorBtn = new Button(Messages.getString("VentesTab.21")); //$NON-NLS-1$

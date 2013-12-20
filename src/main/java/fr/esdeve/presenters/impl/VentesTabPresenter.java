@@ -55,6 +55,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	
 	private void doDeleteVente(Object itemId) {
 		container.removeItem(itemId);
+		ventesTabView.getVaeEditform().setEnabled(false);
 	}
 	
 	private void doSelectVente(Object venteId)

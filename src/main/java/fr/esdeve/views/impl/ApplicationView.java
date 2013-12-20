@@ -1,5 +1,7 @@
 package fr.esdeve.views.impl;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
@@ -56,13 +58,16 @@ public class ApplicationView implements IApplicationView {
         titleBar.setHeight("76px");
         title.addStyleName("title");
         titleBar.addComponent(title);
-        //titleBar.setSpacing(true);
         titleBar.addStyleName("toolbar");
         titleBar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 		tabSheet = new TabSheet();
 		tabSheet.setSizeFull();
-		
-		root.addComponents(titleBar,tabSheet);
+		HorizontalLayout statusBar = new HorizontalLayout();
+		statusBar.setHeight("30px");
+		Label statusTitle = new Label(new Date().toLocaleString());
+		statusBar.addComponent(statusTitle);
+		statusBar.setComponentAlignment(statusTitle, Alignment.MIDDLE_RIGHT);
+		root.addComponents(titleBar,tabSheet,statusBar);
 		root.setExpandRatio(tabSheet, 1.0f);
 	}
 
