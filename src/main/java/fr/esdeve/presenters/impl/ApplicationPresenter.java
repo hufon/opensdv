@@ -52,6 +52,7 @@ public class ApplicationPresenter implements IApplicationPresenter {
 			public void selectedTabChange(SelectedTabChangeEvent event) {
 				// TODO Auto-generated method stub
 				LOG.info("Tab changed...");
+				applicationView.getViewRoot().getUI().getPage().setTitle("OpenSDV - "+event.getTabSheet().getSelectedTab().getCaption());
 			}
 		});
 

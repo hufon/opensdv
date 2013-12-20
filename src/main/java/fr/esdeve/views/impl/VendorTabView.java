@@ -6,13 +6,23 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Table.ColumnGenerator;
 
+import fr.esdeve.Messages;
+import fr.esdeve.forms.VaeFieldFactory;
+import fr.esdeve.forms.VaeFieldGroup;
+import fr.esdeve.model.Vendor;
 import fr.esdeve.views.IVendorTabView;
 
 @Component
@@ -32,6 +42,21 @@ public class VendorTabView implements IVendorTabView {
 	private Button addVendorBtn;
 	private Table vendorTable;
 	private Button addArticleBtn;
+	private VerticalLayout articleListContainer;
+	private Button saveVendorBtn;
+	private VaeFieldGroup binder;
+	private FormLayout vendorForm;
+	private ClickListener removeVendorClickListener;
+
+	@Override
+	public void setRemoveVendorClickListener(ClickListener removeVendorClickListener) {
+		this.removeVendorClickListener = removeVendorClickListener;
+	}
+
+	@Override
+	public FormLayout getVendorForm() {
+		return vendorForm;
+	}
 
 	@PostConstruct
 	@Override
@@ -39,9 +64,13 @@ public class VendorTabView implements IVendorTabView {
 		// TODO Auto-generated method stub
 		LOG.info("Building VendorTabView");
 		root = new VerticalLayout();
+		root.setMargin(true);
 		root.setCaption("Gestion des vendeurs");
+		HorizontalLayout toolbar = new HorizontalLayout();
 		addVendorBtn = new Button("Ajouter vendeur");
-		root.addComponent(addVendorBtn);
+		toolbar.addComponents(addVendorBtn);
+		toolbar.setHeight("40px");
+		root.addComponent(toolbar);
 		HorizontalSplitPanel hvendorpanel = new HorizontalSplitPanel();
 		hvendorpanel.setSplitPosition(50, Unit.PERCENTAGE);
 		root.addComponent(hvendorpanel);
@@ -50,8 +79,80 @@ public class VendorTabView implements IVendorTabView {
 		vendorTable.setSelectable(true);
 		vendorTable.setImmediate(true);
 		hvendorpanel.addComponent(vendorTable);
+		Panel formPanel = new Panel(buildVendorForm());
+		formPanel.setCaption("Edition vendeur");
+		hvendorpanel.addComponent(formPanel);
 		addArticleBtn = new Button("Ajouter article");
 		root.addComponent(addArticleBtn);
+		articleListContainer = new VerticalLayout();
+		root.addComponent(articleListContainer);
+	}
+	
+	@Override
+	public Button getAddVendorBtn() {
+		return addVendorBtn;
+	}
+
+	@Override
+	public Table getVendorTable() {
+		return vendorTable;
+	}
+
+	@Override
+	public Button getAddArticleBtn() {
+		return addArticleBtn;
+	}
+
+	@Override
+	public Button getSaveVendorBtn() {
+		return saveVendorBtn;
+	}
+
+	private FormLayout buildVendorForm() {
+
+		vendorForm = new FormLayout();
+		vendorForm.setCaption("Edition vendeur"); //$NON-NLS-1$
+		vendorForm.addStyleName("bordered"); // Custom style //$NON-NLS-1$
+		vendorForm.setWidth("420px"); //$NON-NLS-1$
+		vendorForm.setEnabled(false);
+
+		HorizontalLayout btnLayout = new HorizontalLayout();
+	    saveVendorBtn = new Button(Messages.getString("VentesTab.21")); //$NON-NLS-1$
+		binder = new VaeFieldGroup(new BeanItem<Vendor>(new Vendor()));
+		binder.setFieldFactory(new VaeFieldFactory());
+		vendorForm.removeAllComponents();
+		vendorForm.addComponent(binder.buildAndBind("Numéro", "number")); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorForm.addComponent(binder.buildAndBind("Nom", "name")); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorForm.addComponent(btnLayout);
+		vendorForm.addComponents(saveVendorBtn);
+		vendorForm.setMargin(true);
+		return vendorForm;
+	}
+
+	@Override
+	public void buildVendorTable() {
+		vendorTable.removeGeneratedColumn("actions");
+		vendorTable.setVisibleColumns("number", "name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		vendorTable.setColumnHeader("number", "Numéro"); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorTable.setColumnHeader("name", "Nom"); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorTable.addGeneratedColumn("actions", new ColumnGenerator() {
+
+			@Override
+			public Object generateCell(Table source, Object itemId,
+					Object columnId) {
+				Button removeButton = new Button("Supprimer");
+				removeButton.setData(itemId);
+				removeButton.addClickListener(removeVendorClickListener);
+				return new HorizontalLayout(removeButton);
+			}
+		});
+		vendorTable.setSizeFull();
+	}
+	
+	
+	@Override
+	public VaeFieldGroup getBinder() {
+		return binder;
 	}
 
 }

@@ -20,6 +20,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vendor_;
 
+@Component
 public class VendorDAO {
 	private JPAContainer<Vendor> container;
 	private EntityManager manager;
@@ -58,6 +59,11 @@ public class VendorDAO {
 		vendor.getItemProperty("number").setValue(getNextVendorNumber());
 		vendor.commit();
 		return vendor;
+	}
+	
+	public void remove(Object itemId)
+	{
+		container.removeItem(itemId);
 	}
 
 }

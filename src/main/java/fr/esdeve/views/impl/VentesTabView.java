@@ -45,7 +45,7 @@ public class VentesTabView implements IVentesTabView {
 	private FormLayout vaeEditform;
 	
 	
-	
+	@Override
 	public FormLayout getVaeEditform() {
 		return vaeEditform;
 	}
@@ -54,6 +54,7 @@ public class VentesTabView implements IVentesTabView {
 		this.removeClickListener = removeClickListener;
 	}
 
+	@Override
 	public Table getVaeTable() {
 		return vaeTable;
 	}
@@ -73,10 +74,9 @@ public class VentesTabView implements IVentesTabView {
 		root.setCaption(Messages.getString("VentesTab.0"));
 		root.setMargin(true);
 		HorizontalLayout toolbar = new HorizontalLayout();
-		Label gap = new Label();
-		gap.setHeight("1em");
 		addVenteBtn = new Button(Messages.getString("VentesTab.1"));
 		toolbar.addComponents(addVenteBtn);
+		toolbar.setHeight("30px");
 		vaeTable = new Table(Messages.getString("VentesTab.7"));
 		vaeTable.setWidth("100%"); //$NON-NLS-1$
 		vaeTable.setSelectable(true);
@@ -87,13 +87,15 @@ public class VentesTabView implements IVentesTabView {
 		Panel formPanel = new Panel(buildVaeForm());
 		hpanel.setSplitPosition(75, Unit.PERCENTAGE);
 		hpanel.addComponents(vaeTable,formPanel);
-		root.addComponents(toolbar,gap, hpanel);
+		root.addComponents(toolbar, hpanel);
 	}
 	
+	@Override
 	public VaeFieldGroup getBinder() {
 		return binder;
 	}
 
+	@Override
 	public Button getAddVenteBtn() {
 		return addVenteBtn;
 	}
