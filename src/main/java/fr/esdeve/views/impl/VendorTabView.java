@@ -76,24 +76,28 @@ public class VendorTabView implements IVendorTabView {
 		root.setCaption("Gestion des vendeurs");
 		root.setSpacing(true);
 		root.setMargin(true);
-		root.setHeight("800");
+		root.setSizeFull();
 		Panel mainPanel = new Panel();
+		mainPanel.setSizeFull();
 		mainPanel.setHeight("100%");
 		VerticalSplitPanel vsplit = new VerticalSplitPanel();
 		vsplit.setHeight("100%");
+		vsplit.setSizeFull();
 		vsplit.setSplitPosition(50, Unit.PERCENTAGE);
 		mainPanel.setContent(vsplit);
 		root.addComponent(mainPanel);
 		VerticalLayout vendorLayout = new VerticalLayout();
+		vendorLayout.setSizeFull();
 		vendorLayout.setMargin(true);
 		HorizontalLayout toolbar = new HorizontalLayout();
 		addVendorBtn = new Button("Ajouter vendeur");
 		toolbar.addComponents(addVendorBtn);
 		toolbar.setHeight("40px");
 		HorizontalSplitPanel hvendorpanel = new HorizontalSplitPanel();
+		hvendorpanel.setSizeFull();
 		hvendorpanel.setSplitPosition(50, Unit.PERCENTAGE);
 		vendorTable = new Table();// test //$NON-NLS-1$
-		vendorTable.setWidth("100%"); //$NON-NLS-1$
+		vendorTable.setSizeFull(); //$NON-NLS-1$
 		vendorTable.setSelectable(true);
 		vendorTable.setImmediate(true);
 		hvendorpanel.addComponent(vendorTable);
@@ -101,14 +105,22 @@ public class VendorTabView implements IVendorTabView {
 		formPanel.setCaption("Edition vendeur");
 		hvendorpanel.addComponent(formPanel);
 		vendorLayout.addComponents(toolbar,hvendorpanel);
+		vendorLayout.setExpandRatio(hvendorpanel, 1.0f);
 		vsplit.setFirstComponent(vendorLayout);
+		
 		VerticalLayout articleLayout = new VerticalLayout();
 		articleLayout.setMargin(true);
+		articleLayout.setSizeFull();
+		HorizontalLayout toolbar2 = new HorizontalLayout();
 		addArticleBtn = new Button("Ajouter article");
+		toolbar2.setHeight("40px");
+		toolbar2.addComponent(addArticleBtn);
 		addArticleBtn.setEnabled(false);
-		articleLayout.addComponent(addArticleBtn);
+		articleLayout.addComponent(toolbar2);
 		articleListContainer = new VerticalLayout();
+		articleListContainer.setSizeFull();
 		articleLayout.addComponent(articleListContainer);
+		articleLayout.setExpandRatio(articleListContainer, 1.0f);
 		vsplit.setSecondComponent(articleLayout);
 	}
 	

@@ -73,21 +73,23 @@ public class VentesTabView implements IVentesTabView {
 		root = new VerticalLayout();
 		root.setCaption(Messages.getString("VentesTab.0"));
 		root.setMargin(true);
+		root.setSizeFull();
 		HorizontalLayout toolbar = new HorizontalLayout();
 		addVenteBtn = new Button(Messages.getString("VentesTab.1"));
 		toolbar.addComponents(addVenteBtn);
 		toolbar.setHeight("30px");
 		vaeTable = new Table(Messages.getString("VentesTab.7"));
-		vaeTable.setWidth("100%"); //$NON-NLS-1$
+		vaeTable.setSizeFull();
 		vaeTable.setSelectable(true);
 		vaeTable.setImmediate(true);
-		vaeTable.setSizeFull();
 		vaeTable.setId("vaeTable");
 		HorizontalSplitPanel hpanel = new HorizontalSplitPanel();
+		hpanel.setSizeFull();
 		Panel formPanel = new Panel(buildVaeForm());
 		hpanel.setSplitPosition(75, Unit.PERCENTAGE);
 		hpanel.addComponents(vaeTable,formPanel);
 		root.addComponents(toolbar, hpanel);
+		root.setExpandRatio(hpanel, 1.0f);
 	}
 	
 	@Override

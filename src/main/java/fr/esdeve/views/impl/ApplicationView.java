@@ -49,17 +49,21 @@ public class ApplicationView implements IApplicationView {
 	public void initView() {
 		// TODO Auto-generated method stub
 		root = new VerticalLayout();
-		//root.setSizeFull();
+		root.setSizeFull();
 		HorizontalLayout titleBar = new HorizontalLayout();
+		titleBar.setWidth("100%");
         Label title = new Label("OpenSDV");
         titleBar.setHeight("76px");
         title.addStyleName("title");
         titleBar.addComponent(title);
-        titleBar.setSpacing(true);
+        //titleBar.setSpacing(true);
         titleBar.addStyleName("toolbar");
         titleBar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 		tabSheet = new TabSheet();
+		tabSheet.setSizeFull();
+		
 		root.addComponents(titleBar,tabSheet);
+		root.setExpandRatio(tabSheet, 1.0f);
 	}
 
 
