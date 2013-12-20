@@ -1,10 +1,16 @@
 package fr.esdeve.dao;
 
-import javax.persistence.EntityManager;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.eclipse.persistence.expressions.Expression;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
@@ -12,7 +18,8 @@ import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
 
 
-public class ArticleDAO {
+@Component
+public class ArticleDAO implements IGenericDAO<Article> {
 
 	private JPAContainer<Article> container;
 	private EntityManager manager;
@@ -27,5 +34,30 @@ public class ArticleDAO {
 	{
 		container = JPAContainerFactory.make(Article.class, "ventes");
 		manager = container.getEntityProvider().getEntityManager();
+	}
+	
+	private Integer getNextArticleNumber(Article article)
+	{
+		CriteriaBuilder builder= manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		Root<Article> root = criteria.from(Article.class);
+		criteria.where(builder.equal(root.get("vendor"), article.getVendor()));
+		criteria.select(builder.count(root));
+		Long result = manager.createQuery(criteria).getSingleResult();
+		return result.intValue()+1;
+	}
+	
+	public EntityItem<Article> add(Article article) {
+		String articleId = article.getVendor().getNumber().toString();
+		articleId += "-";
+		articleId += getNextArticleNumber(article);
+		article.setId(articleId);
+		Object id = container.addEntity(article);
+		EntityItem<Article> articleItem = container.getItem(id);
+		return articleItem;
+	}
+	@Override
+	public void remove(Object itemId) {
+		this.container.removeItem(itemId);
 	}
 }

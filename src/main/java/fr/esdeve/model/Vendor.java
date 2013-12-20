@@ -2,6 +2,7 @@ package fr.esdeve.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Vendor {
     @Column(name="vendornumber")
     private Number number;
     
-    @OneToMany(mappedBy="vendor")
+    @OneToMany(mappedBy="vendor", cascade=CascadeType.REMOVE )
 	private List<Article> articles;
 
 	public Long getId() {

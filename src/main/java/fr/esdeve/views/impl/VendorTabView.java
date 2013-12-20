@@ -14,6 +14,8 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -71,16 +73,25 @@ public class VendorTabView implements IVendorTabView {
 		// TODO Auto-generated method stub
 		LOG.info("Building VendorTabView");
 		root = new VerticalLayout();
-		root.setMargin(true);
 		root.setCaption("Gestion des vendeurs");
+		root.setSpacing(true);
+		root.setMargin(true);
+		root.setHeight("800");
+		Panel mainPanel = new Panel();
+		mainPanel.setHeight("100%");
+		VerticalSplitPanel vsplit = new VerticalSplitPanel();
+		vsplit.setHeight("100%");
+		vsplit.setSplitPosition(50, Unit.PERCENTAGE);
+		mainPanel.setContent(vsplit);
+		root.addComponent(mainPanel);
+		VerticalLayout vendorLayout = new VerticalLayout();
+		vendorLayout.setMargin(true);
 		HorizontalLayout toolbar = new HorizontalLayout();
 		addVendorBtn = new Button("Ajouter vendeur");
 		toolbar.addComponents(addVendorBtn);
 		toolbar.setHeight("40px");
-		root.addComponent(toolbar);
 		HorizontalSplitPanel hvendorpanel = new HorizontalSplitPanel();
 		hvendorpanel.setSplitPosition(50, Unit.PERCENTAGE);
-		root.addComponent(hvendorpanel);
 		vendorTable = new Table();// test //$NON-NLS-1$
 		vendorTable.setWidth("100%"); //$NON-NLS-1$
 		vendorTable.setSelectable(true);
@@ -89,10 +100,16 @@ public class VendorTabView implements IVendorTabView {
 		Panel formPanel = new Panel(buildVendorForm());
 		formPanel.setCaption("Edition vendeur");
 		hvendorpanel.addComponent(formPanel);
+		vendorLayout.addComponents(toolbar,hvendorpanel);
+		vsplit.setFirstComponent(vendorLayout);
+		VerticalLayout articleLayout = new VerticalLayout();
+		articleLayout.setMargin(true);
 		addArticleBtn = new Button("Ajouter article");
-		root.addComponent(addArticleBtn);
+		addArticleBtn.setEnabled(false);
+		articleLayout.addComponent(addArticleBtn);
 		articleListContainer = new VerticalLayout();
-		root.addComponent(articleListContainer);
+		articleLayout.addComponent(articleListContainer);
+		vsplit.setSecondComponent(articleLayout);
 	}
 	
 	@Override
