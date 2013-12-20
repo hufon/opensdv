@@ -4,6 +4,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
 import fr.esdeve.forms.VaeFieldGroup;
 
@@ -24,5 +25,7 @@ public interface IVendorTabView extends View {
 	FormLayout getVendorForm();
 
 	void setRemoveVendorClickListener(ClickListener removeVendorClickListener);
+
+	VerticalLayout getArticleListContainer();
 
 }

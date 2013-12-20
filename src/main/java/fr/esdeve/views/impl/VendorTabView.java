@@ -43,11 +43,18 @@ public class VendorTabView implements IVendorTabView {
 	private Table vendorTable;
 	private Button addArticleBtn;
 	private VerticalLayout articleListContainer;
+
+
 	private Button saveVendorBtn;
 	private VaeFieldGroup binder;
 	private FormLayout vendorForm;
 	private ClickListener removeVendorClickListener;
 
+	@Override
+	public VerticalLayout getArticleListContainer() {
+		return articleListContainer;
+	}
+	
 	@Override
 	public void setRemoveVendorClickListener(ClickListener removeVendorClickListener) {
 		this.removeVendorClickListener = removeVendorClickListener;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.vaadin.server.ClientConnector.AttachEvent;
 import com.vaadin.server.ClientConnector.AttachListener;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 
@@ -34,7 +35,6 @@ public class ApplicationPresenter implements IApplicationPresenter {
 	@Override
 	@PostConstruct
 	public void bind() {
-		// TODO Auto-generated method stub
 		applicationView.getViewRoot().addAttachListener(new AttachListener() {
 			
 			private static final long serialVersionUID = 1L;
@@ -57,11 +57,21 @@ public class ApplicationPresenter implements IApplicationPresenter {
 		});
 
 	}
-
+	
 	@Override
-	public void onApplicationEvent(ApplicationEvent arg0) {
-		// TODO Auto-generated method stub
+	public void onApplicationEvent(ApplicationEvent event) {
+		if(event instanceof UIEvent){
+			if(((UIEvent) event).getEventType().equals(UIEventTypes.ITEM_SAVED)){
+				handleItemSaved((UIEvent)event);
+			}
+		}
+		
+	}
 
+	private void handleItemSaved(UIEvent event) {
+		Notification.show("Objet sauvegardé",
+                "",
+                Notification.Type.TRAY_NOTIFICATION);
 	}
 
 	@Override

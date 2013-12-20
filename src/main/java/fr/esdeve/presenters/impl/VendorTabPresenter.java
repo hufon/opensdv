@@ -24,6 +24,7 @@ import fr.esdeve.event.UIEventTypes;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.presenters.IApplicationPresenter;
 import fr.esdeve.presenters.IVendorTabPresenter;
+import fr.esdeve.views.IArticleListView;
 import fr.esdeve.views.IVendorTabView;
 import fr.esdeve.views.IVentesTabView;
 import fr.esdeve.views.View;
@@ -35,6 +36,9 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 
 	@Autowired
 	private IVendorTabView vendorTabView;
+	
+	@Autowired
+	private IArticleListView articleListView;
 	
 	@Autowired
 	private VendorDAO vendorDAO;
@@ -133,6 +137,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	}
 
 	private void handleApplicationViewAttached(UIEvent event) {
+		vendorTabView.getArticleListContainer().addComponent(articleListView.getViewRoot());
 		((IApplicationPresenter)event.getSource()).getDisplay().getApplicationTabContainer().addTab(vendorTabView.getViewRoot());
 	}
 

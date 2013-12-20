@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -42,6 +43,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	@Autowired
 	private IVentesTabView ventesTabView;
 	private JPAContainer<Vente> container;
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 	
 	private Logger LOG = Logger.getGlobal();
 
@@ -101,6 +104,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 			public void buttonClick(ClickEvent event) {
 				try {
 					ventesTabView.getBinder().commit();
+					applicationEventPublisher.publishEvent(
+							new UIEvent(VentesTabPresenter.this, UIEventTypes.ITEM_SAVED));
 				} catch (CommitException e) {
 					// TODO Auto-generated catch block
 					LOG.warning(e.toString());

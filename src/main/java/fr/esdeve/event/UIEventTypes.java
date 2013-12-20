@@ -1,5 +1,6 @@
 package fr.esdeve.event;
 
 public enum UIEventTypes {
-	APPLICATION_VIEW_ATTACHED
+	APPLICATION_VIEW_ATTACHED,
+	ITEM_SAVED
 }
