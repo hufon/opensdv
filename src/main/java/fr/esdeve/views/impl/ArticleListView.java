@@ -4,15 +4,23 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
+import fr.esdeve.Messages;
+import fr.esdeve.forms.VaeFieldFactory;
+import fr.esdeve.forms.VaeFieldGroup;
+import fr.esdeve.model.Article;
+import fr.esdeve.model.Vendor;
 import fr.esdeve.views.IArticleListView;
 
 @SuppressWarnings("serial")
@@ -22,7 +30,15 @@ public class ArticleListView implements IArticleListView {
 	private HorizontalSplitPanel harticlepanel;
 	private Table articleTable;
 	protected ClickListener removeArticleClickListener;
+	private FormLayout articleForm;
+	private Button saveArticleBtn;
+	private VaeFieldGroup binder;
 	
+	@Override
+	public FormLayout getArticleForm() {
+		return articleForm;
+	}
+
 	@Override
 	public void setRemoveArticleClickListener(
 			ClickListener removeArticleClickListener) {
@@ -46,6 +62,29 @@ public class ArticleListView implements IArticleListView {
 		articleTable.setSelectable(true);
 		articleTable.setImmediate(true);
 		harticlepanel.addComponent(articleTable);
+		Panel formPanel = new Panel(buildarticleForm());
+		formPanel.setCaption("Edition article");
+		harticlepanel.addComponent(formPanel);
+	}
+
+	private FormLayout buildarticleForm() {
+		// TODO Auto-generated method stub
+		articleForm = new FormLayout();
+		articleForm.addStyleName("bordered"); // Custom style //$NON-NLS-1$
+		//articleForm.setWidth("420px"); //$NON-NLS-1$
+		articleForm.setEnabled(false);
+		articleForm.setMargin(true);
+
+		HorizontalLayout btnLayout = new HorizontalLayout();
+	    saveArticleBtn = new Button(Messages.getString("VentesTab.21"));
+	    btnLayout.addComponent(saveArticleBtn);//$NON-NLS-1$
+		binder = new VaeFieldGroup(new BeanItem<Article>(new Article()));
+		binder.setFieldFactory(new VaeFieldFactory());
+		articleForm.removeAllComponents();
+		articleForm.addComponent(binder.buildAndBind("Numéro", "id")); //$NON-NLS-1$ //$NON-NLS-2$
+		articleForm.addComponent(binder.buildAndBind("Désignation", "designation")); //$NON-NLS-1$ //$NON-NLS-2$
+		articleForm.addComponents(btnLayout);
+		return articleForm;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package fr.esdeve.views;
 
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Table;
 
 public interface IArticleListView extends View {
@@ -10,5 +11,7 @@ public interface IArticleListView extends View {
 	void buildArticleTable();
 
 	void setRemoveArticleClickListener(ClickListener removeArticleClickListener);
+
+	FormLayout getArticleForm();
 
 }
