@@ -24,15 +24,12 @@ public class ApplicationView implements IApplicationView {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	/*@Autowired
-	private VentesTabView ventesTab;
-	@Autowired
-	private VendorTab vendorTab;
-	*/
 	private TabSheet tabSheet;
 	
 	private VerticalLayout root;
 	public static final String NAME = "";
+	
+	private VerticalLayout ventesLayout;
 
 	public ApplicationView() {
 	}
@@ -52,6 +49,9 @@ public class ApplicationView implements IApplicationView {
 		// TODO Auto-generated method stub
 		root = new VerticalLayout();
 		root.setSizeFull();
+		ventesLayout = new VerticalLayout();
+		ventesLayout.setCaption("Gestion des ventes");
+		ventesLayout.setSizeFull();
 		HorizontalLayout titleBar = new HorizontalLayout();
 		titleBar.setWidth("100%");
         Label title = new Label("OpenSDV");
@@ -62,6 +62,7 @@ public class ApplicationView implements IApplicationView {
         titleBar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 		tabSheet = new TabSheet();
 		tabSheet.setSizeFull();
+		tabSheet.addTab(ventesLayout);
 		HorizontalLayout statusBar = new HorizontalLayout();
 		statusBar.setHeight("30px");
 		Label statusTitle = new Label(new Date().toLocaleString());
@@ -77,5 +78,13 @@ public class ApplicationView implements IApplicationView {
 		// TODO Auto-generated method stub
 		return tabSheet;
 	}
+
+
+
+	@Override
+	public VerticalLayout getVentesLayout() {
+		return ventesLayout;
+	}
+
 
 }

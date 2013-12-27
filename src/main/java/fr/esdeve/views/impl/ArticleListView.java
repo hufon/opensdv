@@ -8,6 +8,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -32,8 +33,21 @@ public class ArticleListView implements IArticleListView {
 	protected ClickListener removeArticleClickListener;
 	private FormLayout articleForm;
 	private Button saveArticleBtn;
+	private ComboBox venteCombo;
+
+
 	private VaeFieldGroup binder;
+
+	@Override
+	public Button getSaveArticleBtn() {
+		return saveArticleBtn;
+	}
 	
+	@Override
+	public VaeFieldGroup getBinder() {
+		return binder;
+	}
+
 	@Override
 	public FormLayout getArticleForm() {
 		return articleForm;
@@ -83,8 +97,19 @@ public class ArticleListView implements IArticleListView {
 		articleForm.removeAllComponents();
 		articleForm.addComponent(binder.buildAndBind("Numéro", "id")); //$NON-NLS-1$ //$NON-NLS-2$
 		articleForm.addComponent(binder.buildAndBind("Désignation", "designation")); //$NON-NLS-1$ //$NON-NLS-2$
+		articleForm.addComponent(binder.buildAndBind("Mise à prix (€)", "initialPrice"));
+		articleForm.addComponent(binder.buildAndBind("Prix de reserve (€)", "minimumPrice"));
+		articleForm.addComponent(binder.buildAndBind("Prix d'adjudication(€) ", "sellingPrice"));
+		articleForm.addComponent(binder.buildAndBind("Retiré ?", "retired"));
+		venteCombo = (ComboBox) binder.buildAndBind("Vente", "vente");
+		articleForm.addComponent(venteCombo);
 		articleForm.addComponents(btnLayout);
 		return articleForm;
+	}
+
+	@Override
+	public ComboBox getVenteCombo() {
+		return venteCombo;
 	}
 
 	@Override

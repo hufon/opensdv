@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,26 +31,25 @@ public class Vente implements Serializable {
 	{
 		this.name = "VAE_";
 		this.date = new Date();
-		
-		this.name += DateFormat.getInstance().getCalendar().get(DateFormat.YEAR_FIELD);
+		this.year = java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD);
 		this.location = Messages.getString("Vente.location");
-		//this.name += this.date.getMonth();
 	}
 	
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
     
     @Size(min=1)
     @NotNull
 	private String name;
 	private String location;
 	
+	private Integer year;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
-	@OneToMany(mappedBy="vente")
+	@OneToMany(mappedBy="vente", cascade=CascadeType.DETACH)
 	private List<Article> articles;
 	
 	public List<Article> getArticles() {
@@ -58,10 +58,10 @@ public class Vente implements Serializable {
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -81,5 +81,16 @@ public class Vente implements Serializable {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	
+	@Override
+	public String toString() {
+		return this.id.toString()+" - "+this.name;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 }

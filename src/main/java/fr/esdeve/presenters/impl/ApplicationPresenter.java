@@ -15,6 +15,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 
+import fr.esdeve.event.AppEvent;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
 import fr.esdeve.presenters.IApplicationPresenter;
@@ -61,8 +62,21 @@ public class ApplicationPresenter implements IApplicationPresenter {
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if(event instanceof UIEvent){
-			if(((UIEvent) event).getEventType().equals(UIEventTypes.ITEM_SAVED)){
-				handleItemSaved((UIEvent)event);
+			UIEvent uiEvent = (UIEvent)event;
+			if(uiEvent.getEventType().equals(UIEventTypes.ITEM_SAVED)){
+				handleItemSaved(uiEvent);
+			}
+			if (uiEvent.getEventType().equals(UIEventTypes.LISTVENTES_DISPLAY) &&
+					( uiEvent.getSource() instanceof VenteDetailsPresenter)) {
+				applicationEventPublisher.publishEvent(new UIEvent(ApplicationPresenter.this, UIEventTypes.LISTVENTES_DISPLAY));
+			}
+		}
+		if (event instanceof AppEvent) {
+			
+			if ((((AppEvent) event).getSource() instanceof VentesTabPresenter) && 
+			((AppEvent) event).getEventType().equals(UIEventTypes.VENTE_DISPLAY)) {
+				applicationEventPublisher.publishEvent(new AppEvent(((AppEvent) event).getData(), 
+						ApplicationPresenter.this, UIEventTypes.VENTE_DISPLAY));
 			}
 		}
 		

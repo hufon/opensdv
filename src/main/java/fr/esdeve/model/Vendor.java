@@ -16,23 +16,22 @@ import javax.validation.constraints.NotNull;
 public class Vendor {
 
     @Id    
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
     
     private String name;
-    
-
-    @Column(name="vendornumber")
-    private Number number;
-    
+        
     @OneToMany(mappedBy="vendor", cascade=CascadeType.REMOVE )
 	private List<Article> articles;
+    
+    private Integer year;
+    
+    private Integer rate = 12;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -44,11 +43,19 @@ public class Vendor {
 		this.name = name;
 	}
 
-	public Number getNumber() {
-		return number;
+	public Integer getYear() {
+		return year;
 	}
 
-	public void setNumber(Number number) {
-		this.number = number;
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getRate() {
+		return rate;
+	}
+
+	public void setRate(Integer rate) {
+		this.rate = rate;
 	}
 }

@@ -2,6 +2,7 @@ package fr.esdeve.dao;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vendor_;
+import fr.esdeve.model.Vente;
 
 @Component
 public class VendorDAO {
@@ -41,23 +43,23 @@ public class VendorDAO {
 	
 	public Integer getNextVendorNumber()
 	{
-		//CriteriaQuery<Vendor> crit=manager.getCriteriaBuilder().max(Expression.)
 		CriteriaBuilder builder= manager.getCriteriaBuilder();
-		CriteriaQuery<BigDecimal> criteria = builder.createQuery(BigDecimal.class);
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
 		Root<Vendor> root = criteria.from(Vendor.class);
-		criteria.select(builder.max(root.get(Vendor_.number)));
-		BigDecimal maxNumber = manager.createQuery(criteria).getSingleResult();
-		if (maxNumber == null)
-			return 0;
-		else 
-			return maxNumber.intValue()+1;
+		criteria.where(builder.equal(root.get("year"), java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD)));
+		criteria.select(builder.count(root));
+		Long result = manager.createQuery(criteria).getSingleResult();
+		return result.intValue()+1;
 	}
 	
 	public EntityItem<Vendor> add(Vendor newVendor) {
+		String vendorId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
+		vendorId += "-";
+		vendorId += getNextVendorNumber();
+		newVendor.setId(vendorId);
+		newVendor.setYear(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
 		Object id = container.addEntity(newVendor);
 		EntityItem<Vendor> vendor = container.getItem(id);
-		vendor.getItemProperty("number").setValue(getNextVendorNumber());
-		vendor.commit();
 		return vendor;
 	}
 	

@@ -1,12 +1,22 @@
 package fr.esdeve.forms;
 
 import java.util.Date;
+import java.util.Locale;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.TextField;
+
+import fr.esdeve.model.Vente;
 
 public class VaeFieldFactory extends DefaultFieldGroupFieldFactory {
 
@@ -23,7 +33,20 @@ public class VaeFieldFactory extends DefaultFieldGroupFieldFactory {
 			PopupDateField field = new PopupDateField();
 			field.setResolution(Resolution.MINUTE);
 			return (T) field;
-		} else {
+		}
+		else if (type.isAssignableFrom(Vente.class))
+		{
+			ComboBox field = new ComboBox();
+			field.setConverter(Vente.class);
+			field.setItemCaptionMode(ItemCaptionMode.ITEM);
+			return (T) field;
+		}
+		else if (type.isAssignableFrom(Integer.class))
+		{
+			TextField field = new TextField();
+			return (T)field;
+		}
+		else {
 			T field = super.createField(type, fieldType); 
 			field.setWidth("100%");
 			return field;

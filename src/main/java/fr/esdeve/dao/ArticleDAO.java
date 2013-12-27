@@ -23,9 +23,13 @@ public class ArticleDAO implements IGenericDAO<Article> {
 
 	private JPAContainer<Article> container;
 	private EntityManager manager;
+	
+	@Override
 	public JPAContainer<Article> getContainer() {
 		return container;
 	}
+	
+	@Override
 	public void setContainer(JPAContainer<Article> container) {
 		this.container = container;
 	}
@@ -48,7 +52,7 @@ public class ArticleDAO implements IGenericDAO<Article> {
 	}
 	
 	public EntityItem<Article> add(Article article) {
-		String articleId = article.getVendor().getNumber().toString();
+		String articleId = article.getVendor().getId();
 		articleId += "-";
 		articleId += getNextArticleNumber(article);
 		article.setId(articleId);

@@ -7,6 +7,5 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Vendor_ {
 	public static volatile SingularAttribute id;
 	public static volatile SingularAttribute name;
-    public static volatile SingularAttribute number;
 
 }

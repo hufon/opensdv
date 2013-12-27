@@ -43,8 +43,15 @@ public class VentesTabView implements IVentesTabView {
 	private ClickListener removeClickListener;
 	private VaeFieldGroup binder;
 	private FormLayout vaeEditform;
+	private ClickListener viewVenteButtonClickListener;
 	
 	
+	@Override
+	public void setViewVenteButtonClickListener(
+			ClickListener viewVenteButtonClickListener) {
+		this.viewVenteButtonClickListener = viewVenteButtonClickListener;
+	}
+
 	@Override
 	public FormLayout getVaeEditform() {
 		return vaeEditform;
@@ -134,7 +141,10 @@ public class VentesTabView implements IVentesTabView {
 				Button removeButton = new Button("Supprimer");
 				removeButton.setData(itemId);
 				removeButton.addClickListener(removeClickListener);
-				return new HorizontalLayout(removeButton);
+				Button viewVenteButton = new Button("Fiche vente");
+				viewVenteButton.setData(itemId);
+				viewVenteButton.addClickListener(viewVenteButtonClickListener);
+				return new HorizontalLayout(removeButton, viewVenteButton);
 			}
 		});
 	}

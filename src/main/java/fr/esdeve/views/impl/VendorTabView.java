@@ -158,8 +158,9 @@ public class VendorTabView implements IVendorTabView {
 		binder = new VaeFieldGroup(new BeanItem<Vendor>(new Vendor()));
 		binder.setFieldFactory(new VaeFieldFactory());
 		vendorForm.removeAllComponents();
-		vendorForm.addComponent(binder.buildAndBind("Numéro", "number")); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorForm.addComponent(binder.buildAndBind("Numéro", "id")); //$NON-NLS-1$ //$NON-NLS-2$
 		vendorForm.addComponent(binder.buildAndBind("Nom", "name")); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorForm.addComponent(binder.buildAndBind("Taux (%)", "rate"));
 		vendorForm.addComponent(btnLayout);
 		vendorForm.addComponents(saveVendorBtn);
 		vendorForm.setMargin(true);
@@ -169,9 +170,10 @@ public class VendorTabView implements IVendorTabView {
 	@Override
 	public void buildVendorTable() {
 		vendorTable.removeGeneratedColumn("actions");
-		vendorTable.setVisibleColumns("number", "name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		vendorTable.setColumnHeader("number", "Numéro"); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorTable.setVisibleColumns("id", "name", "year"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		vendorTable.setColumnHeader("id", "Numéro"); //$NON-NLS-1$ //$NON-NLS-2$
 		vendorTable.setColumnHeader("name", "Nom"); //$NON-NLS-1$ //$NON-NLS-2$
+		vendorTable.setColumnHeader("year", "Année");
 		vendorTable.addGeneratedColumn("actions", new ColumnGenerator() {
 
 			@Override

@@ -4,9 +4,12 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -22,10 +25,13 @@ import fr.esdeve.common.ConfirmDialog;
 import fr.esdeve.common.ConfirmDialog.ConfirmationDialogCallback;
 import fr.esdeve.dao.ArticleDAO;
 import fr.esdeve.dao.VendorDAO;
+import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
+import fr.esdeve.forms.SingleSelectConverterCorrected;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
+import fr.esdeve.model.Vente;
 import fr.esdeve.presenters.IApplicationPresenter;
 import fr.esdeve.presenters.IVendorTabPresenter;
 import fr.esdeve.views.IArticleListView;
@@ -50,7 +56,14 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	@Autowired
 	private ArticleDAO articleDAO;
 
+	@Autowired
+	private VenteDAO venteDAO;
+	
 	private Vendor selectedVendor;
+
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
+	
 
 	@Override
 	public View getDisplay() {
@@ -75,6 +88,16 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 		Filter filter = new Compare.Equal("vendor", selectedVendor);
 		articleDAO.getContainer().removeAllContainerFilters();
 		articleDAO.getContainer().addContainerFilter(filter);
+	}
+	
+	private void doSelectArticle(Object itemId) {
+		// TODO Auto-generated method stub
+		EntityItem<Article> articleItem = articleDAO.getContainer()
+				.getItem(itemId);
+		articleListView.getBinder().setItemDataSource(articleItem);
+		articleListView.getArticleForm().setEnabled(true);
+		articleListView.getVenteCombo().setContainerDataSource(venteDAO.getContainer());
+		articleListView.getVenteCombo().setConverter(new SingleSelectConverterCorrected<Vente>(articleListView.getVenteCombo()));
 	}
 
 	private void doAddNewArticle() {
@@ -123,6 +146,33 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 				doRemoveArticle(event.getButton().getData());
 			}
 		});
+		
+		articleListView.getArticleTable().addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (event.getProperty().getValue() != null) {
+					doSelectArticle(event.getProperty().getValue());
+				}
+			}
+
+		});
+		
+		articleListView.getSaveArticleBtn().addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				try {
+					articleListView.getBinder().commit();
+					applicationEventPublisher.publishEvent(
+							new UIEvent(VendorTabPresenter.this, UIEventTypes.ITEM_SAVED));
+				} catch (CommitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 
 		vendorTabView.getVendorTable().addValueChangeListener(
 				new ValueChangeListener() {
@@ -161,6 +211,8 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 			public void buttonClick(ClickEvent event) {
 				try {
 					vendorTabView.getBinder().commit();
+					applicationEventPublisher.publishEvent(
+							new UIEvent(VendorTabPresenter.this, UIEventTypes.ITEM_SAVED));
 				} catch (CommitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

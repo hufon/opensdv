@@ -28,6 +28,13 @@ public class Article implements Serializable {
 	private String id;
 	private String designation;
 	
+	private Integer initialPrice = 0;
+	private Integer minimumPrice = 0;
+	
+	private Integer sellingPrice = 0;
+	
+	private Boolean retired = false;
+	
 	@ManyToOne
 	private Vente vente;
 	
@@ -58,6 +65,30 @@ public class Article implements Serializable {
 	}
 	public void setVente(Vente vente) {
 		this.vente = vente;
+	}
+	public Integer getInitialPrice() {
+		return initialPrice;
+	}
+	public void setInitialPrice(Integer initialPrice) {
+		this.initialPrice = initialPrice;
+	}
+	public Integer getSellingPrice() {
+		return sellingPrice;
+	}
+	public void setSellingPrice(Integer sellingPrice) {
+		this.sellingPrice = sellingPrice;
+	}
+	public Integer getMinimumPrice() {
+		return minimumPrice;
+	}
+	public void setMinimumPrice(Integer minimumPrice) {
+		this.minimumPrice = minimumPrice;
+	}
+	public Boolean getRetired() {
+		return retired;
+	}
+	public void setRetired(Boolean retired) {
+		this.retired = retired;
 	}
 	
 

@@ -16,4 +16,6 @@ public interface IVentesTabView extends View {
 	public VaeFieldGroup getBinder();
 	public Button getSaveVenteBtn();
 	public FormLayout getVaeEditform();
+	void setViewVenteButtonClickListener(
+	ClickListener viewVenteButtonClickListener);
 }
