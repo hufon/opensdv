@@ -14,6 +14,7 @@ import fr.esdeve.event.AppEvent;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
 import fr.esdeve.presenters.IVenteDetailsPresenter;
+import fr.esdeve.views.IArticleListView;
 import fr.esdeve.views.IVenteDetailsView;
 import fr.esdeve.views.View;
 
@@ -26,6 +27,9 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 	
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
+	
+	@Autowired
+	private IArticleListView articleListView;
 	
 	@Override
 	public View getDisplay() {
@@ -58,7 +62,19 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 				((ApplicationPresenter)((AppEvent) event).getSource()).getDisplay().getVentesLayout().addComponent(venteDetailsView.getViewRoot());
 			}
 		}
+		if (event instanceof UIEvent) {
+			if (((UIEvent) event).getEventType().equals(
+					UIEventTypes.APPLICATION_VIEW_ATTACHED)) {
+				handleApplicationViewAttached((UIEvent) event);
+			}
+		}
 
+	}
+
+	private void handleApplicationViewAttached(UIEvent event) {
+		venteDetailsView.getArticleListContainer().addComponent(
+				articleListView.getViewRoot());
+		
 	}
 
 }

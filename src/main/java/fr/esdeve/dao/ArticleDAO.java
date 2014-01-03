@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.data.Container.ItemSetChangeEvent;
+import com.vaadin.data.Container.ItemSetChangeListener;
 
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
@@ -22,6 +24,7 @@ import fr.esdeve.model.Vendor;
 public class ArticleDAO implements IGenericDAO<Article> {
 
 	private JPAContainer<Article> container;
+	private JPAContainer<Article> articleVentecontainer;
 	private EntityManager manager;
 	
 	@Override
@@ -37,7 +40,16 @@ public class ArticleDAO implements IGenericDAO<Article> {
 	public ArticleDAO()
 	{
 		container = JPAContainerFactory.make(Article.class, "ventes");
+		articleVentecontainer = JPAContainerFactory.make(Article.class, "ventes");
 		manager = container.getEntityProvider().getEntityManager();
+		container.addItemSetChangeListener(new ItemSetChangeListener() {
+			
+			@Override
+			public void containerItemSetChange(ItemSetChangeEvent event) {
+				// TODO Auto-generated method stub
+				articleVentecontainer.refresh();
+			}
+		});
 	}
 	
 	private Integer getNextArticleNumber(Article article)
@@ -63,5 +75,13 @@ public class ArticleDAO implements IGenericDAO<Article> {
 	@Override
 	public void remove(Object itemId) {
 		this.container.removeItem(itemId);
+	}
+
+	public JPAContainer<Article> getArticleVentecontainer() {
+		return articleVentecontainer;
+	}
+
+	public void setArticleVentecontainer(JPAContainer<Article> articleVentecontainer) {
+		this.articleVentecontainer = articleVentecontainer;
 	}
 }
