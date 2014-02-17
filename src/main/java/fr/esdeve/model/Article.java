@@ -33,6 +33,8 @@ public class Article implements Serializable {
 	
 	private Integer sellingPrice = 0;
 	
+	private Integer venteOrder = 0;
+	
 	private Boolean retired = false;
 	
 	@ManyToOne
@@ -89,6 +91,12 @@ public class Article implements Serializable {
 	}
 	public void setRetired(Boolean retired) {
 		this.retired = retired;
+	}
+	public Integer getVenteOrder() {
+		return venteOrder;
+	}
+	public void setVenteOrder(Integer venteOrder) {
+		this.venteOrder = venteOrder;
 	}
 	
 

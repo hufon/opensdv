@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import fr.esdeve.common.ConfirmDialog;
 import fr.esdeve.common.ConfirmDialog.ConfirmationDialogCallback;
+import fr.esdeve.dao.ArticleDAO;
 import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.event.AppEvent;
 import fr.esdeve.event.UIEvent;
@@ -87,7 +88,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				LOG.info("View vente..."+event.getButton().getData());
-				applicationEventPublisher.publishEvent(new AppEvent(event.getButton().getData(),VentesTabPresenter.this,UIEventTypes.VENTE_DISPLAY));
+				Vente selectedVente = venteDAO.getContainer().getItem(event.getButton().getData()).getEntity();
+				applicationEventPublisher.publishEvent(new AppEvent(selectedVente,VentesTabPresenter.this,UIEventTypes.VENTE_DISPLAY));
 			}
 		});
 		

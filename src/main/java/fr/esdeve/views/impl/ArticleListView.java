@@ -2,6 +2,7 @@ package fr.esdeve.views.impl;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.data.util.BeanItem;
@@ -26,6 +27,7 @@ import fr.esdeve.views.IArticleListView;
 
 @SuppressWarnings("serial")
 @Component
+@Scope("prototype")
 public class ArticleListView implements IArticleListView {
 
 	private HorizontalSplitPanel harticlepanel;
@@ -128,10 +130,12 @@ public class ArticleListView implements IArticleListView {
 			@Override
 			public Object generateCell(Table source, Object itemId,
 					Object columnId) {
-				Button removeButton = new Button("Supprimer");
-				removeButton.setData(itemId);
-				removeButton.addClickListener(removeArticleClickListener);
-				return new HorizontalLayout(removeButton);
+				if (removeArticleClickListener!=null) {
+					Button removeButton = new Button("Supprimer");
+					removeButton.setData(itemId);
+					removeButton.addClickListener(removeArticleClickListener);
+					return new HorizontalLayout(removeButton);
+				} else return new HorizontalLayout();
 			}
 		});
 		articleTable.setSizeFull();

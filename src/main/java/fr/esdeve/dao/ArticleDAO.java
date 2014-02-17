@@ -42,7 +42,7 @@ public class ArticleDAO implements IGenericDAO<Article> {
 		container = JPAContainerFactory.make(Article.class, "ventes");
 		articleVentecontainer = JPAContainerFactory.make(Article.class, "ventes");
 		manager = container.getEntityProvider().getEntityManager();
-		container.addItemSetChangeListener(new ItemSetChangeListener() {
+		container.addListener(new ItemSetChangeListener() {
 			
 			@Override
 			public void containerItemSetChange(ItemSetChangeEvent event) {
@@ -72,6 +72,12 @@ public class ArticleDAO implements IGenericDAO<Article> {
 		EntityItem<Article> articleItem = container.getItem(id);
 		return articleItem;
 	}
+	
+	public void setOrder(String previousItemId, String newItemId)
+	{
+		
+	}
+	
 	@Override
 	public void remove(Object itemId) {
 		this.container.removeItem(itemId);
