@@ -33,6 +33,7 @@ import fr.esdeve.dao.ArticleDAO;
 import fr.esdeve.event.AppEvent;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
+import fr.esdeve.model.Article;
 import fr.esdeve.model.Vente;
 import fr.esdeve.presenters.IVenteDetailsPresenter;
 import fr.esdeve.views.IArticleListView;
@@ -116,12 +117,13 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 						((Table) event.getSource())
 								.setContainerDataSource(articleDAO
 										.getArticleVentecontainer());
-						Filter filter = new Compare.Equal("vente", currentVente);
+						articleDAO.listArticle();
+						/*Filter filter = new Compare.Equal("vente", currentVente);
 						articleDAO.getArticleVentecontainer().removeAllContainerFilters();
 						articleDAO.getArticleVentecontainer().addContainerFilter(filter);
-						articleDAO.getArticleVentecontainer().sort(new String[]{"venteOrder"}, new boolean[]{true});
+						articleDAO.getArticleVentecontainer().sort(new String[]{"venteOrder"}, new boolean[]{true});*/
 						articleListView.buildArticleTable();
-						articleDAO.getArticleVentecontainer().refresh();
+						//articleDAO.getArticleVentecontainer().refresh();
 						articleListView.getArticleTable().setDragMode(TableDragMode.ROW);
 						articleListView.getArticleTable().setDropHandler(new DropHandler() {
 							
@@ -136,10 +138,11 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 								// TODO Auto-generated method stub
 								LOG.info("DROP!!!");
 								DataBoundTransferable t = (DataBoundTransferable)dropEvent.getTransferable();
-								
 								AbstractSelectTargetDetails dropData = ((AbstractSelectTargetDetails) dropEvent.getTargetDetails());
 								LOG.info(t.getItemId()+ " -> " + dropData.getItemIdOver().toString());
-								
+								Article sourceArticle = articleDAO.get(t.getItemId());
+								Article targetArticle = articleDAO.get(dropData.getItemIdOver());
+								articleDAO.setOrder(sourceArticle, targetArticle.getVenteOrder());
 							}
 						});
 					}
