@@ -17,26 +17,18 @@ import com.vaadin.data.Container.ItemSetChangeEvent;
 import com.vaadin.data.Container.ItemSetChangeListener;
 
 import fr.esdeve.model.Article;
+import fr.esdeve.model.Article_;
 import fr.esdeve.model.Vendor;
+import fr.esdeve.model.Vente;
 
 
 @Component
-public class ArticleDAO implements IGenericDAO<Article> {
+public class ArticleDAO extends IGenericDAO<Article> {
 
-	private JPAContainer<Article> container;
 	private JPAContainer<Article> articleVentecontainer;
 	private EntityManager manager;
 	
-	@Override
-	public JPAContainer<Article> getContainer() {
-		return container;
-	}
-	
-	@Override
-	public void setContainer(JPAContainer<Article> container) {
-		this.container = container;
-	}
-	
+
 	public ArticleDAO()
 	{
 		container = JPAContainerFactory.make(Article.class, "ventes");
@@ -50,6 +42,18 @@ public class ArticleDAO implements IGenericDAO<Article> {
 				articleVentecontainer.refresh();
 			}
 		});
+	}
+	
+	public Integer getNextArticleOrder(Article article, Vente vente)
+	{
+		CriteriaBuilder builder= manager.getCriteriaBuilder();
+		CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+		Root<Article> root = criteria.from(Article.class);
+		criteria.where(builder.equal(root.get("vente"), vente));
+		
+		criteria.select(builder.max(root.get(Article_.venteOrder)));
+		Integer result = manager.createQuery(criteria).getSingleResult();
+		return result+1;
 	}
 	
 	private Integer getNextArticleNumber(Article article)
@@ -78,10 +82,7 @@ public class ArticleDAO implements IGenericDAO<Article> {
 		
 	}
 	
-	@Override
-	public void remove(Object itemId) {
-		this.container.removeItem(itemId);
-	}
+
 
 	public JPAContainer<Article> getArticleVentecontainer() {
 		return articleVentecontainer;
@@ -90,4 +91,5 @@ public class ArticleDAO implements IGenericDAO<Article> {
 	public void setArticleVentecontainer(JPAContainer<Article> articleVentecontainer) {
 		this.articleVentecontainer = articleVentecontainer;
 	}
+
 }

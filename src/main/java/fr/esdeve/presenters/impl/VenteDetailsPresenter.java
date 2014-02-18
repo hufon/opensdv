@@ -1,15 +1,17 @@
 package fr.esdeve.presenters.impl;
 
+import java.text.DateFormat;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.DataBoundTransferable;
@@ -31,7 +33,6 @@ import fr.esdeve.dao.ArticleDAO;
 import fr.esdeve.event.AppEvent;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
-import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
 import fr.esdeve.presenters.IVenteDetailsPresenter;
 import fr.esdeve.views.IArticleListView;
@@ -49,6 +50,7 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 	private ApplicationEventPublisher applicationEventPublisher;
 	
 	@Autowired
+	@Qualifier("ArticleVenteListView")
 	private IArticleListView articleListView;
 	
 	@Autowired
@@ -69,7 +71,6 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 	public void bind() {
 		// TODO Auto-generated method stub
 		venteDetailsView.getReturnListButton().addClickListener(new ClickListener() {
-			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
@@ -86,6 +87,10 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 			(((AppEvent) event)).getEventType().equals(UIEventTypes.VENTE_DISPLAY))
 			{
 				currentVente = ((AppEvent) event).getData();
+				DateFormat shortDateFormatFR = DateFormat.getDateTimeInstance(
+						DateFormat.SHORT,
+						DateFormat.SHORT, new Locale("FR","fr"));
+				getDisplay().getViewRoot().setCaption("Vente du "+shortDateFormatFR.format(currentVente.getDate()));
 				((ApplicationPresenter)((AppEvent) event).getSource()).getDisplay().getVentesLayout().removeAllComponents();
 				((ApplicationPresenter)((AppEvent) event).getSource()).getDisplay().getVentesLayout().addComponent(venteDetailsView.getViewRoot());
 			}
@@ -114,6 +119,7 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 						Filter filter = new Compare.Equal("vente", currentVente);
 						articleDAO.getArticleVentecontainer().removeAllContainerFilters();
 						articleDAO.getArticleVentecontainer().addContainerFilter(filter);
+						articleDAO.getArticleVentecontainer().sort(new String[]{"venteOrder"}, new boolean[]{true});
 						articleListView.buildArticleTable();
 						articleDAO.getArticleVentecontainer().refresh();
 						articleListView.getArticleTable().setDragMode(TableDragMode.ROW);

@@ -1,5 +1,7 @@
 package fr.esdeve.presenters.impl;
 
+import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,15 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.ClientConnector.AttachEvent;
 import com.vaadin.server.ClientConnector.AttachListener;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 
@@ -64,7 +70,8 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 	
-
+	private Logger LOG = Logger.getGlobal();
+	
 	@Override
 	public View getDisplay() {
 		// TODO Auto-generated method stub
@@ -112,6 +119,11 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	private void doRemoveArticle(Object itemId) {
 		articleDAO.remove(itemId);
 	}
+	
+
+    public Article getArticle(FieldGroup binder) {
+        return ((EntityItem<Article>) binder.getItemDataSource()).getEntity();
+    }
 
 	@PostConstruct
 	@Override
@@ -218,6 +230,37 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 					e.printStackTrace();
 				}
 			}
+		});
+		
+		articleListView.getBinder().addCommitHandler(new CommitHandler() {
+			
+			@Override
+			public void preCommit(CommitEvent commitEvent) throws CommitException {
+				// TODO Auto-generated method stub
+				Article articleToCommit  = getArticle(commitEvent.getFieldBinder());
+				Field<String> orderField=(Field<String>) commitEvent.getFieldBinder().getField("venteOrder");
+				Field<String> venteField=(Field<String>) commitEvent.getFieldBinder().getField("vente");
+				if (venteField.getValue() != null)
+				{
+					Vente linkedVente = venteDAO.get(venteField.getValue());
+					LOG.info("Link to a vente : "+linkedVente.getId());
+					if (orderField.getValue() == null || orderField.getValue().equals("0"))
+					{
+						orderField.setValue(articleDAO.getNextArticleOrder(articleToCommit,linkedVente).toString());
+					}
+				} else
+				{
+					orderField.setValue("0");
+				}
+			}
+
+			@Override
+			public void postCommit(CommitEvent commitEvent)
+					throws CommitException {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		});
 
 		vendorTabView.setRemoveVendorClickListener(new ClickListener() {

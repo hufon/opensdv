@@ -23,17 +23,7 @@ import fr.esdeve.model.Vendor_;
 import fr.esdeve.model.Vente;
 
 @Component
-public class VendorDAO {
-	private JPAContainer<Vendor> container;
-	private EntityManager manager;
-
-	public JPAContainer<Vendor> getContainer() {
-		return container;
-	}
-
-	public void setContainer(JPAContainer<Vendor> container) {
-		this.container = container;
-	}
+public class VendorDAO extends IGenericDAO<Vendor> {
 	
 	public VendorDAO()
 	{
@@ -63,9 +53,4 @@ public class VendorDAO {
 		return vendor;
 	}
 	
-	public void remove(Object itemId)
-	{
-		container.removeItem(itemId);
-	}
-
 }

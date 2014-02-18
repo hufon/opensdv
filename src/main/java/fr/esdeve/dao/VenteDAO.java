@@ -18,10 +18,10 @@ import fr.esdeve.model.Vente;
 
 
 @Component
-public class VenteDAO implements IGenericDAO<Vente>{
+public class VenteDAO extends IGenericDAO<Vente>{
 
 	
-	private JPAContainer<Vente> container;
+	
 	private EntityManager manager;
 
 	public VenteDAO()
@@ -51,23 +51,6 @@ public class VenteDAO implements IGenericDAO<Vente>{
 		Object id = container.addEntity(newVente);
 		EntityItem<Vente> venteItem = container.getItem(id);
 		return venteItem;
-	}
-
-	@Override
-	public void remove(Object itemId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setContainer(JPAContainer<Vente> container) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public JPAContainer<Vente> getContainer() {
-		return container;
 	}
 
 }

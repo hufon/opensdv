@@ -31,7 +31,7 @@ import fr.esdeve.views.IArticleListView;
 public class ArticleListView implements IArticleListView {
 
 	private HorizontalSplitPanel harticlepanel;
-	private Table articleTable;
+	protected Table articleTable;
 	protected ClickListener removeArticleClickListener;
 	private FormLayout articleForm;
 	private Button saveArticleBtn;
@@ -103,6 +103,7 @@ public class ArticleListView implements IArticleListView {
 		articleForm.addComponent(binder.buildAndBind("Prix de reserve (€)", "minimumPrice"));
 		articleForm.addComponent(binder.buildAndBind("Prix d'adjudication(€) ", "sellingPrice"));
 		articleForm.addComponent(binder.buildAndBind("Retiré ?", "retired"));
+		binder.buildAndBind("venteOrder");
 		venteCombo = (ComboBox) binder.buildAndBind("Vente", "vente");
 		articleForm.addComponent(venteCombo);
 		articleForm.addComponents(btnLayout);
@@ -122,9 +123,10 @@ public class ArticleListView implements IArticleListView {
 	@Override
 	public void buildArticleTable() {
 		articleTable.removeGeneratedColumn("actions");
-		articleTable.setVisibleColumns("id", "designation"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		articleTable.setVisibleColumns("id", "designation", "vente"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		articleTable.setColumnHeader("id", "Numéro"); //$NON-NLS-1$ //$NON-NLS-2$
 		articleTable.setColumnHeader("designation", "Designation"); //$NON-NLS-1$ //$NON-NLS-2$
+		articleTable.setColumnHeader("vente", "Vente");
 		articleTable.addGeneratedColumn("actions", new ColumnGenerator() {
 
 			@Override
