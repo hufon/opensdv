@@ -33,9 +33,6 @@ import fr.esdeve.model.Vente;
 @Component
 @Transactional 
 public class ArticleDAO extends IGenericDAO<Article> {
-
-	private BeanItemContainer<Article> articleVentecontainer;
-	private EntityManager manager;
 	
 	private Logger LOG = Logger.getGlobal();
 	
@@ -45,40 +42,30 @@ public class ArticleDAO extends IGenericDAO<Article> {
 
 	public ArticleDAO()
 	{
+		super(Article.class);
 		container = JPAContainerFactory.make(Article.class, "ventes");
-		//articleVentecontainer = JPAContainerFactory.make(Article.class, "ventes");
-		articleVentecontainer = new BeanItemContainer<Article>(Article.class);
-		manager = container.getEntityProvider().getEntityManager();
-		container.addListener(new ItemSetChangeListener() {
-			
-			@Override
-			public void containerItemSetChange(ItemSetChangeEvent event) {
-				// TODO Auto-generated method stub
-				listArticle();
-			}
-		});
 	}
 	
 	public Integer getNextArticleOrder(Article article, Vente vente)
 	{
-		CriteriaBuilder builder= manager.getCriteriaBuilder();
+		CriteriaBuilder builder= em.getCriteriaBuilder();
 		CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
 		Root<Article> root = criteria.from(Article.class);
 		criteria.where(builder.equal(root.get("vente"), vente));
 		
 		criteria.select(builder.max(root.get(Article_.venteOrder)));
-		Integer result = manager.createQuery(criteria).getSingleResult();
+		Integer result = em.createQuery(criteria).getSingleResult();
 		return result+1;
 	}
 	
 	private Integer getNextArticleNumber(Article article)
 	{
-		CriteriaBuilder builder= manager.getCriteriaBuilder();
+		CriteriaBuilder builder= em.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
 		Root<Article> root = criteria.from(Article.class);
 		criteria.where(builder.equal(root.get("vendor"), article.getVendor()));
 		criteria.select(builder.count(root));
-		Long result = manager.createQuery(criteria).getSingleResult();
+		Long result = em.createQuery(criteria).getSingleResult();
 		return result.intValue()+1;
 	}
 	
@@ -92,41 +79,44 @@ public class ArticleDAO extends IGenericDAO<Article> {
 		return articleItem;
 	}
 	
+	@Transactional
 	public void setOrder(Article article, Integer targetOrder)
 	{
 		LOG.info("Article : "+article.getId()+" set order "+targetOrder);
-		BeanItem<Article> articleItem = articleVentecontainer.getItem(article.getId());
-		articleItem.getItemProperty("venteOrder").setValue(targetOrder);
-		//articleItem.commit();
-		manager.getTransaction().begin();
-		Query query = manager.createNativeQuery("UPDATE Article SET venteOrder = venteOrder + 1 WHERE venteOrder >= ? AND id <> ? AND vente_id = ?");
+		Article articleItem = this.get(article.getId());
+		articleItem.setVenteOrder(targetOrder);
+		this.save(articleItem);
+		Query query = em.createNativeQuery("UPDATE Article SET venteOrder = venteOrder + 1 WHERE venteOrder >= ? AND id <> ? AND vente_id = ?");
 		query.setParameter(1, targetOrder);
 		query.setParameter(2, article.getId());
 		query.setParameter(3, article.getVente().getId());
 		query.executeUpdate();
-		manager.getTransaction().commit();
-		//articleVentecontainer.refresh();
 	}
 	
-	public void listArticle()
+	public List<Article> listArticleByVente(Vente vente)
 	{
 		CriteriaBuilder builder= em.getCriteriaBuilder();
 		CriteriaQuery<Article> criteria = em.getCriteriaBuilder().createQuery(Article.class);
 		Root<Article> root = criteria.from(Article.class);
+		criteria.where(builder.equal(root.get("vente"), vente));
 		criteria.select(root);
 		List<Article> listArticle = em.createQuery(criteria).getResultList();
-		articleVentecontainer.removeAllItems();
-		articleVentecontainer.addAll(listArticle);
+		return listArticle;
 	}
 	
 
 
-	public BeanItemContainer<Article> getArticleVentecontainer() {
-		return articleVentecontainer;
+
+	@Override
+	public Article addBean(Article newItem) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setArticleVentecontainer(BeanItemContainer<Article> articleVentecontainer) {
-		this.articleVentecontainer = articleVentecontainer;
+	@Override
+	protected EntityManager getManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

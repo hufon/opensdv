@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -35,7 +36,9 @@ import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vente;
+import fr.esdeve.presenters.IApplicationPresenter;
 import fr.esdeve.presenters.IVenteDetailsPresenter;
+import fr.esdeve.views.IApplicationView;
 import fr.esdeve.views.IArticleListView;
 import fr.esdeve.views.IVenteDetailsView;
 import fr.esdeve.views.View;
@@ -43,7 +46,6 @@ import fr.esdeve.views.View;
 @SuppressWarnings("serial")
 @Component
 public class VenteDetailsPresenter implements IVenteDetailsPresenter {
-
 	@Autowired
 	IVenteDetailsView venteDetailsView;
 	
@@ -61,15 +63,63 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 	
 	private Logger LOG = Logger.getGlobal();
 	
+	private BeanItemContainer<Article> articleContainer;
+	
 	@Override
 	public View getDisplay() {
 		// TODO Auto-generated method stub
 		return venteDetailsView;
 	}
+	
+	public void Refresh()
+	{
+		articleContainer.removeAllItems();
+		articleContainer.addAll(articleDAO.listArticleByVente(currentVente));
+	}
 
-	@PostConstruct
 	@Override
 	public void bind() {
+		articleContainer = new BeanItemContainer<Article>(Article.class);
+
+		articleListView.getArticleTable().addAttachListener(
+				new AttachListener() {
+
+					@Override
+					public void attach(AttachEvent event) {
+						LOG.info("Attaching article table...");
+						((Table) event.getSource())
+								.setContainerDataSource(articleContainer);
+						Refresh();
+						/*Filter filter = new Compare.Equal("vente", currentVente);
+						articleDAO.getArticleVentecontainer().removeAllContainerFilters();
+						articleDAO.getArticleVentecontainer().addContainerFilter(filter);
+						articleDAO.getArticleVentecontainer().sort(new String[]{"venteOrder"}, new boolean[]{true});*/
+						articleListView.buildArticleTable();
+						//articleDAO.getArticleVentecontainer().refresh();
+						articleListView.getArticleTable().setDragMode(TableDragMode.ROW);
+						articleListView.getArticleTable().setDropHandler(new DropHandler() {
+							
+							@Override
+							public AcceptCriterion getAcceptCriterion() {
+								// TODO Auto-generated method stub
+								return new And(new SourceIs(articleListView.getArticleTable()), AcceptItem.ALL);
+							}
+							
+							@Override
+							public void drop(DragAndDropEvent dropEvent) {
+								// TODO Auto-generated method stub
+								LOG.info("DROP!!!");
+								DataBoundTransferable t = (DataBoundTransferable)dropEvent.getTransferable();
+								AbstractSelectTargetDetails dropData = ((AbstractSelectTargetDetails) dropEvent.getTargetDetails());
+								LOG.info(t.getItemId()+ " -> " + dropData.getItemIdOver().toString());
+								Article sourceArticle = (Article) t.getItemId();
+								Article targetArticle = (Article) dropData.getItemIdOver();
+								articleDAO.setOrder(sourceArticle, targetArticle.getVenteOrder());
+								Refresh();
+							}
+						});
+					}
+				});
 		// TODO Auto-generated method stub
 		venteDetailsView.getReturnListButton().addClickListener(new ClickListener() {
 			@Override
@@ -108,45 +158,8 @@ public class VenteDetailsPresenter implements IVenteDetailsPresenter {
 	private void handleApplicationViewAttached(UIEvent event) {
 		venteDetailsView.getArticleListContainer().addComponent(
 				articleListView.getViewRoot());
-		articleListView.getArticleTable().addAttachListener(
-				new AttachListener() {
 
-					@Override
-					public void attach(AttachEvent event) {
-						LOG.info("Attaching article table...");
-						((Table) event.getSource())
-								.setContainerDataSource(articleDAO
-										.getArticleVentecontainer());
-						articleDAO.listArticle();
-						/*Filter filter = new Compare.Equal("vente", currentVente);
-						articleDAO.getArticleVentecontainer().removeAllContainerFilters();
-						articleDAO.getArticleVentecontainer().addContainerFilter(filter);
-						articleDAO.getArticleVentecontainer().sort(new String[]{"venteOrder"}, new boolean[]{true});*/
-						articleListView.buildArticleTable();
-						//articleDAO.getArticleVentecontainer().refresh();
-						articleListView.getArticleTable().setDragMode(TableDragMode.ROW);
-						articleListView.getArticleTable().setDropHandler(new DropHandler() {
-							
-							@Override
-							public AcceptCriterion getAcceptCriterion() {
-								// TODO Auto-generated method stub
-								return new And(new SourceIs(articleListView.getArticleTable()), AcceptItem.ALL);
-							}
-							
-							@Override
-							public void drop(DragAndDropEvent dropEvent) {
-								// TODO Auto-generated method stub
-								LOG.info("DROP!!!");
-								DataBoundTransferable t = (DataBoundTransferable)dropEvent.getTransferable();
-								AbstractSelectTargetDetails dropData = ((AbstractSelectTargetDetails) dropEvent.getTargetDetails());
-								LOG.info(t.getItemId()+ " -> " + dropData.getItemIdOver().toString());
-								Article sourceArticle = articleDAO.get(t.getItemId());
-								Article targetArticle = articleDAO.get(dropData.getItemIdOver());
-								articleDAO.setOrder(sourceArticle, targetArticle.getVenteOrder());
-							}
-						});
-					}
-				});
+		bind();
 		
 	}
 

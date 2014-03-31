@@ -48,6 +48,7 @@ public class ApplicationView implements IApplicationView {
 	public void initView() {
 		// TODO Auto-generated method stub
 		root = new VerticalLayout();
+		root.setId("mainRootLayout");
 		root.setSizeFull();
 		ventesLayout = new VerticalLayout();
 		ventesLayout.setCaption("Gestion des ventes");

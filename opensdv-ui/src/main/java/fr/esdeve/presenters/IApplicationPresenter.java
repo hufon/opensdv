@@ -2,7 +2,7 @@ package fr.esdeve.presenters;
 
 import fr.esdeve.views.IApplicationView;
 
-public interface IApplicationPresenter extends Presenter {
+public abstract class IApplicationPresenter implements Presenter {
 
-	public IApplicationView getDisplay();
+	public abstract IApplicationView getDisplay();
 }

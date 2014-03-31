@@ -68,7 +68,6 @@ public class VentesTabView implements IVentesTabView {
 
 	@Override
 	public ComponentContainer getViewRoot() {
-		// TODO Auto-generated method stub
 		return root;
 	}
 

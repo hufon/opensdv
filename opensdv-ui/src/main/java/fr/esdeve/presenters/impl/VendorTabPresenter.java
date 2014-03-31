@@ -79,7 +79,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	}
 
 	private void doDeleteVendor(Object itemId) {
-		vendorDAO.remove(itemId);
+		//vendorDAO.remove(itemId);
 		articleDAO.getContainer().refresh();
 		selectedVendor = null;
 		vendorTabView.getAddArticleBtn().setEnabled(false);
@@ -117,7 +117,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	}
 
 	private void doRemoveArticle(Object itemId) {
-		articleDAO.remove(itemId);
+		//articleDAO.remove(itemId);
 	}
 	
 
@@ -125,7 +125,6 @@ public class VendorTabPresenter implements IVendorTabPresenter {
         return ((EntityItem<Article>) binder.getItemDataSource()).getEntity();
     }
 
-	@PostConstruct
 	@Override
 	public void bind() {
 		// TODO Auto-generated method stub
@@ -303,6 +302,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 		((IApplicationPresenter) event.getSource()).getDisplay()
 				.getApplicationTabContainer()
 				.addTab(vendorTabView.getViewRoot());
+		bind();
 	}
 
 }

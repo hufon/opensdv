@@ -3,11 +3,13 @@ package fr.esdeve.dao;
 import java.text.DateFormat;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -18,16 +20,17 @@ import fr.esdeve.model.Vente;
 
 
 @Component
+@Transactional 
 public class VenteDAO extends IGenericDAO<Vente>{
 
 	
 	
+	@PersistenceContext(unitName = "ventes")
 	private EntityManager manager;
 
 	public VenteDAO()
 	{
-		container = JPAContainerFactory.make(Vente.class, "ventes");
-		manager = container.getEntityProvider().getEntityManager();
+		super(Vente.class);
 	}
 	
 	private Integer getNextVenteNumber()
@@ -42,15 +45,26 @@ public class VenteDAO extends IGenericDAO<Vente>{
 	}
 	
 	@Override
-	public EntityItem<Vente> add(Vente newVente) {
+	public Vente addBean(Vente newVente) {
 		String venteId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
 		venteId += "-";
 		venteId += getNextVenteNumber();
 		newVente.setId(venteId);
 		newVente.setName(newVente.getName()+newVente.getId());
-		Object id = container.addEntity(newVente);
-		EntityItem<Vente> venteItem = container.getItem(id);
-		return venteItem;
+		manager.persist(newVente);
+		return newVente;
+	}
+
+	@Override
+	public EntityItem<Vente> add(Vente newItem) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected EntityManager getManager() {
+		// TODO Auto-generated method stub
+		return manager;
 	}
 
 }

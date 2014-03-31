@@ -25,8 +25,11 @@ import fr.esdeve.model.Vente;
 @Component
 public class VendorDAO extends IGenericDAO<Vendor> {
 	
+	private EntityManager manager;
+	
 	public VendorDAO()
 	{
+		super(Vendor.class);
 		container = JPAContainerFactory.make(Vendor.class, "ventes");
 		manager = container.getEntityProvider().getEntityManager();
 	}
@@ -51,6 +54,18 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 		Object id = container.addEntity(newVendor);
 		EntityItem<Vendor> vendor = container.getItem(id);
 		return vendor;
+	}
+
+	@Override
+	public Vendor addBean(Vendor newItem) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected EntityManager getManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

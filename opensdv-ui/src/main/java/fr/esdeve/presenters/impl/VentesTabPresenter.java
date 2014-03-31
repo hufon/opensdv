@@ -10,9 +10,14 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.data.Container.ItemSetChangeEvent;
+import com.vaadin.data.Container.ItemSetChangeListener;
+import com.vaadin.data.Container.PropertySetChangeEvent;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.ClientConnector.AttachEvent;
 import com.vaadin.server.ClientConnector.AttachListener;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,14 +53,17 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	private ApplicationEventPublisher applicationEventPublisher;
 	
 	private Logger LOG = Logger.getGlobal();
+	
+	private BeanItemContainer<Vente> container;
 
 	@Override
 	public View getDisplay() {
 		return ventesTabView;
 	}
 	
-	private void doDeleteVente(Object itemId) {
-		venteDAO.getContainer().removeItem(itemId);
+	private void doDeleteVente(Vente itemId) {
+		container.removeItem(itemId);
+		venteDAO.remove(itemId.getId());
 		ventesTabView.getVaeEditform().setEnabled(false);
 	}
 	
@@ -63,23 +71,24 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 	{
 		if (venteId!=null)
 		{
-			EntityItem<Vente> venteItem =
-					venteDAO.getContainer().getItem(venteId);
-			ventesTabView.getBinder().setItemDataSource(venteItem);
+			ventesTabView.getBinder().setItemDataSource(container.getItem(venteId));
 			ventesTabView.getVaeEditform().setEnabled(true);
 		}
 	}
 	
-	@PostConstruct
 	@Override
 	public void bind() {
+		container = new BeanItemContainer<Vente>(Vente.class);
+		container.addAll(venteDAO.list());
+		
 		// TODO Auto-generated method stub
 		ventesTabView.getAddVenteBtn().addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				Vente vae = new Vente();
-				venteDAO.add(vae);
+				venteDAO.addBean(vae);
+				container.addBean(vae);
 			}
 		});
 		
@@ -88,7 +97,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				LOG.info("View vente..."+event.getButton().getData());
-				Vente selectedVente = venteDAO.getContainer().getItem(event.getButton().getData()).getEntity();
+				Vente selectedVente = (Vente)event.getButton().getData();
 				applicationEventPublisher.publishEvent(new AppEvent(selectedVente,VentesTabPresenter.this,UIEventTypes.VENTE_DISPLAY));
 			}
 		});
@@ -103,7 +112,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 							@Override
 							public void response(boolean ok) {
 								if (ok==true) {
-									doDeleteVente(event.getButton().getData());
+									doDeleteVente((Vente)event.getButton().getData());
 								}
 							}
 						});
@@ -116,6 +125,8 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 			public void buttonClick(ClickEvent event) {
 				try {
 					ventesTabView.getBinder().commit();
+					BeanItem<Vente> item =	(BeanItem<Vente>) ventesTabView.getBinder().getItemDataSource();
+					venteDAO.save(item.getBean());
 					applicationEventPublisher.publishEvent(
 							new UIEvent(VentesTabPresenter.this, UIEventTypes.ITEM_SAVED));
 				} catch (CommitException e) {
@@ -128,7 +139,7 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 			
 			@Override
 			public void attach(AttachEvent event) {
-				((Table)event.getSource()).setContainerDataSource(venteDAO.getContainer());
+				((Table)event.getSource()).setContainerDataSource(container);
 				ventesTabView.buildVaeTable();
 			}
 		});
@@ -162,6 +173,6 @@ public class VentesTabPresenter implements IVentesTabPresenter {
 		LOG.info("Adding tab : ventesTabView");
 		((IApplicationPresenter)event.getSource()).getDisplay().getVentesLayout().removeAllComponents();
 		((IApplicationPresenter)event.getSource()).getDisplay().getVentesLayout().addComponent(ventesTabView.getViewRoot());
-		
+		this.bind();
 	}
 }

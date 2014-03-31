@@ -23,7 +23,7 @@ import fr.esdeve.views.IApplicationView;
 
 @SuppressWarnings("serial")
 @Component
-public class ApplicationPresenter implements IApplicationPresenter {
+public class ApplicationPresenter extends IApplicationPresenter {
 
 	private Logger LOG = Logger.getGlobal();
 	
@@ -33,7 +33,6 @@ public class ApplicationPresenter implements IApplicationPresenter {
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 	
-	@Override
 	@PostConstruct
 	public void bind() {
 		applicationView.getViewRoot().addAttachListener(new AttachListener() {
