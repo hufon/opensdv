@@ -19,6 +19,8 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.ClientConnector.AttachEvent;
 import com.vaadin.server.ClientConnector.AttachListener;
@@ -70,6 +72,9 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 	
+	private BeanItemContainer<Vendor> container;
+	private BeanItemContainer<Article> articleContainer;
+	
 	private Logger LOG = Logger.getGlobal();
 	
 	@Override
@@ -80,31 +85,30 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 
 	private void doDeleteVendor(Object itemId) {
 		//vendorDAO.remove(itemId);
-		articleDAO.getContainer().refresh();
 		selectedVendor = null;
 		vendorTabView.getAddArticleBtn().setEnabled(false);
 	}
 
 	private void doSelectVendor(Object itemId) {
-		EntityItem<Vendor> vendorItem = vendorDAO.getContainer()
+		BeanItem<Vendor> vendorItem = container
 				.getItem(itemId);
 		vendorTabView.getBinder().setItemDataSource(vendorItem);
 		vendorTabView.getVendorForm().setEnabled(true);
-		selectedVendor = vendorItem.getEntity();
+		selectedVendor = vendorItem.getBean();
 		vendorTabView.getAddArticleBtn().setEnabled(true);
 		Filter filter = new Compare.Equal("vendor", selectedVendor);
-		articleDAO.getContainer().removeAllContainerFilters();
-		articleDAO.getContainer().addContainerFilter(filter);
+		articleContainer.removeAllContainerFilters();
+		articleContainer.addContainerFilter(filter);
 	}
 	
 	private void doSelectArticle(Object itemId) {
 		// TODO Auto-generated method stub
-		EntityItem<Article> articleItem = articleDAO.getContainer()
+		BeanItem<Article> articleItem = articleContainer
 				.getItem(itemId);
 		articleListView.getBinder().setItemDataSource(articleItem);
 		articleListView.getArticleForm().setEnabled(true);
-		articleListView.getVenteCombo().setContainerDataSource(venteDAO.getContainer());
-		articleListView.getVenteCombo().setConverter(new SingleSelectConverterCorrected<Vente>(articleListView.getVenteCombo()));
+		/*articleListView.getVenteCombo().setContainerDataSource(venteDAO.getContainer());
+		articleListView.getVenteCombo().setConverter(new SingleSelectConverterCorrected<Vente>(articleListView.getVenteCombo()));*/
 	}
 
 	private void doAddNewArticle() {
@@ -132,8 +136,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 
 			@Override
 			public void attach(AttachEvent event) {
-				((Table) event.getSource()).setContainerDataSource(vendorDAO
-						.getContainer());
+				((Table) event.getSource()).setContainerDataSource(container);
 				vendorTabView.buildVendorTable();
 			}
 		});
@@ -144,8 +147,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 					@Override
 					public void attach(AttachEvent event) {
 						((Table) event.getSource())
-								.setContainerDataSource(articleDAO
-										.getContainer());
+								.setContainerDataSource(articleContainer);
 						articleListView.buildArticleTable();
 					}
 				});
@@ -210,8 +212,8 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 			public void buttonClick(ClickEvent event) {
 				Vendor newVendor = new Vendor();
 				newVendor.setName("Nouveau vendeur");
-				vendorTabView.getBinder().setItemDataSource(
-						vendorDAO.add(newVendor));
+				vendorTabView.getBinder().setItemDataSource(new BeanItem<Vendor>(
+						vendorDAO.addBean(newVendor)));
 				vendorTabView.getVendorForm().setEnabled(true);
 			}
 		});

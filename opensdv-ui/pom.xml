@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.esdeve</groupId>
 	<artifactId>opensdv-ui</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
@@ -15,12 +14,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.9</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-		<spring.version>3.2.1.RELEASE</spring.version>
-	</properties>
+	
 	<repositories>
 		<repository>
 			<id>vaadin-addons</id>
@@ -54,6 +48,11 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
+		<dependency>
+			<groupId>fr.esdeve</groupId>
+			<artifactId>opensdv-engine</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-server</artifactId>

@@ -9,62 +9,53 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-
-import fr.esdeve.model.Article;
-import fr.esdeve.model.Vente;
-
+import fr.esdeve.model.Vendor;
 
 @Component
-@Transactional 
-public class VenteDAO extends IGenericDAO<Vente>{
-
-	
+public class VendorDAO extends IGenericDAO<Vendor> {
 	
 	@PersistenceContext(unitName = "ventes")
 	private EntityManager manager;
-
-	public VenteDAO()
+	
+	public VendorDAO()
 	{
-		super(Vente.class);
+		super(Vendor.class);
 	}
 	
-	private Integer getNextVenteNumber()
+	public Integer getNextVendorNumber()
 	{
 		CriteriaBuilder builder= manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		Root<Vente> root = criteria.from(Vente.class);
+		Root<Vendor> root = criteria.from(Vendor.class);
 		criteria.where(builder.equal(root.get("year"), java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD)));
 		criteria.select(builder.count(root));
 		Long result = manager.createQuery(criteria).getSingleResult();
 		return result.intValue()+1;
 	}
 	
-	@Override
-	public Vente addBean(Vente newVente) {
-		String venteId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
-		venteId += "-";
-		venteId += getNextVenteNumber();
-		newVente.setId(venteId);
-		newVente.setName(newVente.getName()+newVente.getId());
-		manager.persist(newVente);
-		return newVente;
-	}
 
 	@Override
-	public EntityItem<Vente> add(Vente newItem) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vendor addBean(Vendor newVendor) {
+		String vendorId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
+		vendorId += "-";
+		vendorId += getNextVendorNumber();
+		newVendor.setId(vendorId);
+		newVendor.setYear(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
+		manager.persist(newVendor);
+		return newVendor;
 	}
 
 	@Override
 	protected EntityManager getManager() {
 		// TODO Auto-generated method stub
-		return manager;
+		return null;
 	}
 
+	@Override
+	public void add(Vendor newItem) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

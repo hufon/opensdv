@@ -10,21 +10,17 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vente;
 
 public abstract class IGenericDAO<T> {
 
-	protected JPAContainer<T> container;
 	private final Class<T> persistentClass;
 	
 
 	protected abstract EntityManager getManager();
 	
-	public abstract EntityItem<T> add(T newItem);
+	public abstract void add(T newItem);
 	public abstract T addBean(T newItem);
 	
 	public IGenericDAO(Class<T> clasz)
@@ -39,15 +35,7 @@ public abstract class IGenericDAO<T> {
 		return manager.find(this.persistentClass, itemId);
 	}
 	
-	public void setContainer(JPAContainer<T> container)
-	{
-		this.container = container;
-	}
-	
-	public  JPAContainer<T>  getContainer() 
-	{
-		return container;
-	}
+
 	
 	public void remove(T item) {
 		EntityManager manager= getManager();
