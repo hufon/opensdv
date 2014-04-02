@@ -31,9 +31,10 @@ public abstract class IGenericDAO<T> {
 	public T get(String itemId) 
 	{
 		EntityManager manager= getManager();
-		
 		return manager.find(this.persistentClass, itemId);
 	}
+	
+
 	
 
 	

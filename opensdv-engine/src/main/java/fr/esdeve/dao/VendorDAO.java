@@ -9,10 +9,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.esdeve.model.Vendor;
 
 @Component
+@Transactional 
 public class VendorDAO extends IGenericDAO<Vendor> {
 	
 	@PersistenceContext(unitName = "ventes")
@@ -49,7 +51,7 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 	@Override
 	protected EntityManager getManager() {
 		// TODO Auto-generated method stub
-		return null;
+		return manager;
 	}
 
 	@Override

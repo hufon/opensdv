@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.springframework.context.ApplicationContext;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
@@ -14,6 +15,7 @@ import fr.esdeve.presenters.IApplicationPresenter;
 @Theme("opensdv")
 @SuppressWarnings("serial")
 @Title("OpenSDV")
+@Push
 public class OpenSdvUI extends UI
 {
     private transient ApplicationContext uiContext;

@@ -14,9 +14,10 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.9</vaadin.version>
+		<vaadin.version>7.1.13</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<spring.version>3.2.1.RELEASE</spring.version>
+		<jetty.version>9.0.7.v20131107</jetty.version>
 	</properties>
 </project>
 

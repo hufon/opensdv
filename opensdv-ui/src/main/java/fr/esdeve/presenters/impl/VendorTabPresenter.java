@@ -9,9 +9,6 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -36,7 +33,6 @@ import fr.esdeve.dao.VendorDAO;
 import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.event.UIEvent;
 import fr.esdeve.event.UIEventTypes;
-import fr.esdeve.forms.SingleSelectConverterCorrected;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
@@ -84,7 +80,10 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	}
 
 	private void doDeleteVendor(Object itemId) {
-		//vendorDAO.remove(itemId);
+		
+		Vendor item = (Vendor)itemId;
+		vendorDAO.remove(item.getId());
+		container.removeItem(itemId);
 		selectedVendor = null;
 		vendorTabView.getAddArticleBtn().setEnabled(false);
 	}
@@ -126,11 +125,14 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 	
 
     public Article getArticle(FieldGroup binder) {
-        return ((EntityItem<Article>) binder.getItemDataSource()).getEntity();
+        return ((BeanItem<Article>)binder.getItemDataSource()).getBean();
     }
 
 	@Override
 	public void bind() {
+		container = new BeanItemContainer<Vendor>(Vendor.class);
+		articleContainer = new BeanItemContainer<Article>(Article.class);
+		container.addAll(vendorDAO.list());
 		// TODO Auto-generated method stub
 		vendorTabView.getVendorTable().addAttachListener(new AttachListener() {
 
@@ -214,6 +216,7 @@ public class VendorTabPresenter implements IVendorTabPresenter {
 				newVendor.setName("Nouveau vendeur");
 				vendorTabView.getBinder().setItemDataSource(new BeanItem<Vendor>(
 						vendorDAO.addBean(newVendor)));
+				container.addBean(newVendor);
 				vendorTabView.getVendorForm().setEnabled(true);
 			}
 		});
