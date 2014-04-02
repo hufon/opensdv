@@ -15,7 +15,7 @@
 		</init-param>
 		<init-param>
 			<param-name>UIContextConfigLocation</param-name>
-			<param-value>/META-INF/spring/ui-applicationContext.xml</param-value>
+			<param-value>/META-INF/spring/applicationContext.xml</param-value>
 		</init-param>
 		<init-param>
 			<description>Application widgetset</description>
