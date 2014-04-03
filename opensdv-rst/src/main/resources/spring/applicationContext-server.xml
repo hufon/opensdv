@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	<bean id="top" class="org.restlet.ext.spring.SpringComponent">
     	<property name="server">
         	<bean class="org.restlet.ext.spring.SpringServer">
@@ -14,23 +15,30 @@
         	</bean>
     	</property>
     	<property name="defaultTarget" ref="default" />
+    	<property name="client" value="clap" />
 	</bean>
 	<bean id="default" class="org.restlet.ext.spring.SpringRouter">
-    <property name="attachments">
+		<property name="attachments">
         <map>
-            <entry key="/v1" value-ref="root" />
+            <entry key="/rest" value-ref="root">
+            </entry>
+            <entry key="/html" value-ref="directory">
+            </entry>
         </map>
     </property>
 	</bean>
+	<bean id="directory" class="fr.esdeve.restresources.SpringDirectory">
+		<property name="component"><ref local="top"/></property>
+	</bean>
 	<bean id="root" class="org.restlet.ext.spring.SpringRouter">
-    	<property name="attachments">
-    		<map>
+    <property name="attachments">
+        <map>
             <entry key="/vente/{venteId}">
-                <bean class="org.restlet.ext.spring.SpringFinder">
+            	<bean class="org.restlet.ext.spring.SpringFinder">
                     <lookup-method name="create" bean="venteResource" />
                 </bean>
             </entry>
-    		</map>
-    	</property>
+        </map>
+    </property>
 	</bean>
 </beans>

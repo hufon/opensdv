@@ -14,6 +14,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Vente implements Serializable {
@@ -45,6 +47,7 @@ public class Vente implements Serializable {
 	private Date date;
 	
 	@OneToMany(mappedBy="vente", cascade=CascadeType.DETACH)
+	@JsonIgnore
 	private List<Article> articles;
 	
 	public List<Article> getArticles() {
