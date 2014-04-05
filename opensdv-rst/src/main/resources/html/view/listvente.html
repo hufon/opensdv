@@ -1,0 +1,14 @@
+
+<table class="table table-bordered">
+    <tr ng-repeat="vente in ventes" ng-class="{active:todo.done}">
+        <td>
+   
+            <a ng-href="#!/{{todo.id}}">{{vente.name}}</a>
+            <a href="#" ng-click="deleteVente(todo);" class="btn btn-danger btn-xs pull-right">Delete</a>
+            <a ng-href="#!/{{vente.id}}/edit" class="btn btn-primary btn-xs pull-right" style="margin-right:8px;">Edit</a>
+        </td>
+    </tr>
+</table>
+
+<hr/>
+<a href="#!/add" class="btn btn-primary">Add a new item</a>
