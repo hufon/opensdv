@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>opensdv-ui</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
 	<name>OpenSDV VAADIN Web Application</name>
 
 	<parent>

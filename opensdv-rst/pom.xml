@@ -7,7 +7,6 @@
     <artifactId>opensdv</artifactId>
     <version>1.0</version>
   </parent>
-  <groupId>fr.esdeve</groupId>
   <artifactId>opensdv-rst</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>opensdv-rst</name>
