@@ -6,6 +6,7 @@ import org.restlet.Response;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -37,6 +38,11 @@ public class VenteResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
         return new JacksonRepresentation<Vente>(todo);
+    }
+	
+	@Delete
+    public void remove() {
+		venteDAO.remove(venteId);
     }
 
 }

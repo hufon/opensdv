@@ -1,13 +1,22 @@
 <h2>Edition Vente</h2>
 
 <form>
-    <div class="form-group">
-        <label for="title">Nom</label>
-        <input id="title" class="form-control" type="text" name="name" ng-model="vente.name"/>
-    </div>
+	<div class="form-group">
+		<label for="title">Nom</label> <input id="title" class="form-control"
+			type="text" name="name" ng-model="vente.name" />
+	</div>
+	<div class="form-group">
+	<label >Date</label> 
+				<datetimepicker ng-model="vente.date" />
+	</div>
+	<div class="form-group">
+		<label for="location">Lieu</label> <input id="location"
+			class="form-control" type="text" name="location"
+			ng-model="vente.location" />
 
+	</div>
 
-    <hr/>
-    <button ng-click="saveVente()" class="btn btn-success">Save</button>
-    <a href="#!/listvente" class="btn btn-default">Cancel</a>
+	<hr />
+	<button ng-click="saveVente()" class="btn btn-success">Save</button>
+	<a href="#!/listvente" class="btn btn-default">Cancel</a>
 </form>

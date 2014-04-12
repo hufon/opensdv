@@ -15,7 +15,6 @@ import fr.esdeve.presenters.IApplicationPresenter;
 @Theme("opensdv")
 @SuppressWarnings("serial")
 @Title("OpenSDV")
-@Push
 public class OpenSdvUI extends UI
 {
     private transient ApplicationContext uiContext;

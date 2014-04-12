@@ -22,11 +22,12 @@
 			<param-name>widgetset</param-name>
 			<param-value>fr.esdeve.AppWidgetSet</param-value>
 		</init-param>
-		    <!-- Enable server push -->
+		    <!-- Enable server push 
 	    <init-param>
 	      <param-name>pushmode</param-name>
 	      <param-value>automatic</param-value>
 	    </init-param>
+	    -->
 	    <async-supported>true</async-supported>
 	</servlet>
 

@@ -1,14 +1,35 @@
 
 <table class="table table-bordered">
-    <tr ng-repeat="vente in ventes" ng-class="{active:todo.done}">
-        <td>
-   
-            <a ng-href="#!/{{todo.id}}">{{vente.name}}</a>
-            <a href="#" ng-click="deleteVente(todo);" class="btn btn-danger btn-xs pull-right">Delete</a>
-            <a ng-href="#!/{{vente.id}}/edit" class="btn btn-primary btn-xs pull-right" style="margin-right:8px;">Edit</a>
-        </td>
-    </tr>
+	<thead>
+		<tr>
+			<th>
+			#
+			</th>
+			<th>
+			Lieu
+			</th>
+			<th>
+			Date
+			</th>
+			<th>
+			Actions
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="vente in ventes" ng-class="{active:todo.done}">
+			<td><a ng-href="#!/{{vente.id}}">{{vente.name}}</a></td>
+			<td>{{vente.location}}</td>
+			<td>{{vente.date | date:'medium'}}</td>
+			<td><a href="#!/{{vente.id}}/delete"
+				ng-click="deleteVente(vente);"
+				class="btn btn-danger btn-xs pull-right">Delete</a> <a
+				ng-href="#!/{{vente.id}}/edit"
+				class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
+			</td>
+		</tr>
+	</tbody>
 </table>
 
-<hr/>
-<a href="#/addvente" class="btn btn-primary">Add a new item</a>
+<hr />
+<a href="#!/addvente" class="btn btn-primary">Add a new item</a>
