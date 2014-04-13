@@ -3,6 +3,7 @@ var app = angular.module('opensdv.app', ['ngRoute','ngResource','ui.bootstrap.da
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/listvente', {templateUrl: 'view/listvente.html', controller: 'ListVenteController'});
     $routeProvider.when('/addvente',      {templateUrl: 'view/addvente.html',     controller: 'AddController'});
+    $routeProvider.when('/:id/edit', {templateUrl: 'view/addvente.html', controller: 'EditController'});
     $routeProvider.otherwise({redirectTo: '/listvente'});
     $locationProvider.hashPrefix('!'); // Enable ajax crawling
 });
@@ -37,6 +38,15 @@ app.controller('AddController', ['$scope', 'Vente', '$location', function ($scop
     $scope.saveVente= function () {
         Vente.save($scope.vente, function () {
             $location.path('/listvente');
+        });
+    };
+}]);
+
+app.controller('EditController', ['$scope', 'Vente', '$routeParams', '$location', function ($scope, Vente, $routeParams, $location) {
+    $scope.vente = Vente.get({id: $routeParams.id});
+    $scope.saveVente = function () {
+        Vente.update($scope.vente, function () {
+            $location.path('/list');
         });
     };
 }]);

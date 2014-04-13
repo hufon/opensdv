@@ -6,7 +6,12 @@
 			type="text" name="name" ng-model="vente.name" />
 	</div>
 	<div class="form-group">
-	<label >Date</label> 
+	<label >Date</label>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{vente.date | date:'medium'}}
+            </div>
+        </div>
 				<datetimepicker ng-model="vente.date" />
 	</div>
 	<div class="form-group">

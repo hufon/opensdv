@@ -6,15 +6,14 @@ import org.restlet.Response;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.ResourceException;
-import org.restlet.resource.ServerResource;
+import org.restlet.resource.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.model.Vente;
+
+import java.io.IOException;
 
 
 @Component
@@ -38,6 +37,13 @@ public class VenteResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
         return new JacksonRepresentation<Vente>(todo);
+    }
+
+    @Put("json")
+    public void update(Representation representation) throws IOException {
+        JacksonRepresentation<Vente> jsonRepresentation = new JacksonRepresentation<Vente>(representation, Vente.class);
+        Vente vente = jsonRepresentation.getObject();
+        venteDAO.save(vente);
     }
 	
 	@Delete
