@@ -1,12 +1,14 @@
 package fr.esdeve.restresources;
 
-import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
+
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
-import org.restlet.resource.*;
+import org.restlet.resource.Delete;
+import org.restlet.resource.Get;
+import org.restlet.resource.Put;
+import org.restlet.resource.ResourceException;
+import org.restlet.resource.ServerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
