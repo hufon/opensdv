@@ -1,0 +1,35 @@
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Nom
+        </th>
+        <th>
+            Année
+        </th>
+        <th>
+            Tx
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="vendor in vendors">
+        <td><a ng-href="#!/vendor/{{vendor.id}}">{{vendor.id}}</a></td>
+        <td>{{vendor.name}}</td>
+        <td>{{vendor.year}}</td>
+        <td><a href="#!/{{vente.id}}/delete"
+               ng-click="deleteVendor(vendor);"
+               class="btn btn-danger btn-xs pull-right">Delete</a> <a
+                ng-href="#!/vendor/{{vendor.id}}/edit"
+                class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr />
+<a href="#!/vendor/add" class="btn btn-primary">Nouveau vendeur</a>

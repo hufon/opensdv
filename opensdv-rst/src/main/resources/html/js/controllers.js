@@ -9,11 +9,18 @@ controllers.controller('ListVenteController', ['$scope', 'Vente', '$location', f
     };
 }]);
 
-controllers.controller('HeadController', ['$scope', function($scope) {
-	$scope.template = 'view/head.html';
+controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
+    $scope.vendors = Vendor.query();
 }]);
 
-controllers.controller('AddController', ['$scope', 'Vente', '$location', function ($scope, Vente, $location) {
+controllers.controller('HeadController', ['$scope', '$location', function($scope, $location) {
+	$scope.template = 'view/head.html';
+	$scope.isCurrentPath = function (path) {
+          return $location.path() == path;
+        };
+}]);
+
+controllers.controller('AddVenteController', ['$scope', 'Vente', '$location', function ($scope, Vente, $location) {
 	$scope.vente = new Vente();
 	$scope.vente.name = "VAE_";
 	$scope.vente.date = new Date();
@@ -33,7 +40,25 @@ controllers.controller('AddController', ['$scope', 'Vente', '$location', functio
     };
 }]);
 
-controllers.controller('EditController', ['$scope', 'Vente', '$routeParams', '$location', function ($scope, Vente, $routeParams, $location) {
+controllers.controller('AddVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
+	$scope.vendor = new Vendor();
+    $scope.saveVendor= function () {
+        Vendor.save($scope.vendor, function () {
+            $location.path('/listvendor');
+        });
+    };
+}]);
+
+controllers.controller('EditVendorController', ['$scope', 'Vendor', '$routeParams', '$location', function ($scope, Vendor, $routeParams, $location) {
+    $scope.vendor = Vendor.get({id: $routeParams.id});
+    $scope.saveVendor = function () {
+        Vendor.update($scope.vendor, function () {
+            $location.path('/listvendor');
+        });
+    };
+}]);
+
+controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams', '$location', function ($scope, Vente, $routeParams, $location) {
     $scope.vente = Vente.get({id: $routeParams.id});
     $scope.saveVente = function () {
         Vente.update($scope.vente, function () {
