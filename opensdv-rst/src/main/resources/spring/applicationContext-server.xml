@@ -43,9 +43,19 @@
                     <lookup-method name="create" bean="venteListResource" />
                 </bean>
             </entry>
+            <entry key="/vendors/{vendorId}">
+                <bean class="org.restlet.ext.spring.SpringFinder">
+                    <lookup-method name="create" bean="vendorResource" />
+                </bean>
+            </entry>
             <entry key="/vendors">
                 <bean class="org.restlet.ext.spring.SpringFinder">
                     <lookup-method name="create" bean="vendorListResource" />
+                </bean>
+            </entry>
+            <entry key="/articles">
+                <bean class="org.restlet.ext.spring.SpringFinder">
+                    <lookup-method name="create" bean="articleListResource" />
                 </bean>
             </entry>
         </map>

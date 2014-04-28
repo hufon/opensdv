@@ -40,11 +40,18 @@ controllers.controller('AddVenteController', ['$scope', 'Vente', '$location', fu
     };
 }]);
 
+
+controllers.controller('VendorController', ['$scope', 'Vendor','Article', '$routeParams', '$location', function ($scope, Vendor, Article, $routeParams, $location) {
+      $scope.vendor = Vendor.get({id: $routeParams.id});
+      $scope.articles = Article.query({vendorId : $routeParams.id});
+}]);
+
 controllers.controller('AddVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
+    $scope.new = true;
 	$scope.vendor = new Vendor();
     $scope.saveVendor= function () {
         Vendor.save($scope.vendor, function () {
-            $location.path('/listvendor');
+            $location.path('/vendors');
         });
     };
 }]);
@@ -53,7 +60,7 @@ controllers.controller('EditVendorController', ['$scope', 'Vendor', '$routeParam
     $scope.vendor = Vendor.get({id: $routeParams.id});
     $scope.saveVendor = function () {
         Vendor.update($scope.vendor, function () {
-            $location.path('/listvendor');
+            $location.path('/vendors');
         });
     };
 }]);

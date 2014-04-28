@@ -96,6 +96,17 @@ public class ArticleDAO extends IGenericDAO<Article> {
 		List<Article> listArticle = manager.createQuery(criteria).getResultList();
 		return listArticle;
 	}
+
+    public List<Article> listArticleByVendor(Vendor vendor)
+    {
+        CriteriaBuilder builder= manager.getCriteriaBuilder();
+        CriteriaQuery<Article> criteria = manager.getCriteriaBuilder().createQuery(Article.class);
+        Root<Article> root = criteria.from(Article.class);
+        criteria.where(builder.equal(root.get("vendor"), vendor));
+        criteria.select(root);
+        List<Article> listArticle = manager.createQuery(criteria).getResultList();
+        return listArticle;
+    }
 	
 
 
