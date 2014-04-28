@@ -35,7 +35,7 @@ public class ArticleListResource extends ServerResource {
 
     @Override
     protected void doInit() throws ResourceException {
-        this.vendorId = getAttribute("vendorId");
+        this.vendorId = getQueryValue("vendorId");
     }
 	
 	@Get("json")
