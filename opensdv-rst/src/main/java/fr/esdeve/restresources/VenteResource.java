@@ -10,15 +10,18 @@ import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.model.Vente;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 
-@Component
+@Service
+@Scope("prototype")
 public class VenteResource extends ServerResource {
 	
 

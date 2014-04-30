@@ -1,6 +1,7 @@
 package fr.esdeve.dao;
 
 import java.text.DateFormat;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import fr.esdeve.model.Article_;
+import fr.esdeve.model.Vendor_;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +62,19 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Transactional
+    public List<Vendor> searchVendor(String name)
+    {
+        EntityManager manager= getManager();
+        CriteriaBuilder builder= manager.getCriteriaBuilder();
+        CriteriaQuery<Vendor> criteria = manager.getCriteriaBuilder().createQuery(Vendor.class);
+        Root<Vendor> root = criteria.from(Vendor.class);
+        criteria.where(builder.like(builder.lower(root.get(Vendor_.name)),name.toLowerCase()+"%"));
+        criteria.select(root);
+        List<Vendor> list = manager.createQuery(criteria).getResultList();
+        return list;
+
+    }
 	
 }

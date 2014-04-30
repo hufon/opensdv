@@ -1,9 +1,40 @@
-<h3>Vendeur : {{vendor.name}}</h3>
+<h3>Vendeur : {{vendor.name}} [{{vendor.id}}]</h3>
 <hr/>
 
 <div class="panel panel-default">
     <div class="panel-heading">Objets du vendeur</div>
     <div class="panel-body">
-
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Designation
+                </th>
+                <th>
+                    Vente
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="article in articles">
+                <td>{{article.id}}</a></td>
+                <td>{{article.designation}}</td>
+                <td>{{article.vente.name}}</td>
+                <td><a href=""
+                       ng-click="deleteArticle(article);"
+                       class="btn btn-danger btn-xs pull-right">Delete</a>
+                    <a
+                            ng-href="#!/article/{{article.id}}/edit"
+                            class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <a href="#!/article/add/forvendor/{{vendor.id}}" class="btn btn-primary">Nouvel objet</a>
     </div>
 </div>

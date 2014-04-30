@@ -25,10 +25,23 @@ public class VendorListResource extends ServerResource {
 
 	@Autowired
 	private VendorDAO vendorDAO;
+
+    private String search;
+
+    @Override
+    protected void doInit() throws ResourceException {
+        this.search = getQueryValue("search");
+    }
 	
 	@Get
     public Representation get() {
-        List<Vendor> vendors = vendorDAO.list();
+        List<Vendor> vendors;
+        if (search == null) {
+            vendors= vendorDAO.list();
+        } else
+        {
+            vendors = vendorDAO.searchVendor(search);
+        }
         if (vendors == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }

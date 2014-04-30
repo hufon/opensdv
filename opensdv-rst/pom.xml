@@ -13,7 +13,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <restlet.version>2.2.0</restlet.version>
+    <restlet.version>2.3-M1</restlet.version>
   </properties>
   <dependencies>
 		<dependency>

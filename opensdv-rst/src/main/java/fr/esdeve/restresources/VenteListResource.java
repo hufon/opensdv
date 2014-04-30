@@ -16,9 +16,10 @@ import org.springframework.stereotype.Component;
 
 import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.model.Vente;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 @Scope("prototype")
 public class VenteListResource extends ServerResource {
 	

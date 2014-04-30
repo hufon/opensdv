@@ -58,6 +58,11 @@
                     <lookup-method name="create" bean="articleListResource" />
                 </bean>
             </entry>
+            <entry key="/articles/{articleId}">
+                <bean class="org.restlet.ext.spring.SpringFinder">
+                    <lookup-method name="create" bean="articleResource" />
+                </bean>
+            </entry>
         </map>
     </property>
 	</bean>

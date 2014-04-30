@@ -1,0 +1,30 @@
+<h2>Edition Article</h2>
+
+<form>
+    <div class="form-group">
+        <label for="id">Numero</label> <input id="id" class="form-control"
+                                              type="text" name="id" ng-model="article.id" ng-disabled="new" />
+    </div>
+	<div class="form-group">
+		<label for="designation">Designation</label> <input id="designation" class="form-control"
+			type="text" name="designation" ng-model="article.designation" />
+	</div>
+    <div class="form-group">
+        <label for="vendor">Vendeur</label>
+        <input id="vendor" class="form-control"
+               type="text" name="vendor" ng-model="article.vendor.name" ng-disabled="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="vente">Vente</label>
+        {{selectedvente.name}}
+        <select id="vente" class="form-control" ng-model="selectedvente" ng-options="vente.name for vente in ventes" >
+            <option value="">-- choisir vente --</option>
+        </select>
+    </div>
+
+
+	<hr />
+	<button ng-click="saveArticle()" class="btn btn-success">Save</button>
+	<a href="#!/vendor/{{article.vendor.id}}" class="btn btn-default">Cancel</a>
+</form>

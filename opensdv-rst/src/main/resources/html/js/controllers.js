@@ -11,6 +11,22 @@ controllers.controller('ListVenteController', ['$scope', 'Vente', '$location', f
 
 controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
     $scope.vendors = Vendor.query();
+    $scope.vendorfilter="";
+    $scope.deleteVendor = function (vendor) {
+            vendor.$delete(function () {
+                $location.path("/vendors");
+                $scope.vendors = Vendor.query();
+            });
+        };
+    $scope.$watch('vendorfilter', function(newValue, oldValue)
+    {
+          $scope.vendors = Vendor.query({search : newValue});
+    });
+
+    $scope.search = function()
+    {
+            $scope.vendors = Vendor.query({search : $scope.vendorfilter});
+    }
 }]);
 
 controllers.controller('HeadController', ['$scope', '$location', function($scope, $location) {
@@ -70,6 +86,42 @@ controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams'
     $scope.saveVente = function () {
         Vente.update($scope.vente, function () {
             $location.path('/list');
+        });
+    };
+}]);
+
+
+controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {
+    $scope.new = true;
+	$scope.article = new Article();
+	$scope.article.vendor = Vendor.get({id: $routeParams.vendorId});
+	$scope.ventes = Vente.query();
+    $scope.saveArticle = function () {
+        $scope.article.vente = $scope.selectedvente;
+        Article.save($scope.article, function () {
+            $location.path('/vendor/'+$routeParams.vendorId);
+        });
+    };
+}]);
+
+controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {
+    $scope.new = false;
+
+	$scope.ventes = Vente.query(function() {
+	    $scope.article = Article.get({id: $routeParams.id}, function(a) {
+           for (var i=0;i<$scope.ventes.length;i++)
+           {
+                if ($scope.ventes[i].id == a.vente.id)
+                 {
+                    $scope.selectedvente=$scope.ventes[i];
+                 }
+           }
+	    });
+	});
+    $scope.saveArticle = function () {
+        $scope.article.vente = $scope.selectedvente;
+        Article.update($scope.article, function () {
+            $location.path('/vendor/'+$scope.article.vendor.id);
         });
     };
 }]);
