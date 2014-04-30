@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import org.springframework.context.annotation.Scope;
@@ -107,11 +108,14 @@ public class ArticleDAO extends IGenericDAO<Article> {
         List<Article> listArticle = manager.createQuery(criteria).getResultList();
         return listArticle;
     }
-	
 
 
+    @Override
+    protected Order getDefaultOrderBy(CriteriaBuilder builder, Root root) {
+        return builder.desc(root.get(Article_.id));  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	@Override
+    @Override
 	protected EntityManager getManager() {
 		// TODO Auto-generated method stub
 		return manager;

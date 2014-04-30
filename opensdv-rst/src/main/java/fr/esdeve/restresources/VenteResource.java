@@ -1,6 +1,7 @@
 package fr.esdeve.restresources;
 
 
+import fr.esdeve.utils.SdvParams;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
@@ -23,25 +24,34 @@ import java.io.IOException;
 @Service
 @Scope("prototype")
 public class VenteResource extends ServerResource {
-	
 
-	@Autowired
-	private VenteDAO venteDAO;
-	
-	private String venteId;
 
-	@Override
-	protected void doInit() throws ResourceException {
-		this.venteId = getAttribute("venteId");
-	}
-	
-	@Get
+    @Autowired
+    private VenteDAO venteDAO;
+
+    private String venteId;
+
+    @Autowired
+    private SdvParams sdvParams;
+
+    @Override
+    protected void doInit() throws ResourceException {
+        this.venteId = getAttribute("venteId");
+    }
+
+    @Get
     public Representation get() {
-        Vente todo = venteDAO.get(venteId);
-        if (todo == null) {
-            throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+        Vente vente;
+        if (venteId.equals("new")) {
+            vente = new Vente();
+            vente.setLocation(sdvParams.getDefaultVenteLocation());
+        } else {
+            vente = venteDAO.get(venteId);
+            if (vente == null) {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
         }
-        return new JacksonRepresentation<Vente>(todo);
+        return new JacksonRepresentation<Vente>(vente);
     }
 
     @Put("json")
@@ -50,10 +60,10 @@ public class VenteResource extends ServerResource {
         Vente vente = jsonRepresentation.getObject();
         venteDAO.save(vente);
     }
-	
-	@Delete
+
+    @Delete
     public void remove() {
-		venteDAO.remove(venteId);
+        venteDAO.remove(venteId);
     }
 
 }

@@ -6,8 +6,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
+import fr.esdeve.model.Vente_;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,19 @@ public class VenteDAO extends IGenericDAO<Vente>{
 	@PersistenceContext(unitName = "ventes")
 	private EntityManager manager;
 
+
+
 	public VenteDAO()
 	{
 		super(Vente.class);
 	}
+
+    private String getVenteId(Integer number) {
+        String venteId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
+        venteId += "-";
+        venteId += number;
+        return venteId;
+    }
 	
 	private Integer getNextVenteNumber()
 	{
@@ -36,15 +47,26 @@ public class VenteDAO extends IGenericDAO<Vente>{
 		criteria.where(builder.equal(root.get("year"), java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD)));
 		criteria.select(builder.count(root));
 		Long result = manager.createQuery(criteria).getSingleResult();
-		return result.intValue()+1;
+		return checkNextVenteNumber(result.intValue()+1);
 	}
-	
-	@Override
+
+    private Integer checkNextVenteNumber(Integer number)
+    {
+        if (this.get(getVenteId(number))!=null)
+        {
+             return checkNextVenteNumber(number+1);
+        } else
+            return number;
+    }
+
+    @Override
+    protected Order getDefaultOrderBy(CriteriaBuilder builder, Root root)
+    {
+        return builder.desc(root.get(Vente_.date));
+    }
+
 	public Vente addBean(Vente newVente) {
-		String venteId = Integer.toString(java.util.Calendar.getInstance().get(DateFormat.YEAR_FIELD));
-		venteId += "-";
-		venteId += getNextVenteNumber();
-		newVente.setId(venteId);
+		newVente.setId(getVenteId(getNextVenteNumber()));
 		newVente.setName(newVente.getName()+newVente.getId());
 		manager.persist(newVente);
 		return newVente;

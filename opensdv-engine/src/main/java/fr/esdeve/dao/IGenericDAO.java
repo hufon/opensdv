@@ -3,9 +3,9 @@ package fr.esdeve.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,8 @@ import fr.esdeve.model.Vente;
 public abstract class IGenericDAO<T> {
 
 	private final Class<T> persistentClass;
+
+    protected abstract Order getDefaultOrderBy(CriteriaBuilder builder, Root root);
 	
 
 	protected abstract EntityManager getManager();
@@ -64,6 +66,7 @@ public abstract class IGenericDAO<T> {
 		CriteriaQuery<T> criteria = manager.getCriteriaBuilder().createQuery(persistentClass);
 		Root<T> root = criteria.from(persistentClass);
 		criteria.select(root);
+        criteria.orderBy(getDefaultOrderBy(builder,root));
 		List<T> list = manager.createQuery(criteria).getResultList();
 		return list;
 

@@ -46,7 +46,7 @@ public class Vente implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
-	@OneToMany(mappedBy="vente", cascade=CascadeType.DETACH)
+	@OneToMany(mappedBy="vente", cascade=CascadeType.REMOVE)
 	@JsonIgnore
 	private List<Article> articles;
 	

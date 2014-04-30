@@ -2,8 +2,10 @@ package fr.esdeve.restresources;
 
 import fr.esdeve.dao.ArticleDAO;
 import fr.esdeve.dao.VendorDAO;
+import fr.esdeve.dao.VenteDAO;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
+import fr.esdeve.model.Vente;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
@@ -30,24 +32,24 @@ public class ArticleListResource extends ServerResource {
     @Autowired
     private VendorDAO vendorDAO;
 
+    @Autowired
+    private VenteDAO venteDAO;
+
     private String vendorId;
+
+    private String venteId;
 
 
     @Override
     protected void doInit() throws ResourceException {
         this.vendorId = getQueryValue("vendorId");
+        this.venteId = getQueryValue("venteId");
     }
 	
 	@Get("json")
     public Representation get() {
-        List<Article> articles;
-        if (vendorId == null) {
-            articles = articleDAO.list();
-            if (articles == null) {
-                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-            }
-        } else
-
+        List<Article> articles = null;
+        if (vendorId != null)
         {
             Vendor vendor = vendorDAO.get(this.vendorId);
             if (vendor == null)
@@ -55,6 +57,21 @@ public class ArticleListResource extends ServerResource {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
             articles = articleDAO.listArticleByVendor(vendor);
+        }
+        if (venteId != null)
+        {
+            Vente vente = venteDAO.get(this.venteId);
+            if (vente == null)
+            {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
+            articles = articleDAO.listArticleByVente(vente);
+        }
+        if (vendorId == null && venteId==null) {
+            articles = articleDAO.list();
+            if (articles == null) {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
         }
         return new JacksonRepresentation<List<Article>>(articles);
     }

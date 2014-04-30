@@ -36,7 +36,7 @@ public class VendorListResource extends ServerResource {
 	@Get
     public Representation get() {
         List<Vendor> vendors;
-        if (search == null) {
+        if (search == null || search.isEmpty()) {
             vendors= vendorDAO.list();
         } else
         {

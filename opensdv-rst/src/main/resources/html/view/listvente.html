@@ -1,3 +1,6 @@
+<h3>Liste des ventes</h3>
+<hr/>
+<div id="alerts-container"></div>
 
 <table class="table table-bordered">
 	<thead>
@@ -18,7 +21,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="vente in ventes" ng-class="{active:todo.done}">
-			<td><a ng-href="#!/{{vente.id}}">{{vente.name}}</a></td>
+			<td><a ng-href="#!/vente/{{vente.id}}">{{vente.name}}</a></td>
 			<td>{{vente.location}}</td>
 			<td>{{vente.date | date:'medium'}}</td>
 			<td><a href="#!/{{vente.id}}/delete"

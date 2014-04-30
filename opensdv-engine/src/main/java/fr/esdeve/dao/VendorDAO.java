@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import fr.esdeve.model.Article_;
@@ -51,7 +52,12 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 		return newVendor;
 	}
 
-	@Override
+    @Override
+    protected Order getDefaultOrderBy(CriteriaBuilder builder, Root root) {
+        return builder.desc(root.get(Vendor_.id));  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
 	protected EntityManager getManager() {
 		// TODO Auto-generated method stub
 		return manager;

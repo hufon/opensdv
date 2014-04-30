@@ -1,12 +1,27 @@
-var controllers = angular.module('opensdv.controllers', []);
+var controllers = angular.module('opensdv.controllers', ['mgcrea.ngStrap.alert']);
 
-controllers.controller('ListVenteController', ['$scope', 'Vente', '$location', function ($scope, Vente, $location) {
+controllers.controller('ListVenteController', ['$scope', 'Vente', '$location','$alert', function ($scope, Vente, $location,$alert) {
 	$scope.ventes = Vente.query();
     $scope.deleteVente = function (vente) {
         vente.$delete(function () {
+            var myAlert = $alert({title: 'Holy guacamole!', content: 'Best check yo self, you\'re not looking too good.', placement: 'top', type: 'info', show: true});
             $location.path("/list");
         });
     };
+}]);
+
+controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams', '$location', function ($scope, Vente, $routeParams, $location) {
+    $scope.vente = Vente.get({id: $routeParams.id});
+    $scope.saveVente = function () {
+        Vente.update($scope.vente, function () {
+            $location.path('/list');
+        });
+    };
+}]);
+
+controllers.controller('VenteController', ['$scope', 'Vente','Article','$routeParams', '$location', function ($scope, Vente, Article,$routeParams, $location) {
+	$scope.vente = Vente.get({id : $routeParams.id});
+	$scope.articles = Article.query({venteId : $routeParams.id});
 }]);
 
 controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
@@ -20,7 +35,9 @@ controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location',
         };
     $scope.$watch('vendorfilter', function(newValue, oldValue)
     {
+        if (newValue != "") {
           $scope.vendors = Vendor.query({search : newValue});
+        }
     });
 
     $scope.search = function()
@@ -37,17 +54,9 @@ controllers.controller('HeadController', ['$scope', '$location', function($scope
 }]);
 
 controllers.controller('AddVenteController', ['$scope', 'Vente', '$location', function ($scope, Vente, $location) {
-	$scope.vente = new Vente();
-	$scope.vente.name = "VAE_";
-	$scope.vente.date = new Date();
+	$scope.vente = Vente.get({id : 'new'})
 	$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
 	$scope.format = $scope.formats[0];
-	  $scope.opencalendar = function($event) {
-		    $event.preventDefault();
-		    $event.stopPropagation();
-
-		    $scope.opened = true;
-		  };
 	
     $scope.saveVente= function () {
         Vente.save($scope.vente, function () {
@@ -81,14 +90,7 @@ controllers.controller('EditVendorController', ['$scope', 'Vendor', '$routeParam
     };
 }]);
 
-controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams', '$location', function ($scope, Vente, $routeParams, $location) {
-    $scope.vente = Vente.get({id: $routeParams.id});
-    $scope.saveVente = function () {
-        Vente.update($scope.vente, function () {
-            $location.path('/list');
-        });
-    };
-}]);
+
 
 
 controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {

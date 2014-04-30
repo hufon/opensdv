@@ -1,6 +1,6 @@
 <h2>Edition Article</h2>
 
-<form>
+<form name="form">
     <div class="form-group">
         <label for="id">Numero</label> <input id="id" class="form-control"
                                               type="text" name="id" ng-model="article.id" ng-disabled="new" />
@@ -25,6 +25,6 @@
 
 
 	<hr />
-	<button ng-click="saveArticle()" class="btn btn-success">Save</button>
+	<button ng-click="saveArticle()" class="btn btn-success" ng-disabled="form.$invalid">Save</button>
 	<a href="#!/vendor/{{article.vendor.id}}" class="btn btn-default">Cancel</a>
 </form>
