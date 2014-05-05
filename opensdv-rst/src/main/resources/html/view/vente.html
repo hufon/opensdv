@@ -23,9 +23,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="article in articles">
+            <tr ng-repeat="article in articles | orderBy:'venteOrder'">
                 <td>{{article.id}}</td>
-                <td>{{article.venteOrder}}</td>
+                <td><span ng-hide="editMode" ng-click="editMode=true;">{{article.venteOrder}}</span>
+
+                    <input type="number" ng-model="article.venteOrder" ng-show="editMode" ng-model-instant ng-enter="saveVenteOrder(article);editMode=false;" ng-blur="editMode=false"/>
+                    <a
+                            ng-href=""
+                            ng-click="editMode=true;"
+                            ng-hide="editMode"
+                            class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Modifier numéro</a>
+                </td>
                 <td>{{article.designation}}</td>
                 <td>{{article.vendor.name}}</td>
                 <td>

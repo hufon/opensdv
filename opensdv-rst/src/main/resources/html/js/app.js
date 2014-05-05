@@ -1,4 +1,4 @@
-var app = angular.module('opensdv.app', ['ngRoute','ngResource','mgcrea.ngStrap', 'mgcrea.ngStrap.timepicker','opensdv.services','opensdv.controllers']);
+var app = angular.module('opensdv.app', ['ngRoute','ngResource','mgcrea.ngStrap', 'mgcrea.ngStrap.timepicker','opensdv.services','opensdv.controllers','opensdv.directives']);
 
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/listvente', {templateUrl: 'view/listvente.html', controller: 'ListVenteController'});

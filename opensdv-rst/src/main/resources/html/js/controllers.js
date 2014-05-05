@@ -19,9 +19,15 @@ controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams'
     };
 }]);
 
-controllers.controller('VenteController', ['$scope', 'Vente','Article','$routeParams', '$location', function ($scope, Vente, Article,$routeParams, $location) {
+controllers.controller('VenteController', ['$scope', 'Vente','Article','$routeParams', '$location','$log', function ($scope, Vente, Article,$routeParams, $location,$log) {
 	$scope.vente = Vente.get({id : $routeParams.id});
 	$scope.articles = Article.query({venteId : $routeParams.id});
+	$scope.saveVenteOrder=function (aArticle) {
+	    Article.update(aArticle, function()
+	    {
+	        $log.info(aArticle.id+" updated...")
+	    });
+	}
 }]);
 
 controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
