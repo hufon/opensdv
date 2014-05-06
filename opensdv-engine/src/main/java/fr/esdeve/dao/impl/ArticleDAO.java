@@ -1,7 +1,6 @@
-package fr.esdeve.dao;
+package fr.esdeve.dao.impl;
 
 
-import java.text.DateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +12,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +24,7 @@ import fr.esdeve.model.Vente;
 
 @Component
 @Transactional 
-public class ArticleDAO extends IGenericDAO<Article> {
+public class ArticleDAO extends GenericDAO<Article> implements fr.esdeve.dao.IArticleDAO {
 	
 	private Logger LOG = Logger.getGlobal();
 	

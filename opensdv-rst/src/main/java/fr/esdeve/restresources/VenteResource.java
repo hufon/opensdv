@@ -1,6 +1,7 @@
 package fr.esdeve.restresources;
 
 
+import fr.esdeve.dao.IVenteDAO;
 import fr.esdeve.utils.SdvParams;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -12,9 +13,8 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import fr.esdeve.dao.VenteDAO;
+import fr.esdeve.dao.impl.VenteDAO;
 import fr.esdeve.model.Vente;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class VenteResource extends ServerResource {
 
 
     @Autowired
-    private VenteDAO venteDAO;
+    private IVenteDAO venteDAO;
 
     private String venteId;
 

@@ -1,7 +1,8 @@
 package fr.esdeve.restresources;
 
 
-import fr.esdeve.dao.ArticleDAO;
+import fr.esdeve.dao.IArticleDAO;
+import fr.esdeve.dao.impl.ArticleDAO;
 import fr.esdeve.model.Article;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -21,7 +22,7 @@ public class ArticleResource extends ServerResource {
 	
 
 	@Autowired
-	private ArticleDAO articleDAO;
+	private IArticleDAO articleDAO;
 	
 	private String articleId;
 

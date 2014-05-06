@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 	<url>https://github.com/hufon/opensdv</url>
 	<modules>
-		<module>opensdv-ui</module>
 		<module>opensdv-engine</module>
     	<module>opensdv-rst</module>
   </modules>

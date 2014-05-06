@@ -1,4 +1,4 @@
-package fr.esdeve.dao;
+package fr.esdeve.dao.impl;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -10,7 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-import fr.esdeve.model.Article_;
 import fr.esdeve.model.Vendor_;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import fr.esdeve.model.Vendor;
 
 @Component
 @Transactional 
-public class VendorDAO extends IGenericDAO<Vendor> {
+public class VendorDAO extends GenericDAO<Vendor> implements fr.esdeve.dao.IVendorDAO {
 	
 	@PersistenceContext(unitName = "ventes")
 	private EntityManager manager;
@@ -29,7 +28,8 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 		super(Vendor.class);
 	}
 	
-	public Integer getNextVendorNumber()
+	@Override
+    public Integer getNextVendorNumber()
 	{
 		CriteriaBuilder builder= manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
@@ -69,6 +69,7 @@ public class VendorDAO extends IGenericDAO<Vendor> {
 		
 	}
 
+    @Override
     @Transactional
     public List<Vendor> searchVendor(String name)
     {

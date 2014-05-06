@@ -20,7 +20,7 @@ public class SpringDirectory extends Directory {
 
 	public void setComponent(Component component) {
 		this.component = component;
-		this.setContext(component.getContext());
+		this.setContext(component.getContext().createChildContext());
 	}
 
 	private Component component;

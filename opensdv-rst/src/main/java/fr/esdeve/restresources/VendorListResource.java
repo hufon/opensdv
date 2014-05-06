@@ -1,7 +1,7 @@
 package fr.esdeve.restresources;
 
-import fr.esdeve.dao.VendorDAO;
-import fr.esdeve.dao.VenteDAO;
+import fr.esdeve.dao.IVendorDAO;
+import fr.esdeve.dao.impl.VendorDAO;
 import fr.esdeve.model.Vendor;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -24,7 +24,7 @@ public class VendorListResource extends ServerResource {
 	
 
 	@Autowired
-	private VendorDAO vendorDAO;
+	private IVendorDAO vendorDAO;
 
     private String search;
 

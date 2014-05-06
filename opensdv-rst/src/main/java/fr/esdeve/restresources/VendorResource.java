@@ -1,7 +1,8 @@
 package fr.esdeve.restresources;
 
 
-import fr.esdeve.dao.VendorDAO;
+import fr.esdeve.dao.IVendorDAO;
+import fr.esdeve.dao.impl.VendorDAO;
 import fr.esdeve.model.Vendor;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -14,7 +15,6 @@ import org.restlet.resource.ResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class VendorResource extends ServerResource {
 	
 
 	@Autowired
-	private VendorDAO vendorDAO;
+	private IVendorDAO vendorDAO;
 	
 	private String vendorId;
 

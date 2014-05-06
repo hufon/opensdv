@@ -1,5 +1,6 @@
 package fr.esdeve.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SdvParams {
 
-    private String defaultVenteLocation = "Chemin des croizettes, Issoire";
+    @Value("${default.vente.location}")
+    private String defaultVenteLocation;
 
     public String getDefaultVenteLocation() {
         return defaultVenteLocation;

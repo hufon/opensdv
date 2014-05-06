@@ -1,4 +1,4 @@
-package fr.esdeve.dao;
+package fr.esdeve.dao.impl;
 
 import java.text.DateFormat;
 
@@ -18,7 +18,7 @@ import fr.esdeve.model.Vente;
 
 @Component
 @Transactional 
-public class VenteDAO extends IGenericDAO<Vente>{
+public class VenteDAO extends GenericDAO<Vente> implements fr.esdeve.dao.IVenteDAO {
 
 	
 	

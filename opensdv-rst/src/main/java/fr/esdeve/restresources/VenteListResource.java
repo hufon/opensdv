@@ -3,6 +3,7 @@ package fr.esdeve.restresources;
 import java.io.IOException;
 import java.util.List;
 
+import fr.esdeve.dao.IVenteDAO;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
@@ -12,9 +13,8 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import fr.esdeve.dao.VenteDAO;
+import fr.esdeve.dao.impl.VenteDAO;
 import fr.esdeve.model.Vente;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class VenteListResource extends ServerResource {
 	
 
 	@Autowired
-	private VenteDAO venteDAO;
+	private IVenteDAO venteDAO;
 	
 	@Get
     public Representation get() {

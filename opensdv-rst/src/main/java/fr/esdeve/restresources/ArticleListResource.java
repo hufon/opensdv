@@ -1,8 +1,11 @@
 package fr.esdeve.restresources;
 
-import fr.esdeve.dao.ArticleDAO;
-import fr.esdeve.dao.VendorDAO;
-import fr.esdeve.dao.VenteDAO;
+import fr.esdeve.dao.IArticleDAO;
+import fr.esdeve.dao.IVendorDAO;
+import fr.esdeve.dao.IVenteDAO;
+import fr.esdeve.dao.impl.ArticleDAO;
+import fr.esdeve.dao.impl.VendorDAO;
+import fr.esdeve.dao.impl.VenteDAO;
 import fr.esdeve.model.Article;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
@@ -27,13 +30,13 @@ public class ArticleListResource extends ServerResource {
 	
 
 	@Autowired
-	private ArticleDAO articleDAO;
+	private IArticleDAO articleDAO;
 
     @Autowired
-    private VendorDAO vendorDAO;
+    private IVendorDAO vendorDAO;
 
     @Autowired
-    private VenteDAO venteDAO;
+    private IVenteDAO venteDAO;
 
     private String vendorId;
 
