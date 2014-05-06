@@ -1,0 +1,44 @@
+<div class="panel-heading">Objets de la vente ({{articles.length}})</div>
+<div class="panel-body">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Numéro de passage
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Vendeur
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="article in articles | orderBy:'venteOrder'">
+            <td>{{article.id}}</td>
+            <td><span ng-hide="editMode" ng-click="venteOrder=article.venteOrder;editMode=true;">{{article.venteOrder}}</span>
+
+                <input type="number" class="form-control" ng-model="venteOrder" ng-show="editMode" ng-model-instant ng-enter="saveVenteOrder(article);editMode=false;article.venteOrder=venteOrder" ng-blur="editMode=false"/>
+                <a
+                        ng-href=""
+                        ng-click="venteOrder=article.venteOrder;editMode=true;"
+                        ng-hide="editMode"
+                        class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Modifier numéro</a>
+            </td>
+            <td>{{article.designation}}</td>
+            <td><a ng-href="#!/vendor/{{article.vendor.id}}"> {{article.vendor.name}}</a></td>
+            <td>
+                <a
+                        ng-href="#!/vente/{{vente.id}}/article/{{article.id}}/edit"
+                        class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr/>
+</div>

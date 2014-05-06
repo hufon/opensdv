@@ -35,7 +35,7 @@
                 <td>{{article.initialPrice | currency}}</td>
                 <td>{{article.minimumPrice | currency}} </td>
                 <td>{{article.sellingPrice | currency}}</td>
-                <td>{{article.vente.name}}</td>
+                <td><a ng-href="#!/vente/{{article.vente.id}}">{{article.vente.name}}</a></td>
                 <td><a href=""
                        ng-click="deleteArticle(article);"
                        class="btn btn-danger btn-xs pull-right">Delete</a>

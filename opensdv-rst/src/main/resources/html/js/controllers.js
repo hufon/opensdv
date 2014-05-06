@@ -22,12 +22,20 @@ controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams'
 controllers.controller('VenteController', ['$scope', 'Vente','Article','$routeParams', '$location','$log', function ($scope, Vente, Article,$routeParams, $location,$log) {
 	$scope.vente = Vente.get({id : $routeParams.id});
 	$scope.articles = Article.query({venteId : $routeParams.id});
+    $scope.setActiveTab=function(aTab)
+    {
+        $scope.currentTab = aTab;
+        $scope.currentTabTpl="view/vente-"+aTab+".html";
+    }
+    $scope.setActiveTab("objects");
 	$scope.saveVenteOrder=function (aArticle) {
 	    Article.update(aArticle, function()
 	    {
 	        $log.info(aArticle.id+" updated...")
 	    });
 	}
+
+
 }]);
 
 controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
@@ -115,6 +123,7 @@ controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Ve
 controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {
     $scope.new = false;
 
+
 	$scope.ventes = Vente.query(function() {
 	    $scope.article = Article.get({id: $routeParams.id}, function(a) {
            for (var i=0;i<$scope.ventes.length;i++)
@@ -126,10 +135,22 @@ controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','V
            }
 	    });
 	});
+
+    $scope.returnTo = function() {
+        var returnPath;
+        if ($routeParams.venteid) {
+            returnPath =  '/vente/'+$routeParams.venteid;
+        } else
+        {
+            returnPath = '/vendor/'+$scope.article.vendor.id
+        }
+        $location.path(returnPath);
+    }
+
     $scope.saveArticle = function () {
         $scope.article.vente = $scope.selectedvente;
         Article.update($scope.article, function () {
-            $location.path('/vendor/'+$scope.article.vendor.id);
+           $scope.returnTo();
         });
     };
 }]);

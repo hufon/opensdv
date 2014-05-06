@@ -1,49 +1,26 @@
-<h3>Vente : {{vente.name}} {{vente.date | date:'medium'}}</h3>
+<h3>Vente : {{vente.name}}</h3>
 <hr/>
-
 <div class="panel panel-default">
-    <div class="panel-heading">Objets de la vente ({{articles.length}})</div>
-    <div class="panel-body">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>
-                    #
-                </th>
-                <th>
-                    Numéro de passage
-                </th>
-                <th>
-                    Designation
-                </th>
-                <th>
-                    Vendeur
-                </th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="article in articles | orderBy:'venteOrder'">
-                <td>{{article.id}}</td>
-                <td><span ng-hide="editMode" ng-click="editMode=true;">{{article.venteOrder}}</span>
+    <div class="panel-heading">Informations</div>
+<table class="table table-striped">
+    <tr>
+        <td>Date</td>
+        <td>{{vente.date | date:'medium'}}</td>
+    </tr>
+    <tr>
+        <td>Chiffre d'affaire</td>
+        <td>{{venteca | currency}}</td>
+    </tr>
+</table>
+</div>
 
-                    <input type="number" ng-model="article.venteOrder" ng-show="editMode" ng-model-instant ng-enter="saveVenteOrder(article);editMode=false;" ng-blur="editMode=false"/>
-                    <a
-                            ng-href=""
-                            ng-click="editMode=true;"
-                            ng-hide="editMode"
-                            class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Modifier numéro</a>
-                </td>
-                <td>{{article.designation}}</td>
-                <td>{{article.vendor.name}}</td>
-                <td>
-                    <a
-                            ng-href="#!/article/{{article.id}}/edit"
-                            class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <hr/>
-    </div>
+<ul class="nav nav-tabs">
+    <li ng-class="{ active: currentTab=='objects' }" ng-click="setActiveTab('objects')")><a href="#">Objets</a></li>
+    <li ng-class="{ active: currentTab=='clients' }" ng-click="setActiveTab('clients')"><a href="#">Acheteurs</a></li>
+    <li ng-class="{ active: currentTab=='order' }" ng-click="setActiveTab('order')"><a href="#">Ordres</a></li>
+</ul>
+
+
+<div class="panel panel-default" ng-include="currentTabTpl">
+
 </div>
