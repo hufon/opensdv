@@ -14,7 +14,6 @@ import org.restlet.resource.ServerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
-import fr.esdeve.dao.impl.VenteDAO;
 import fr.esdeve.model.Vente;
 import org.springframework.stereotype.Service;
 

@@ -19,16 +19,15 @@ controllers.controller('EditVenteController', ['$scope', 'Vente', '$routeParams'
     };
 }]);
 
-controllers.controller('VenteController', ['$scope', 'Vente','Article','$routeParams', '$location','$log', function ($scope, Vente, Article,$routeParams, $location,$log) {
+controllers.controller('VenteController', ['$scope', 'Vente','Article','Client','$routeParams', '$location','$log', function ($scope, Vente, Article, Client,$routeParams, $location,$log) {
 	$scope.vente = Vente.get({id : $routeParams.id});
 	$scope.articles = Article.query({venteId : $routeParams.id});
-    $scope.setActiveTab=function(aTab)
-    {
-        $scope.currentTab = aTab;
-        $scope.currentTabTpl="view/vente-"+aTab+".html";
-    }
-    $scope.setActiveTab("objects");
-	$scope.saveVenteOrder=function (aArticle) {
+    if ($routeParams.tabid)
+        $scope.currentTab = $routeParams.tabid;
+        else
+        $scope.currentTab = "objects";
+    $scope.currentTabTpl="view/vente-"+$scope.currentTab+".html";
+   	$scope.saveVenteOrder=function (aArticle) {
 	    Article.update(aArticle, function()
 	    {
 	        $log.info(aArticle.id+" updated...")
@@ -37,6 +36,18 @@ controllers.controller('VenteController', ['$scope', 'Vente','Article','$routePa
 
 
 }]);
+
+controllers.controller('ListClientController', ['$scope', 'Vente','Article','Client','$routeParams', '$location','$log', function ($scope, Vente, Article, Client,$routeParams, $location,$log) {
+
+    $scope.clients = Client.query({venteId : $routeParams.id});
+    $scope.deleteClient = function (client) {
+                client.$delete(function () {
+                    $scope.clients = Client.query({venteId : $routeParams.id});
+                });
+            };
+}]);
+
+
 
 controllers.controller('ListVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
     $scope.vendors = Vendor.query();
@@ -86,11 +97,21 @@ controllers.controller('VendorController', ['$scope', 'Vendor','Article', '$rout
 }]);
 
 controllers.controller('AddVendorController', ['$scope', 'Vendor', '$location', function ($scope, Vendor, $location) {
-    $scope.new = true;
-	$scope.vendor = new Vendor();
+    $scope.vendor = Vendor.get({id : 'new'})
     $scope.saveVendor= function () {
         Vendor.save($scope.vendor, function () {
             $location.path('/vendors');
+        });
+    };
+}]);
+
+controllers.controller('AddClientController', ['$scope', 'Client','Vente', '$location', '$routeParams', function ($scope, Client, Vente, $location, $routeParams) {
+	$scope.client = Client.get({id : 'new'})
+    $scope.vente = Vente.get({id : $routeParams.venteid})
+    $scope.saveClient= function () {
+        $scope.client.vente = $scope.vente;
+        Client.save($scope.client, function () {
+            $location.path('/vente/'+$scope.vente.id);
         });
     };
 }]);

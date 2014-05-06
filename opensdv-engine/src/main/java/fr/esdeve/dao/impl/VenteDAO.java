@@ -73,12 +73,6 @@ public class VenteDAO extends GenericDAO<Vente> implements fr.esdeve.dao.IVenteD
 	}
 
 	@Override
-	public void add(Vente newItem) {
-		// TODO Auto-generated method stub
-		return;
-	}
-
-	@Override
 	protected EntityManager getManager() {
 		// TODO Auto-generated method stub
 		return manager;

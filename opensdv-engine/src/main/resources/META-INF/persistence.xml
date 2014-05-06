@@ -10,6 +10,7 @@
         <class>fr.esdeve.model.Vente</class>
         <class>fr.esdeve.model.Article</class>
         <class>fr.esdeve.model.Vendor</class>
+        <class>fr.esdeve.model.Client</class>
         <properties>
             <property name="eclipselink.jdbc.platform"
                       value="org.eclipse.persistence.platform.database.PostgreSQLPlatform"/>
@@ -18,6 +19,7 @@
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode"
                       value="sql-script"/>
+            <property name="eclipselink.create-ddl-jdbc-file-name" value="opensdv.jdbc"/>
             <property name="eclipselink.cache.shared.default" value="false"/>
             <property name="eclipselink.weaving" value="false"/>
         </properties>

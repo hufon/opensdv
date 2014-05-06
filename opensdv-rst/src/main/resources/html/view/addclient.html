@@ -1,0 +1,22 @@
+<h2>Edition Acheteur</h2>
+
+<form name="form">
+    <div class="form-group">
+        <label for="number" ng-required="true">Numero</label> <input id="number" class="form-control"
+                                              type="number" name="number" ng-model="client.number" ng-required="true" />
+    </div>
+	<div class="form-group">
+		<label for="title" >Nom</label> <input id="title" class="form-control"
+			type="text" name="name" ng-model="client.name" ng-required="true"/>
+	</div>
+    <div class="form-group">
+        <label for="title">Taux (%)</label>
+        <input id="rate" class="form-control" ng-required="true" type="number" min="0" max="100" name="name" ng-model="client.rate" />
+    </div>
+
+
+	<hr />
+
+	<button ng-click="saveClient()" class="btn btn-success" ng-disabled="form.$invalid" >Enregistrer</button>
+	<a href="#!/vendors" class="btn btn-default">Cancel</a>
+</form>

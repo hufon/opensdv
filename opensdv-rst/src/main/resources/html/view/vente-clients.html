@@ -1,0 +1,37 @@
+<div ng-controller="ListClientController">
+<div class="panel-heading">Clients</div>
+<div class="panel-body" >
+    <a href="#!/vente/{{vente.id}}/client/add" class="btn btn-primary">Nouvel acheteur</a>
+    <hr/>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                Numéro de client
+            </th>
+            <th>
+                Nom
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="client in clients | orderBy:'number'">
+            <td>{{client.number}}</td>
+            <td>{{client.name}}
+            </td>
+
+            <td>
+                <a  ng-href="#"
+                   ng-click="deleteClient(client);"
+                   class="btn btn-danger btn-xs pull-right">Supprimer</a>
+                <a
+                        ng-href="#!/clients/{{client.id}}/edit"
+                        class="btn btn-primary btn-xs pull-right" style="margin-right: 8px;">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr/>
+</div>
+</div>

@@ -17,11 +17,21 @@ public class SdvParams {
     @Value("${default.vente.location}")
     private String defaultVenteLocation;
 
+    @Value("${default.client.rate}")
+    private Integer defaultClientRate;
+
+    @Value("${default.vendor.rate}")
+    private Integer defaultVendorRate;
+
     public String getDefaultVenteLocation() {
         return defaultVenteLocation;
     }
 
-    public void setDefaultVenteLocation(String defaultVenteLocation) {
-        this.defaultVenteLocation = defaultVenteLocation;
+    public Integer getDefaultClientRate() {
+        return defaultClientRate;
+    }
+
+    public Integer getDefaultVendorRate() {
+        return defaultVendorRate;
     }
 }

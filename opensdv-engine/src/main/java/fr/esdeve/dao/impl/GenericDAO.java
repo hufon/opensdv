@@ -1,5 +1,6 @@
 package fr.esdeve.dao.impl;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
+import fr.esdeve.model.Vendor;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.esdeve.model.Article;
@@ -33,7 +35,13 @@ public abstract class GenericDAO<T> implements fr.esdeve.dao.IGenericDAO<T> {
 		EntityManager manager= getManager();
 		return manager.find(this.persistentClass, itemId);
 	}
-	
+
+    @Transactional
+    public T addBean(T newBean) {
+        EntityManager manager= getManager();
+        manager.persist(newBean);
+        return newBean;
+    }
 
 	
 

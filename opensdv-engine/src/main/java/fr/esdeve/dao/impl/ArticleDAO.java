@@ -119,10 +119,4 @@ public class ArticleDAO extends GenericDAO<Article> implements fr.esdeve.dao.IAr
 		return manager;
 	}
 
-	@Override
-	public void add(Article newItem) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -2,8 +2,8 @@ package fr.esdeve.restresources;
 
 
 import fr.esdeve.dao.IVendorDAO;
-import fr.esdeve.dao.impl.VendorDAO;
 import fr.esdeve.model.Vendor;
+import fr.esdeve.utils.SdvParams;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
@@ -27,6 +27,9 @@ public class VendorResource extends ServerResource {
 
 	@Autowired
 	private IVendorDAO vendorDAO;
+
+    @Autowired
+    private SdvParams sdvParams;
 	
 	private String vendorId;
 
@@ -37,7 +40,13 @@ public class VendorResource extends ServerResource {
 	
 	@Get("json")
     public Representation get() {
-        Vendor vendor = vendorDAO.get(vendorId);
+        Vendor vendor;
+        if (vendorId.equals("new")) {
+            vendor = new Vendor();
+            vendor.setRate(sdvParams.getDefaultVendorRate());
+        } else {
+            vendor = vendorDAO.get(vendorId);
+        }
         if (vendor == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }

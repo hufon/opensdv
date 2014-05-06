@@ -43,6 +43,8 @@ public class Article implements Serializable {
 	@ManyToOne
 	private Vendor vendor;
 
+    @ManyToOne
+    private Client client;
 	
 	public Vendor getVendor() {
 		return vendor;
@@ -98,6 +100,13 @@ public class Article implements Serializable {
 	public void setVenteOrder(Integer venteOrder) {
 		this.venteOrder = venteOrder;
 	}
-	
 
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

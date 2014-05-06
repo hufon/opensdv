@@ -63,11 +63,6 @@ public class VendorDAO extends GenericDAO<Vendor> implements fr.esdeve.dao.IVend
 		return manager;
 	}
 
-	@Override
-	public void add(Vendor newItem) {
-		// TODO Auto-generated method stub
-		
-	}
 
     @Override
     @Transactional

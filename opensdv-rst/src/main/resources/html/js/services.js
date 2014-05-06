@@ -15,3 +15,8 @@ services.factory('Article', ['$resource', function ($resource) {
     return $resource(
         '../rest/articles/:id', { 'id': '@id'}, {'update': {method: 'PUT'} });
 }]);
+
+services.factory('Client', ['$resource', function ($resource) {
+    return $resource(
+        '../rest/clients/:id', { 'id': '@id'}, {'update': {method: 'PUT'} });
+}]);

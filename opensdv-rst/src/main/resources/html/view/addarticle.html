@@ -1,30 +1,53 @@
 <h2>Edition Article</h2>
 
 <form name="form">
-    <div class="form-group">
+    <div class="form-group col-md-6">
         <label for="id">Numero</label> <input id="id" class="form-control"
-                                              type="text" name="id" ng-model="article.id" ng-disabled="new" />
+                                              type="text" name="id" ng-model="article.id" ng-disabled="new"/>
     </div>
-	<div class="form-group">
-		<label for="designation">Designation</label> <input id="designation" class="form-control"
-			type="text" name="designation" ng-model="article.designation" />
-	</div>
-    <div class="form-group">
+    <div class="form-group col-md-6">
+        <label for="designation">Designation</label> <input id="designation" class="form-control"
+                                                            ng-required="true"
+                                                            type="text" name="designation"
+                                                            ng-model="article.designation"/>
+    </div>
+    <div class="form-group col-md-6">
         <label for="vendor">Vendeur</label>
         <input id="vendor" class="form-control"
-               type="text" name="vendor" ng-model="article.vendor.name" ng-disabled="true" />
+               type="text" name="vendor" ng-model="article.vendor.name" ng-disabled="true"/>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
         <label for="vente">Vente</label>
         {{selectedvente.name}}
-        <select id="vente" class="form-control" ng-model="selectedvente" ng-options="vente.name for vente in ventes" >
+        <select id="vente" class="form-control" ng-model="selectedvente" ng-options="vente.name for vente in ventes">
             <option value="">-- choisir vente --</option>
         </select>
     </div>
+    <div class="form-group col-md-6">
+        <label for="initialPrice">Prix de départ</label>
+        <input id="initialPrice" type="number" min="0" class="form-control" ng-model="article.initialPrice"/>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="minimumPrice">Prix de réserve</label>
+        <input id="minimumPrice" type="number" ng-required="true" min="0" class="form-control"
+               ng-model="article.minimumPrice"/>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="sellingPrice">Prix de vente</label>
+        <input id="sellingPrice" type="number" ng-required="true" min="0" class="form-control"
+               ng-model="article.sellingPrice"/>
+    </div>
 
-
-	<hr />
-	<button ng-click="saveArticle()" class="btn btn-success" ng-disabled="form.$invalid">Save</button>
-	<a href="#!/vendor/{{article.vendor.id}}" class="btn btn-default">Cancel</a>
+    <div class="form-group col-md-6">
+        <label for="client">Acheteur</label>
+        <select id="client" class="form-control" ng-disabled="selectedvente!=null" ng-model="article.client" ng-options="client.name for client in clients">
+            <option value="">-- choisir client --</option>
+        </select>
+    </div>
+    <span class="clearfix"/>
+    <hr/>
+    <button ng-click="saveArticle()" class="btn btn-success" ng-disabled="form.$invalid">Save</button>
+    <a href="#!/vendor/{{article.vendor.id}}" class="btn btn-default">Cancel</a>
+    <hr/>
 </form>

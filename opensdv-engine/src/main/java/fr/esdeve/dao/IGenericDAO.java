@@ -8,8 +8,8 @@ import java.util.List;
  * Created by hubert on 06/05/14.
  */
 public interface IGenericDAO<T> {
-    void add(T newItem);
 
+    @Transactional
     T addBean(T newItem);
 
     T get(String itemId);

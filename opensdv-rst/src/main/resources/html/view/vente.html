@@ -15,9 +15,9 @@
 </div>
 
 <ul class="nav nav-tabs">
-    <li ng-class="{ active: currentTab=='objects' }" ng-click="setActiveTab('objects')")><a href="#">Objets</a></li>
-    <li ng-class="{ active: currentTab=='clients' }" ng-click="setActiveTab('clients')"><a href="#">Acheteurs</a></li>
-    <li ng-class="{ active: currentTab=='order' }" ng-click="setActiveTab('order')"><a href="#">Ordres</a></li>
+    <li ng-class="{ active: currentTab=='objects' }" ><a ng-href="#!/vente/{{vente.id}}/objects">Objets</a></li>
+    <li ng-class="{ active: currentTab=='clients' }" ><a ng-href="#!/vente/{{vente.id}}/clients">Acheteurs</a></li>
+    <li ng-class="{ active: currentTab=='orders' }" ><a ng-href="#!/vente/{{vente.id}}/orders">Ordres</a></li>
 </ul>
 
 
