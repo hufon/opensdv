@@ -6,6 +6,7 @@ app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/vendors',      {templateUrl: 'view/listvendor.html',     controller: 'ListVendorController'});
     $routeProvider.when('/vendor/add',      {templateUrl: 'view/addvendor.html',     controller: 'AddVendorController'});
     $routeProvider.when('/vente/:venteid/client/add',      {templateUrl: 'view/addclient.html',     controller: 'AddClientController'});
+    $routeProvider.when('/vente/:venteid/client/:id/edit',      {templateUrl: 'view/addclient.html',     controller: 'EditClientController'});
     $routeProvider.when('/vendor/:id',      {templateUrl: 'view/vendor.html',     controller: 'VendorController'});
     $routeProvider.when('/vendor/:id/edit',      {templateUrl: 'view/addvendor.html',     controller: 'EditVendorController'});
     $routeProvider.when('/vente/:id/edit', {templateUrl: 'view/addvente.html', controller: 'EditVenteController'});

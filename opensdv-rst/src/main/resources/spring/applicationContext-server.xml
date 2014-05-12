@@ -11,7 +11,7 @@
     	<property name="server">
         	<bean class="org.restlet.ext.spring.SpringServer">
             	<constructor-arg value="http" />
-            	<constructor-arg value="8080" />
+            	<constructor-arg value="${server.port}" />
         	</bean>
     	</property>
     	<property name="defaultTarget" ref="default" />

@@ -40,6 +40,20 @@ public class ClientDAO extends GenericDAO<Client> implements fr.esdeve.dao.IClie
         return manager.find(Client.class, Long.parseLong(itemId));
     }
 
+    @Override
+    public Integer getNextClientNumber(Vente vente)
+    {
+        CriteriaBuilder builder= manager.getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<Client> root = criteria.from(Client.class);
+        criteria.where(builder.and(builder.equal(root.get("vente"), vente)),builder.lessThan(root.get(Client_.number), 50));
+        criteria.select(builder.max(root.get(Client_.number)));
+        Integer result = manager.createQuery(criteria).getSingleResult();
+        if (result!=null)
+            return result+1;
+        else return 1;
+    }
+
     public List<Client> listClientByVente(Vente vente) {
         CriteriaBuilder builder= manager.getCriteriaBuilder();
         CriteriaQuery<Client> criteria = manager.getCriteriaBuilder().createQuery(Client.class);

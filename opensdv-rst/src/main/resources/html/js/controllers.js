@@ -106,12 +106,22 @@ controllers.controller('AddVendorController', ['$scope', 'Vendor', '$location', 
 }]);
 
 controllers.controller('AddClientController', ['$scope', 'Client','Vente', '$location', '$routeParams', function ($scope, Client, Vente, $location, $routeParams) {
-	$scope.client = Client.get({id : 'new'})
+	$scope.client = Client.get({id : 'new',venteId : $routeParams.venteid})
     $scope.vente = Vente.get({id : $routeParams.venteid})
     $scope.saveClient= function () {
         $scope.client.vente = $scope.vente;
         Client.save($scope.client, function () {
             $location.path('/vente/'+$scope.vente.id);
+        });
+    };
+}]);
+
+controllers.controller('EditClientController', ['$scope', 'Client','Vente', '$location', '$routeParams', function ($scope, Client, Vente, $location, $routeParams) {
+	$scope.client = Client.get({id : $routeParams.id})
+    $scope.vente = Vente.get({id : $routeParams.venteid})
+    $scope.saveClient= function () {
+        Client.update($scope.client, function () {
+            $location.path('/vente/'+$scope.vente.id+'/clients');
         });
     };
 }]);
@@ -139,6 +149,17 @@ controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Ve
             $location.path('/vendor/'+$routeParams.vendorId);
         });
     };
+
+    $scope.returnTo = function() {
+            var returnPath;
+            if ($routeParams.venteid) {
+                returnPath =  '/vente/'+$routeParams.venteid;
+            } else
+            {
+                returnPath = '/vendor/'+$scope.article.vendor.id
+            }
+            $location.path(returnPath);
+        }
 }]);
 
 controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {

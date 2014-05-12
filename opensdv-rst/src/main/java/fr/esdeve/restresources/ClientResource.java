@@ -2,7 +2,9 @@ package fr.esdeve.restresources;
 
 
 import fr.esdeve.dao.IClientDAO;
+import fr.esdeve.dao.IVenteDAO;
 import fr.esdeve.model.Client;
+import fr.esdeve.model.Vente;
 import fr.esdeve.utils.SdvParams;
 import org.restlet.data.Status;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -25,13 +27,18 @@ public class ClientResource extends ServerResource {
 	private IClientDAO clientDAO;
 
     @Autowired
+    private IVenteDAO venteDAO;
+
+    @Autowired
     private SdvParams sdvParams;
 	
 	private String clientId;
+    private String venteId;
 
-	@Override
+    @Override
 	protected void doInit() throws ResourceException {
 		this.clientId = getAttribute("clientId");
+        this.venteId = getQueryValue("venteId");
 	}
 	
 	@Get("json")
@@ -39,6 +46,13 @@ public class ClientResource extends ServerResource {
         Client client;
         if (clientId.equals("new")) {
             client = new Client();
+            if (venteId != null)
+            {
+                Vente vente = venteDAO.get(venteId);
+                if (vente != null) {
+                    client.setNumber(clientDAO.getNextClientNumber(vente));
+                }
+            }
             client.setRate(sdvParams.getDefaultClientRate());
         } else
         {
