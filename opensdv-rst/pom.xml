@@ -43,13 +43,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <repositories>
-        <repository>
-            <id>maven-restlet</id>
-            <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.org</url>
-        </repository>
-    </repositories>
+  
     <build>
         <plugins>
         <plugin>

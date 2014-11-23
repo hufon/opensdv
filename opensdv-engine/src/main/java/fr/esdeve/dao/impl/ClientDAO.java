@@ -40,7 +40,6 @@ public class ClientDAO extends GenericDAO<Client> implements fr.esdeve.dao.IClie
         return manager.find(Client.class, Long.parseLong(itemId));
     }
 
-    @Override
     public Integer getNextClientNumber(Vente vente)
     {
         CriteriaBuilder builder= manager.getCriteriaBuilder();

@@ -29,7 +29,6 @@ public abstract class GenericDAO<T> implements fr.esdeve.dao.IGenericDAO<T> {
 		this.persistentClass = clasz;
 	}
 	
-	@Override
     public T get(String itemId)
 	{
 		EntityManager manager= getManager();
@@ -45,20 +44,17 @@ public abstract class GenericDAO<T> implements fr.esdeve.dao.IGenericDAO<T> {
 
 	
 
-	
-	@Override
     public void remove(T item) {
 		EntityManager manager= getManager();
 		manager.remove(item);
 	}
+
 	
-	@Override
     @Transactional
 	public void remove(String itemId) {
 		this.remove(get(itemId));
 	}
 	
-	@Override
     @Transactional
 	public void save(T item) {
 		EntityManager manager= getManager();
@@ -67,7 +63,6 @@ public abstract class GenericDAO<T> implements fr.esdeve.dao.IGenericDAO<T> {
 	}
 	
 	
-	@Override
     @Transactional
 	public List<T> list()
 	{

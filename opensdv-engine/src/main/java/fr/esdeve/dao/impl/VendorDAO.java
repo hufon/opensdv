@@ -28,7 +28,6 @@ public class VendorDAO extends GenericDAO<Vendor> implements fr.esdeve.dao.IVend
 		super(Vendor.class);
 	}
 	
-	@Override
     public Integer getNextVendorNumber()
 	{
 		CriteriaBuilder builder= manager.getCriteriaBuilder();
@@ -64,7 +63,6 @@ public class VendorDAO extends GenericDAO<Vendor> implements fr.esdeve.dao.IVend
 	}
 
 
-    @Override
     @Transactional
     public List<Vendor> searchVendor(String name)
     {
