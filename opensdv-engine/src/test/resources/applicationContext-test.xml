@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<context:property-placeholder location="classpath:opensdv-test.properties"/>
+	
+	<context:spring-configured />
+
+	<context:annotation-config />
+
+
+	<context:component-scan base-package="fr.esdeve"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${datasource.driverClassName}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+    </bean>
+	
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="persistence-test.xml" />
+        <property name="dataSource" ref="dataSource"/>
+	</bean>
+    
+	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
+		id="transactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+</beans>
