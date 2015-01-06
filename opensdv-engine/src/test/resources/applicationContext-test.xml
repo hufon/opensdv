@@ -25,13 +25,13 @@
     </bean>
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceXmlLocation" value="persistence-test.xml" />
+	<bean id="testEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="META-INF/persistence-test.xml" />
         <property name="dataSource" ref="dataSource"/>
 	</bean>
     
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
 		id="transactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="entityManagerFactory" ref="testEntityManagerFactory" />
 	</bean>
 </beans>

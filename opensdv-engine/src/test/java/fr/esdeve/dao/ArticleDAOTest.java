@@ -1,5 +1,9 @@
 package fr.esdeve.dao;
 
+import javax.persistence.Persistence;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +25,13 @@ import fr.esdeve.model.Vente;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 	DbUnitTestExecutionListener.class })
 
-@DatabaseSetup("classpath:dataSet.xml")
+
 public class ArticleDAOTest {
 	
 	@Autowired
 	IArticleDAO articleDAO;
 	
-	
+	@DatabaseSetup("classpath:dataSet.xml")	
 	@Test
 	public void listArticleByVenteTest()
 	{
@@ -35,5 +39,12 @@ public class ArticleDAOTest {
 		vente.setId("1");
 		articleDAO.listArticleByVente(vente);
 	}
+	
+	@Before
+	public void init()
+	{
+		Persistence.createEntityManagerFactory("ventes");
+	}
+	
 
 }

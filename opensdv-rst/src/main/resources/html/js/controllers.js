@@ -184,7 +184,7 @@ controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','V
             returnPath =  '/vente/'+$routeParams.venteid;
         } else
         {
-            returnPath = '/vendor/'+$scope.article.vendor.id
+            returnPath = '/vendor/'+$scope.article.vendor.id;
         }
         $location.path(returnPath);
     }

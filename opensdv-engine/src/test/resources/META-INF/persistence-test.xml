@@ -6,7 +6,12 @@
 
     <persistence-unit name="ventes">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>fr.esdeve.model.Article</class>
+        <class>fr.esdeve.model.Vente</class>
+        <class>fr.esdeve.model.Client</class>
+        <class>fr.esdeve.model.Vendor</class>
         <shared-cache-mode>NONE</shared-cache-mode>
+        
         <validation-mode>AUTO</validation-mode>
         <properties>
             <property name="eclipselink.jdbc.platform"
@@ -20,12 +25,7 @@
             <property name="eclipselink.create-ddl-jdbc-file-name" value="opensdv-test.jdbc"/>
             <property name="eclipselink.weaving" value="false"/>
         </properties>
-        <!-- sdfsd
-        <class>fr.esdeve.model.Vente</class>
-        <class>fr.esdeve.model.Article</class>
-        <class>fr.esdeve.model.Vendor</class>
-        <class>fr.esdeve.model.Client</class>
-         -->
+        
     </persistence-unit>
 
 </persistence>
