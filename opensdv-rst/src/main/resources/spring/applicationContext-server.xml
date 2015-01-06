@@ -7,6 +7,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+	
+	<import resource="classpath:/spring/applicationContext-rest.xml" />
 	<bean id="top" class="org.restlet.ext.spring.SpringComponent">
     	<property name="server">
         	<bean class="org.restlet.ext.spring.SpringServer">
@@ -17,6 +19,11 @@
     	<property name="defaultTarget" ref="default" />
     	<property name="client" value="clap" />
 	</bean>
+	
+		<bean id="directory" class="fr.esdeve.restresources.SpringDirectory">
+		<property name="component"><ref local="top"/></property>
+	</bean>
+
 	<bean id="default" class="org.restlet.ext.spring.SpringRouter">
 		<property name="attachments">
         <map>
@@ -25,55 +32,9 @@
             <entry key="/html" value-ref="directory">
             </entry>
         </map>
-    </property>
+   	 </property>
 	</bean>
-	<bean id="directory" class="fr.esdeve.restresources.SpringDirectory">
-		<property name="component"><ref local="top"/></property>
-	</bean>
-	<bean id="root" class="org.restlet.ext.spring.SpringRouter">
-    <property name="attachments">
-        <map>
-            <entry key="/ventes/{venteId}">
-            	<bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="venteResource" />
-                </bean>
-            </entry>
-            <entry key="/ventes">
-            	<bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="venteListResource" />
-                </bean>
-            </entry>
-            <entry key="/clients">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="clientListResource" />
-                </bean>
-            </entry>
-            <entry key="/clients/{clientId}">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="clientResource" />
-                </bean>
-            </entry>
-            <entry key="/vendors/{vendorId}">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="vendorResource" />
-                </bean>
-            </entry>
-            <entry key="/vendors">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="vendorListResource" />
-                </bean>
-            </entry>
-            <entry key="/articles">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="articleListResource" />
-                </bean>
-            </entry>
-            <entry key="/articles/{articleId}">
-                <bean class="org.restlet.ext.spring.SpringFinder">
-                    <lookup-method name="create" bean="articleResource" />
-                </bean>
-            </entry>
-        </map>
-    </property>
-	</bean>
+
+
+	
 </beans>

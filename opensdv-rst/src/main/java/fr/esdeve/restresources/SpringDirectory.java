@@ -9,7 +9,7 @@ import org.restlet.resource.Directory;
 public class SpringDirectory extends Directory {
 
 	public SpringDirectory() {
-		super(null, "clap://class/html/");
+		super(null, "clap://thread/html/");
 		this.setIndexName("index.html");
 		// TODO Auto-generated constructor stub
 	}

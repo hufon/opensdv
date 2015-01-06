@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <VENTE id="1" />
-    <ARTICLE id="1" vente_id="1"/>
+    <VENDOR id="1"/>
+    <ARTICLE id="1" vente_id="1" vendor_id="1"/>
 </dataset>

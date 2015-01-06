@@ -23,6 +23,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import fr.esdeve.model.Article;
+import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
 
 
@@ -42,6 +43,12 @@ public class ArticleDAOTest {
 	@Autowired
 	IArticleDAO articleDAO;
 	
+	@Autowired
+	IVenteDAO venteDAO;
+	
+	@Autowired
+	IVendorDAO vendorDAO;
+	
 	
 	@Test
 	public void listArticleByVenteTest()
@@ -52,11 +59,15 @@ public class ArticleDAOTest {
 		Assert.assertEquals(articles.size(), 1);
 	}
 	
-	@Before
-	public void init()
+	@Test
+	public void testIdGenerator()
 	{
-		Persistence.createEntityManagerFactory("ventes");
+		Vendor vendor = vendorDAO.get("1");
+		Article newArticle = new Article();
+		newArticle.setVendor(vendor);
+		articleDAO.addBean(newArticle);
 	}
 	
+
 
 }
