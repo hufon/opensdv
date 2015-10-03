@@ -14,12 +14,12 @@
 		<module>opensdv-web</module>
 	</modules>
 	<properties>
-	 	<java.version>1.6</java.version>
+	 	<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.13</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<spring.version>3.2.6.RELEASE</spring.version>
-		<jetty.version>9.0.7.v20131107</jetty.version>
+		<jetty.version>9.3.4.RC0</jetty.version>
 		<restlet.version>2.3-M1</restlet.version>
 	</properties>
 	<repositories>

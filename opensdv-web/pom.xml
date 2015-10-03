@@ -33,8 +33,16 @@
        <version>${restlet.version}</version>
     </dependency>
   </dependencies>
+
   <build>
     <finalName>opensdv-web</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty.version}</version>
+      </plugin>
+    </plugins>
   </build>
   <parent>
   	<groupId>fr.esdeve</groupId>
