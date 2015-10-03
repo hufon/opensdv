@@ -9,27 +9,13 @@
 
 	<import resource="classpath:/META-INF/spring/applicationContext.xml" />
 	<import resource="classpath:/spring/applicationContext-rest.xml" />
-	
-	<bean id="router" class="org.restlet.ext.spring.SpringRouter">
-		<property name="attachments">
-        <map>
-            <entry key="/rest" value-ref="root">
-            </entry>
-            <entry key="/html" value-ref="directory">
-            </entry>
-        </map>
-   	 </property>
-	</bean>
+
 
 	
 	<bean id="top" class="org.restlet.ext.spring.SpringComponent" scope="singleton">
-		<property name="defaultTarget" ref="router" />
+		<property name="defaultTarget" ref="root" />
 		<property name="client" value="clap" />
 	</bean>
-	
-	<bean id="directory" class="fr.esdeve.restresources.SpringDirectory">
-		<property name="component"><ref local="top"/></property>
-	</bean>
-	
+
 
 </beans>

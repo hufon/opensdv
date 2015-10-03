@@ -20,7 +20,7 @@
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<spring.version>3.2.6.RELEASE</spring.version>
 		<jetty.version>9.3.4.RC0</jetty.version>
-		<restlet.version>2.3-M1</restlet.version>
+		<restlet.version>2.3.5</restlet.version>
 	</properties>
 	<repositories>
         <repository>
