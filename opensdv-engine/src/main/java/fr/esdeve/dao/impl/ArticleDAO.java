@@ -6,7 +6,8 @@ import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -37,17 +38,7 @@ public class ArticleDAO extends GenericDAO<Article> implements fr.esdeve.dao.IAr
 		super(Article.class);
 	}
 	
-	public Integer getNextArticleOrder(Article article, Vente vente)
-	{
-		CriteriaBuilder builder= manager.getCriteriaBuilder();
-		CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
-		Root<Article> root = criteria.from(Article.class);
-		criteria.where(builder.equal(root.get("vente"), vente));
-		
-		criteria.select(builder.max(root.get(Article_.venteOrder)));
-		Integer result = manager.createQuery(criteria).getSingleResult();
-		return result+1;
-	}
+
 	
 	private Integer getNextArticleNumber(Article article)
 	{
@@ -70,31 +61,6 @@ public class ArticleDAO extends GenericDAO<Article> implements fr.esdeve.dao.IAr
 		return article;
 	}
 	
-	
-	@Transactional
-	public void setOrder(Article article, Integer targetOrder)
-	{
-		LOG.info("Article : "+article.getId()+" set order "+targetOrder);
-		Article articleItem = this.get(article.getId());
-		articleItem.setVenteOrder(targetOrder);
-		this.save(articleItem);
-		Query query = manager.createNativeQuery("UPDATE Article SET venteOrder = venteOrder + 1 WHERE venteOrder >= ? AND id <> ? AND vente_id = ?");
-		query.setParameter(1, targetOrder);
-		query.setParameter(2, article.getId());
-		query.setParameter(3, article.getVente().getId());
-		query.executeUpdate();
-	}
-	
-	public List<Article> listArticleByVente(Vente vente)
-	{
-		CriteriaBuilder builder= manager.getCriteriaBuilder();
-		CriteriaQuery<Article> criteria = manager.getCriteriaBuilder().createQuery(Article.class);
-		Root<Article> root = criteria.from(Article.class);
-		criteria.where(builder.equal(root.get("vente"), vente));
-		criteria.select(root);
-		List<Article> listArticle = manager.createQuery(criteria).getResultList();
-		return listArticle;
-	}
 
     public List<Article> listArticleByVendor(Vendor vendor)
     {

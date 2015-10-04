@@ -1,15 +1,15 @@
 package fr.esdeve.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Article implements Serializable {
@@ -28,15 +28,6 @@ public class Article implements Serializable {
 	private String id;
 	private String designation;
 	
-	private Integer initialPrice = 0;
-	private Integer minimumPrice = 0;
-	
-	private Integer sellingPrice = 0;
-	
-	private Integer venteOrder = 0;
-	
-	private Boolean retired = false;
-	
 	@ManyToOne
 	private Vente vente;
 	
@@ -45,7 +36,17 @@ public class Article implements Serializable {
 
     @ManyToOne
     private Client client;
+    
+	@OneToMany(mappedBy="article", cascade=CascadeType.REMOVE)
+	@JsonIgnore
+	private List<ArticleVente> articleVentes;
 	
+	public List<ArticleVente> getArticleVentes() {
+		return articleVentes;
+	}
+	public void setArticleVentes(List<ArticleVente> articleVentes) {
+		this.articleVentes = articleVentes;
+	}
 	public Vendor getVendor() {
 		return vendor;
 	}
@@ -70,36 +71,7 @@ public class Article implements Serializable {
 	public void setVente(Vente vente) {
 		this.vente = vente;
 	}
-	public Integer getInitialPrice() {
-		return initialPrice;
-	}
-	public void setInitialPrice(Integer initialPrice) {
-		this.initialPrice = initialPrice;
-	}
-	public Integer getSellingPrice() {
-		return sellingPrice;
-	}
-	public void setSellingPrice(Integer sellingPrice) {
-		this.sellingPrice = sellingPrice;
-	}
-	public Integer getMinimumPrice() {
-		return minimumPrice;
-	}
-	public void setMinimumPrice(Integer minimumPrice) {
-		this.minimumPrice = minimumPrice;
-	}
-	public Boolean getRetired() {
-		return retired;
-	}
-	public void setRetired(Boolean retired) {
-		this.retired = retired;
-	}
-	public Integer getVenteOrder() {
-		return venteOrder;
-	}
-	public void setVenteOrder(Integer venteOrder) {
-		this.venteOrder = venteOrder;
-	}
+	
 
 
     public Client getClient() {

@@ -48,12 +48,12 @@ public class Vente implements Serializable {
 	
 	@OneToMany(mappedBy="vente", cascade=CascadeType.REMOVE)
 	@JsonIgnore
-	private List<Article> articles;
+	private List<ArticleVente> articles;
 	
-	public List<Article> getArticles() {
+	public List<ArticleVente> getArticles() {
 		return articles;
 	}
-	public void setArticles(List<Article> articles) {
+	public void setArticles(List<ArticleVente> articles) {
 		this.articles = articles;
 	}
 	public String getId() {

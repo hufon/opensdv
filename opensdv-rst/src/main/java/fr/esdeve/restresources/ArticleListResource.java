@@ -1,12 +1,14 @@
 package fr.esdeve.restresources;
 
 import fr.esdeve.dao.IArticleDAO;
+import fr.esdeve.dao.IArticleVenteDAO;
 import fr.esdeve.dao.IVendorDAO;
 import fr.esdeve.dao.IVenteDAO;
 import fr.esdeve.dao.impl.ArticleDAO;
 import fr.esdeve.dao.impl.VendorDAO;
 import fr.esdeve.dao.impl.VenteDAO;
 import fr.esdeve.model.Article;
+import fr.esdeve.model.ArticleVente;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
 import org.restlet.data.Status;
@@ -21,6 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +35,11 @@ public class ArticleListResource extends ServerResource {
 	@Autowired
 	private IArticleDAO articleDAO;
 
+	
+	@Autowired
+	private IArticleVenteDAO articleVenteDAO;
+	
+	
     @Autowired
     private IVendorDAO vendorDAO;
 
@@ -68,7 +76,12 @@ public class ArticleListResource extends ServerResource {
             {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
-            articles = articleDAO.listArticleByVente(vente);
+             List<ArticleVente> articlesVentes = articleVenteDAO.listArticleByVente(vente);
+             articles = new ArrayList<Article>();
+             for (ArticleVente articleVente : articlesVentes)
+             {
+            	 articles.add(articleVente.getArticle());
+             }
         }
         if (vendorId == null && venteId==null) {
             articles = articleDAO.list();

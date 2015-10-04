@@ -2,5 +2,6 @@
 <dataset>
     <VENTE id="1" />
     <VENDOR id="1"/>
-    <ARTICLE id="1" vente_id="1" vendor_id="1"/>
+    <ARTICLE id="1" vendor_id="1"/>
+    <ARTICLEVENTE id="1" vente_id="1" article_id="1"/>
 </dataset>

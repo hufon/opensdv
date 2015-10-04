@@ -23,6 +23,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import fr.esdeve.model.Article;
+import fr.esdeve.model.ArticleVente;
 import fr.esdeve.model.Vendor;
 import fr.esdeve.model.Vente;
 
@@ -38,10 +39,13 @@ import fr.esdeve.model.Vente;
 	DbUnitTestExecutionListener.class })
 
 @DatabaseSetup("classpath:dataSet.xml")	
-public class ArticleDAOTest {
+public class ArticleVenteDAOTest {
 	
 	@Autowired
 	IArticleDAO articleDAO;
+	
+	@Autowired
+	IArticleVenteDAO articleVenteDAO;
 	
 	@Autowired
 	IVenteDAO venteDAO;
@@ -51,12 +55,15 @@ public class ArticleDAOTest {
 	
 	
 	@Test
-	public void listArticleByVendorTest()
+	public void listArticleByVenteTest()
 	{
-		Vendor vendor = new Vendor();
-		vendor.setId("1");
-		List<Article> articles = articleDAO.listArticleByVendor(vendor);
+		Vente vente = new Vente();
+		vente.setId("1");
+		List<ArticleVente> articles = articleVenteDAO.listArticleByVente(vente);
 		Assert.assertEquals(articles.size(), 1);
+		Assert.assertEquals(articles.get(0).getArticle().getId(),"1");
+		Assert.assertEquals(articles.get(0).getVente().getId(),"1");
+		Assert.assertEquals(articles.get(0).getArticle().getArticleVentes().size(),1);
 	}
 	
 	@Test
