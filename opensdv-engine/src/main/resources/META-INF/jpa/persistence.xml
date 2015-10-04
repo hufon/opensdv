@@ -11,13 +11,10 @@
         <class>fr.esdeve.model.Client</class>
         <class>fr.esdeve.model.Vendor</class>
         <properties>
-            <property name="eclipselink.jdbc.platform"
-                      value="org.eclipse.persistence.platform.database.PostgreSQLPlatform"/>
-            <property name="javax.persistence.target-database" value="PostgreSQL"/>
             <property name="eclipselink.logging.level" value="FINE"/>
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
             <property name="eclipselink.ddl-generation.output-mode"
-                      value="sql-script"/>
+                      value="both"/>
             <property name="eclipselink.create-ddl-jdbc-file-name" value="opensdv.jdbc"/>
             <property name="eclipselink.cache.shared.default" value="false"/>
             <property name="eclipselink.weaving" value="false"/>

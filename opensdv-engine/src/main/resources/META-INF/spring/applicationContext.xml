@@ -7,7 +7,6 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<context:property-placeholder location="classpath:opensdv.properties"/>
 	
 	<context:spring-configured />
 
@@ -28,6 +27,13 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath:META-INF/jpa/persistence.xml" />
         <property name="dataSource" ref="dataSource"/>
+        <property name="jpaProperties">
+         <props>
+            <prop key="eclipselink.ddl-generation">create-or-extend-tables</prop>
+            <prop key="eclipselink.jdbc.platform">${eclipselink.jdbc.platform}</prop>
+            <prop key="javax.persistence.target-database">${javax.persistence.target-database}</prop>
+         </props>
+      </property>
 	</bean>
     
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
