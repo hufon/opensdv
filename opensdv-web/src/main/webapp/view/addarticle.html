@@ -1,22 +1,21 @@
 <h2>Edition Article</h2>
 
 <form name="form">
-    <div class="form-group col-md-6">
-        <label for="id">Numero</label> <input id="id" class="form-control"
-                                              type="text" name="id" ng-model="article.id" ng-disabled="new"/>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="designation">Designation</label> <input id="designation" class="form-control"
-                                                            ng-required="true"
-                                                            type="text" name="designation"
-                                                            ng-model="article.designation"/>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="vendor">Vendeur</label>
-        <input id="vendor" class="form-control"
-               type="text" name="vendor" ng-model="article.vendor.name" ng-disabled="true"/>
-    </div>
-
+	<div class="form-group col-md-6">
+		<label for="id">Numero</label> <input id="id" class="form-control"
+			type="text" name="id" ng-model="article.id" ng-disabled="new" />
+	</div>
+	<div class="form-group col-md-6">
+		<label for="designation">Designation</label> <input id="designation"
+			class="form-control" ng-required="true" type="text"
+			name="designation" ng-model="article.designation" />
+	</div>
+	<div class="form-group col-md-6">
+		<label for="vendor">Vendeur</label> <input id="vendor"
+			class="form-control" type="text" name="vendor"
+			ng-model="article.vendor.name" ng-disabled="true" />
+	</div>
+	<!-- 
     <div class="form-group col-md-6">
         <label for="vente">Vente</label>
         {{selectedvente.name}}
@@ -45,9 +44,49 @@
             <option value="">-- choisir client --</option>
         </select>
     </div>
-    <span class="clearfix"/>
-    <hr/>
-    <button ng-click="saveArticle()" class="btn btn-success" ng-disabled="form.$invalid">Save</button>
-    <a ng-href=""  ng-click="returnTo()" class="btn btn-default">Cancel</a>
-    <hr/>
+     -->
+	<span class="clearfix" />
+	<hr />
+	<button ng-click="saveArticle()" class="btn btn-success"
+		ng-disabled="form.$invalid">Enregister</button>
+	<a ng-href="" ng-click="returnTo()" class="btn btn-default">Annuler</a>
+	<hr />
+	<div class="panel-heading">Passages en vente
+		({{articlesventes.length}})</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Numéro de passage</th>
+					<th>Mise à prix</th>
+					<th>Vente</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="articlevente in articlesventes | orderBy:'venteOrder'">
+					<td>{{articlevente.article.id}}</td>
+					<td><span ng-hide="editMode"
+						ng-click="venteOrder=article.venteOrder;editMode=true;">{{article.venteOrder}}</span>
+
+						<input type="number" class="form-control" ng-model="venteOrder"
+						ng-show="editMode" ng-model-instant
+						ng-enter="saveVenteOrder(article);editMode=false;article.venteOrder=venteOrder"
+						ng-blur="editMode=false" /> <a ng-href=""
+						ng-click="venteOrder=article.venteOrder;editMode=true;"
+						ng-hide="editMode" class="btn btn-primary btn-xs pull-right"
+						style="margin-right: 8px;">Modifier numéro</a></td>
+					<td>{{articlevente.initialPrice}}</td>
+					<td><a ng-href="#!/vente/{{articlevente.vente.id}}">
+							{{articlevente.vente.name}}</a></td>
+					<td><a
+						ng-href=""
+						class="btn btn-primary btn-xs pull-right"
+						style="margin-right: 8px;">Edit</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<hr />
+	</div>
 </form>

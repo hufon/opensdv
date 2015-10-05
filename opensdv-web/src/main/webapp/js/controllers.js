@@ -144,7 +144,7 @@ controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Ve
 	$scope.article.vendor = Vendor.get({id: $routeParams.vendorId});
 	$scope.ventes = Vente.query();
     $scope.saveArticle = function () {
-        $scope.article.vente = $scope.selectedvente;
+        //$scope.article.vente = $scope.selectedvente;
         Article.save($scope.article, function () {
             $location.path('/vendor/'+$routeParams.vendorId);
         });
