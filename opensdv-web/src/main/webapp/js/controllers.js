@@ -162,11 +162,30 @@ controllers.controller('AddArticleController', ['$scope', 'Article','Vendor','Ve
         }
 }]);
 
-controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','Vente','$routeParams', '$location', function ($scope, Article, Vendor, Vente,$routeParams, $location) {
+controllers.controller('AddArticleVenteController', ['$scope', 'Article','ArticleVente','Vente','$routeParams', '$location', function ($scope, Article, ArticleVente, Vente, $routeParams, $location) {
+    $scope.new = true;
+	$scope.articlevente = new ArticleVente();
+	$scope.articlevente.article = Article.get({id: $routeParams.articleId});
+	$scope.ventes = Vente.query();
+    $scope.saveArticleVente = function () {
+        $scope.articlevente.vente = $scope.selectedvente;
+        ArticleVente.save($scope.articlevente, function () {
+            $location.path('/article/'+$routeParams.articleId);
+        });
+    };
+
+    $scope.returnTo = function() {
+            var returnPath;
+            returnPath =  '/article/'+$routeParams.articleId;
+            $location.path(returnPath);
+        }
+}]);
+
+controllers.controller('EditArticleVenteController', ['$scope', 'Article','Vendor','ArticleVente','$routeParams', '$location', function ($scope, Article, Vendor, ArticleVente,$routeParams, $location) {
     $scope.new = false;
 
-
-	$scope.ventes = Vente.query(function() {
+    $scope.articlevente = ArticleVente.get({id: $routeParams.id});
+	/*$scope.ventes = Vente.query(function() {
 	    $scope.article = Article.get({id: $routeParams.id}, function(a) {
            for (var i=0;i<$scope.ventes.length;i++)
            {
@@ -176,7 +195,27 @@ controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','V
                  }
            }
 	    });
-	});
+	});*/
+
+    $scope.returnTo = function() {
+        var returnPath;
+        returnPath =  '/article/'+$scope.articlevente.article.id;
+        $location.path(returnPath);
+    }
+
+    $scope.saveArticleVente = function () {
+        ArticleVente.update($scope.articlesventes, function () {
+           $scope.returnTo();
+        });
+    };
+}]);
+
+controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','ArticleVente','$routeParams', '$location', function ($scope, Article, Vendor, ArticleVente,$routeParams, $location) {
+    $scope.new = false;
+
+    $scope.article = Article.get({id: $routeParams.id});
+    $scope.articlesventes = ArticleVente.query({articleId : $routeParams.id})
+
 
     $scope.returnTo = function() {
         var returnPath;
@@ -189,10 +228,12 @@ controllers.controller('EditArticleController', ['$scope', 'Article','Vendor','V
         $location.path(returnPath);
     }
 
-    $scope.saveArticle = function () {
-        $scope.article.vente = $scope.selectedvente;
-        Article.update($scope.article, function () {
-           $scope.returnTo();
-        });
-    };
+        $scope.saveArticle = function () {
+            $scope.article.vente = $scope.selectedvente;
+            Article.update($scope.article, function () {
+               $scope.returnTo();
+            });
+        };
+
+
 }]);

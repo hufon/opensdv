@@ -13,6 +13,8 @@ app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/vente/:id', {templateUrl: 'view/vente.html', controller: 'VenteController'});
     $routeProvider.when('/vente/:id/:tabid', {templateUrl: 'view/vente.html', controller: 'VenteController'});
     $routeProvider.when('/article/add/forvendor/:vendorId', {templateUrl: 'view/addarticle.html', controller: 'AddArticleController'});
+    $routeProvider.when('/articlevente/add/forarticle/:articleId', {templateUrl: 'view/addarticlevente.html', controller: 'AddArticleVenteController'});
+    $routeProvider.when('/articlevente/:id/edit', {templateUrl: 'view/addarticlevente.html', controller: 'EditArticleVenteController'});
     $routeProvider.when('/article/:id/edit', {templateUrl: 'view/addarticle.html', controller: 'EditArticleController'});
     $routeProvider.when('/vente/:venteid/article/:id/edit', {templateUrl: 'view/addarticle.html', controller: 'EditArticleController'});
     $routeProvider.otherwise({redirectTo: '/listvente'});

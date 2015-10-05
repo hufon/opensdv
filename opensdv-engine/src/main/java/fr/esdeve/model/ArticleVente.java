@@ -1,8 +1,6 @@
 package fr.esdeve.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class ArticleVente {
@@ -10,7 +8,8 @@ public class ArticleVente {
 	private Vente vente;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private Integer initialPrice = 0;
 	private Integer minimumPrice = 0;
@@ -27,10 +26,10 @@ public class ArticleVente {
 	public void setVente(Vente vente) {
 		this.vente = vente;
 	}
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Client getClient() {

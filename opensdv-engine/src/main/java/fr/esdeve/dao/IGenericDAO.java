@@ -14,6 +14,8 @@ public interface IGenericDAO<T> {
 
     T get(String itemId);
 
+    T get(Long itemId);
+
     void remove(T item);
 
     @Transactional

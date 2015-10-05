@@ -15,44 +15,15 @@
 			class="form-control" type="text" name="vendor"
 			ng-model="article.vendor.name" ng-disabled="true" />
 	</div>
-	<!-- 
-    <div class="form-group col-md-6">
-        <label for="vente">Vente</label>
-        {{selectedvente.name}}
-        <select id="vente" class="form-control" ng-model="selectedvente" ng-options="vente.name for vente in ventes">
-            <option value="">-- choisir vente --</option>
-        </select>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="initialPrice">Prix de départ</label>
-        <input id="initialPrice" type="number" min="0" class="form-control" ng-model="article.initialPrice"/>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="minimumPrice">Prix de réserve</label>
-        <input id="minimumPrice" type="number" ng-required="true" min="0" class="form-control"
-               ng-model="article.minimumPrice"/>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="sellingPrice">Prix de vente</label>
-        <input id="sellingPrice" type="number" ng-required="true" min="0" class="form-control"
-               ng-model="article.sellingPrice"/>
-    </div>
 
-    <div class="form-group col-md-6">
-        <label for="client">Acheteur</label>
-        <select id="client" class="form-control" ng-disabled="selectedvente!=null" ng-model="article.client" ng-options="client.name for client in clients">
-            <option value="">-- choisir client --</option>
-        </select>
-    </div>
-     -->
 	<span class="clearfix" />
 	<hr />
 	<button ng-click="saveArticle()" class="btn btn-success"
 		ng-disabled="form.$invalid">Enregister</button>
 	<a ng-href="" ng-click="returnTo()" class="btn btn-default">Annuler</a>
 	<hr />
-	<div class="panel-heading">Passages en vente
-		({{articlesventes.length}})</div>
+	<div class="panel-heading"><h3>Passages en vente
+		({{articlesventes.length}})</h3></div>
 	<div class="panel-body">
 		<table class="table table-bordered">
 			<thead>
@@ -72,7 +43,7 @@
 
 						<input type="number" class="form-control" ng-model="venteOrder"
 						ng-show="editMode" ng-model-instant
-						ng-enter="saveVenteOrder(article);editMode=false;article.venteOrder=venteOrder"
+						ng-enter="saveVenteOrder(articlevente);editMode=false;articlevente.venteOrder=venteOrder"
 						ng-blur="editMode=false" /> <a ng-href=""
 						ng-click="venteOrder=article.venteOrder;editMode=true;"
 						ng-hide="editMode" class="btn btn-primary btn-xs pull-right"
@@ -81,7 +52,7 @@
 					<td><a ng-href="#!/vente/{{articlevente.vente.id}}">
 							{{articlevente.vente.name}}</a></td>
 					<td><a
-						ng-href=""
+						ng-href="#!/articlevente/{{articlevente.id}}/edit"
 						class="btn btn-primary btn-xs pull-right"
 						style="margin-right: 8px;">Edit</a></td>
 				</tr>
@@ -90,3 +61,6 @@
 		<hr />
 	</div>
 </form>
+
+<hr />
+<a ng-href="#!/articlevente/add/forarticle/{{article.id}}" class="btn btn-primary" ng-show="!new">Nouveau passage en vente</a>

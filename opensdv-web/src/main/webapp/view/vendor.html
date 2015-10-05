@@ -13,18 +13,6 @@
                 <th>
                     Designation
                 </th>
-                <th>
-                    Prix de départ
-                </th>
-                <th>
-                    Prix de réserve
-                </th>
-                <th>
-                    Prix de vente
-                </th>
-                <th>
-                    Vente
-                </th>
                 <th></th>
             </tr>
             </thead>
@@ -32,10 +20,6 @@
             <tr ng-repeat="article in articles">
                 <td>{{article.id}}</a></td>
                 <td>{{article.designation}}</td>
-                <td>{{article.initialPrice | currency}}</td>
-                <td>{{article.minimumPrice | currency}} </td>
-                <td>{{article.sellingPrice | currency}}</td>
-                <td><a ng-href="#!/vente/{{article.vente.id}}">{{article.vente.name}}</a></td>
                 <td><a href=""
                        ng-click="deleteArticle(article);"
                        class="btn btn-danger btn-xs pull-right">Delete</a>

@@ -35,6 +35,12 @@ public abstract class GenericDAO<T> implements fr.esdeve.dao.IGenericDAO<T> {
 		return manager.find(this.persistentClass, itemId);
 	}
 
+	public T get(Long itemId)
+	{
+		EntityManager manager= getManager();
+		return manager.find(this.persistentClass, itemId);
+	}
+
     @Transactional
     public T addBean(T newBean) {
         EntityManager manager= getManager();
